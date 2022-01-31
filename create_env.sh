@@ -3,11 +3,11 @@
 echo "\e[33mINFO: create_env.sh will create a virtual environment to use on the DTUs HPC cluster"
 
 # set env name
-env_name="unet-env"
+env_name="Bachelor-env"
 
-if [ $( basename $PWD ) != "Bachelor-thesis-ear" ]
+if [ $( basename $PWD ) != "Bachelor_thesis_ear" ]
 then 
-    echo "\e[33mWARN: Virtual environment about to be created without Bachelor-thesis-ear as basename, instead it will be created at $PWD\e[0m" 
+    echo "\e[33mWARN: Virtual environment about to be created without Bachelor_thesis_ear as basename, instead it will be created at $PWD\e[0m" 
 fi
 
 
@@ -22,11 +22,11 @@ python -m pip install --upgrade pip
 python -m pip install -r requirements.txt
 
 
-if [ $( basename $PWD ) = "Bachelor-thesis-ear" ]
+if [ $( basename $PWD ) = "Bachelor_thesis_ear" ]
 then 
     echo "Virtual environment created at $PWD"
 else
-    echo "\e[33mWARN: Virtual environment was not created with Bachelor-thesis-ear as basename, instead it was created at $PWD\e[0m"
+    echo "\e[33mWARN: Virtual environment was not created with Bachelor_thesis_ear as basename, instead it was created at $PWD\e[0m"
 fi
 
 deactivate
