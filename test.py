@@ -7,11 +7,11 @@ x = [1,2,3,4,5,6]
 # corresponding y axis values
 y = [2,4,1,5,2,6]
 
-z = color_design(3).color
+z = color_design("pink").color
 # plotting the points
 plt.plot(x, y, color = z, linestyle='dashed', linewidth = 3,
 		marker='o', markerfacecolor=z, markersize=12)
-
+ 
 # setting x and y axis range
 plt.ylim(0,8)
 plt.xlim(0,8)
