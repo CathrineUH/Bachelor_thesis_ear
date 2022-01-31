@@ -3,5 +3,7 @@ numpy
 SimpleITK
 typing_extensions
 scipy
+color_dtu_design.color_design
+matplotlib.pyplot
 
 # if ModuleNotFoundError: No module named 'pkg_resources' ---> python -m pip install setuptools
