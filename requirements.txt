@@ -1,0 +1,7 @@
+torch
+numpy
+SimpleITK
+typing_extensions
+scipy
+
+# if ModuleNotFoundError: No module named 'pkg_resources' ---> python -m pip install setuptools
