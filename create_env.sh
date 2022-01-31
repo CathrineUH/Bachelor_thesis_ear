@@ -3,7 +3,7 @@
 echo "\e[33mINFO: create_env.sh will create a virtual environment to use on the DTUs HPC cluster"
 
 # set env name
-env_name="Bachelor-env"
+env_name="bachelor-env"
 
 if [ $( basename $PWD ) != "Bachelor_thesis_ear" ]
 then 
