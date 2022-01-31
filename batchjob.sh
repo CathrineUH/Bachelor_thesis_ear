@@ -1,7 +1,7 @@
 #!/bin/sh
 
 #  assert correct run dir
-run_dir="Bachelor-thesis-ear"
+run_dir="Bachelor_thesis_ear"
 if ! [ "$(basename $PWD)" = $run_dir ];
 then
     echo -e "\033[0;31mScript must be submitted from the directory: $run_dir\033[0m"
@@ -37,7 +37,7 @@ mkdir -p "logs/"
 ### -- end of LSF options --
 
 # activate env
-source unet-env/bin/activate
+source Bachelor-env/bin/activate
 
 # load additional modules
 module load cuda/11.4
