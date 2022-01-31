@@ -1,7 +1,7 @@
 #!/bin/sh
 
 #  assert correct run dir
-run_dir="Heart_project"
+run_dir="Bachelor-thesis-ear"
 if ! [ "$(basename $PWD)" = $run_dir ];
 then
     echo -e "\033[0;31mScript must be submitted from the directory: $run_dir\033[0m"
