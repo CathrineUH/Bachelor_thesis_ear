@@ -5,6 +5,5 @@ typing_extensions
 scipy
 color-dtu-design
 matplotlib
-six
 
 # if ModuleNotFoundError: No module named 'pkg_resources' ---> python -m pip install setuptools
