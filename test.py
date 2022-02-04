@@ -1,4 +1,4 @@
-from color_dtu_design.color_design import *
+from color_dtu_design.color_design import color_design as col
 import matplotlib.pyplot as plt
 
 # x axis values
@@ -7,7 +7,8 @@ x = [1,2,3,4,5,6]
 y = [2,4,1,5,2,6]
 
 
-z = color_design("pink").color
+z = col("pink").color
+z = col("pink").color
 # plotting the points
 plt.plot(x, y, color = z, linestyle='dashed', linewidth = 3,
 		marker='o', markerfacecolor=z, markersize=12)
