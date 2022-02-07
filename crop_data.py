@@ -23,13 +23,13 @@ def saveCropImage(path):
         i = str(i)
         if len(i) == 1:
             sitk.WriteImage(im_1, "Data_cropped\\ear1-00"+ i +".mha")
-            sitk.WriteImage(im_2, "Data_cropped\\ear1-00"+ i +".mha")
+            sitk.WriteImage(im_2, "Data_cropped\\ear2-00"+ i +".mha")
         elif len(i) == 2:
             sitk.WriteImage(im_1, "Data_cropped\\ear1-0"+ i +".mha")
-            sitk.WriteImage(im_2, "Data_cropped\\ear1-0"+ i +".mha")
+            sitk.WriteImage(im_2, "Data_cropped\\ear2-0"+ i +".mha")
         elif len(i) == 3:
             sitk.WriteImage(im_1, "Data_cropped\\ear1-"+ i +".mha")
-            sitk.WriteImage(im_2, "Data_cropped\\ear1-"+ i +".mha")
+            sitk.WriteImage(im_2, "Data_cropped\\ear2-"+ i +".mha")
 
         
 
