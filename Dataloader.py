@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 
 
 def loadTraining(path):
@@ -8,4 +9,15 @@ def loadTraining(path):
 def loadTest(path):
     """
     Description 
+=======
+def loadTraining(path): 
+    """
+    Description
+    """
+
+
+def loadTest(path): 
+    """ 
+    Description
+>>>>>>> Stashed changes
     """
