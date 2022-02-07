@@ -63,14 +63,14 @@ def loadScan(path, i):
 
     return im 
 
-def loadCropImage(path,ear,i):
+def loadCropImage(ear,i):
     """
     """
     i = str(i)
     if len(i) == 1:
-        im = sitk.ReadImage(path +"\\Data_cropped\\ear" + str(ear) +"00" + i + ".mha")
+        im = sitk.ReadImage("Data_cropped\\ear" + str(ear) +"-00" + i + ".mha")
     elif len(i) == 2:
-        im = sitk.ReadImage(path +"\\Data_cropped\\ear" + str(ear) +"0" + i + ".mha")
+        im = sitk.ReadImage("Data_cropped\\ear" + str(ear) +"-0" + i + ".mha")
     elif len(i) == 3:
-        im = sitk.ReadImage(path +"\\Data_cropped\\ear" + str(ear) + i + ".mha")
+        im = sitk.ReadImage("Data_cropped\\ear" + str(ear) + "-" + i + ".mha")
     return sitk.GetArrayFromImage(im)
