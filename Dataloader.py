@@ -55,7 +55,7 @@ def loadScan(path, i):
     i = str(i)
         
     if len(i) == 1:
-        im = sitk.ReadImage(path + "\\Normal00" + i + "-T2.mha")
+        im = sitk.ReadImage(path +"\\Normal00" + i + "-T2.mha")
     elif len(i) == 2:
         im = sitk.ReadImage(path + "\\Normal0" + i + "-T2.mha")
     elif len(i) == 3:
