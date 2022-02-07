@@ -1,5 +1,6 @@
 import itk 
 import numpy as np 
+import SimpleITK as sitk
 
 def loadTraining(path): 
     """ 
@@ -50,13 +51,14 @@ def loadScan(path, i):
     Output: 
         im: 3D image 
     """
+    
     i = str(i)
         
     if len(i) == 1:
-        im = itk.imread(path + "\\Normal00" + i + "-T2.mha")
+        im = sitk.ReadImage(path + "\\Normal00" + i + "-T2.mha")
     elif len(i) == 2:
-        im = itk.imread(path + "\\Normal0" + i + "-T2.mha")
+        im = sitk.ReadImage(path + "\\Normal0" + i + "-T2.mha")
     elif len(i) == 3:
-        im = itk.imread(path + "\\Normal" + i + "-T2.mha")
+        im = sitk.ReadImage(path + "\\Normal" + i + "-T2.mha")
 
     return im 
