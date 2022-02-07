@@ -12,7 +12,7 @@ def resampleImage(path,image):
     return im_temp
 
 def getEars(image):
-    return image[225:325,70:170,:],image[230:330,220:320,:]
+    return image[70:170,225:325,:],image[230:330,220:320,:]
 
 def saveCropImage(path):
     for i in range(1,(109+1)):
