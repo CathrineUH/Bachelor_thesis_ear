@@ -1,10 +1,10 @@
 from Dataloader import loadScan as ls
 import SimpleITK as sitk
-def resampleImage(image):
+def resampleImage(path,image):
     '''
 
     '''
-    im =  ls('Data',1)
+    im =  ls(path,1)
     if(image.GetSize() == im.GetSize()):
         return image
     else:
@@ -18,7 +18,7 @@ def saveCropImage(path):
     for i in range(1,(109+1)):
         if i == 16 or i == 78:
             continue
-        im = resampleImage(ls(path,i))
+        im = resampleImage(path,ls(path,i))
         im_1,im_2 = getEars(im)
         i = str(i)
         if len(i) == 1:
