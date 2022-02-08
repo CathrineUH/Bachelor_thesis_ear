@@ -15,8 +15,8 @@ def resampleImage(path,image):
     if(image.GetSize() == im.GetSize()):
         return image
     else:
-        im_temp = sitk.Resample(image,im)
-    return im_temp
+        im_resam = sitk.Resample(image,im)
+    return im_resam
 
 def getEars(image):
     """
