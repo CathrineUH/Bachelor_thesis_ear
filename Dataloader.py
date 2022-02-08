@@ -5,8 +5,10 @@ import SimpleITK as sitk
 def loadTraining(path): 
     """ 
     The function loads all training scans 
+    
     Input: 
         path: path to data 
+
     Output: 
         imTest: 3D array with all traing scans 
     """
@@ -25,8 +27,10 @@ def loadTraining(path):
 def loadTest(path): 
     """ 
     The function loads all test scans 
+    
     Input: 
         path: path to data 
+
     Output: 
         imTest: 3D array with all test scans 
     """
@@ -45,11 +49,13 @@ def loadTest(path):
 def loadScan(path, i): 
     """
     The function loads a single 3D image
+    
     Input: 
         path: path to file location 
         i: index of image (cannot be 16 or 78)
+
     Output: 
-        im: 3D image 
+        im: 3D image
     """
     
     i = str(i)
@@ -65,6 +71,15 @@ def loadScan(path, i):
 
 def loadCropImage(ear,i):
     """
+    The function loads a single 3D cropped image of the ear
+    
+    Input: 
+        ear: either 1 or 2 depends on which ear to load
+        i: index of image (cannot be 16 or 78)
+        
+    Output: 
+        im: 3D cropped image of the ear
+
     """
     i = str(i)
     if len(i) == 1:
