@@ -67,7 +67,7 @@ def loadScan(path, i):
     elif len(i) == 3:
         im = sitk.ReadImage(path + "\\Normal" + i + "-T2.mha")
 
-    return im 
+    return sitk.GetArrayFromImage(im)
 
 def loadCropImage(ear,i):
     """
