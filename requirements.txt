@@ -5,6 +5,7 @@ typing_extensions
 scipy
 color-dtu-design
 matplotlib
+setuptools
 gym
 pillow
 
