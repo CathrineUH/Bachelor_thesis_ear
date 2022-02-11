@@ -5,6 +5,8 @@ typing_extensions
 scipy
 color-dtu-design
 matplotlib
+gym
+pillow
 
 
 # if ModuleNotFoundError: No module named 'pkg_resources' ---> python -m pip install setuptools
