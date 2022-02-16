@@ -1,6 +1,21 @@
 import itk 
 import numpy as np 
 import SimpleITK as sitk
+import os
+def reName(path):
+    """
+    The function reName the data
+    Input: 
+        path: path to data 
+    """
+    os.chdir(path)
+    files = [f for f in os.listdir('.') if os.path.isfile(f)]
+    count = 0
+    for f in files:
+        newName = "P"+ str(count)
+        os.rename(f, newName)
+        count+=1
+
 
 def loadTraining(path): 
     """ 
