@@ -12,7 +12,7 @@ def reName(path):
     files = [f for f in os.listdir('.') if os.path.isfile(f)]
     count = 0
     for f in files:
-        newName = "P"+ str(count)
+        newName = "P"+ str(count)+"_T1w.nii.gz"
         os.rename(f, newName)
         count+=1
 
@@ -75,13 +75,8 @@ def loadScan(path, i):
     
     i = str(i)
         
-    if len(i) == 1:
-        im = sitk.ReadImage(path +"\\Normal00" + i + "-T2.mha")
-    elif len(i) == 2:
-        im = sitk.ReadImage(path + "\\Normal0" + i + "-T2.mha")
-    elif len(i) == 3:
-        im = sitk.ReadImage(path + "\\Normal" + i + "-T2.mha")
-
+    im = sitk.ReadImage(path +"\\P"+ i+"_T1w.nii.gz")
+    
     return sitk.GetArrayFromImage(im)
 
 def loadCropImage(ear,i):
