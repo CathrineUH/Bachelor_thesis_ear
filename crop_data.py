@@ -54,6 +54,7 @@ def saveCropImage(path):
             sitk.WriteImage(im_1, "Data_cropped\\ear1-"+ i +".mha")
             sitk.WriteImage(im_2, "Data_cropped\\ear2-"+ i +".mha")
 
+
         
 
         
