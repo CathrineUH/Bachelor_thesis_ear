@@ -1,5 +1,8 @@
+from curses import keyname
 from Dataloader import loadScan as ls
 import SimpleITK as sitk
+import os 
+
 def resampleImage(path,image):
     """
     The function resamples a 3D image to the dimension of image 1
@@ -26,7 +29,7 @@ def getEars(image):
     Output: 
         im: 3D cropped image 
     """
-    return image[70:170,225:325,:],image[230:330,220:320,:]
+    return image[:, 80:160, 10:90],image[:, 80:160, 90:170]
 
 def saveCropImage(path):
     """
@@ -38,21 +41,22 @@ def saveCropImage(path):
     Output: 
         Files to the folder Data_cropped of the cropped images
     """
-    for i in range(1,(109+1)):
-        if i == 16 or i == 78:
-            continue
-        im = resampleImage(path,ls(path,i))
+    os.chdir(path)
+    files = [f for f in os.listdir('.') if os.path.isfile(f)]
+    for j in files:
+        i = int(j[1])
+        im = ls(path, i)
         im_1,im_2 = getEars(im)
         i = str(i)
         if len(i) == 1:
-            sitk.WriteImage(im_1, "Data_cropped\\ear1-00"+ i +".mha")
-            sitk.WriteImage(im_2, "Data_cropped\\ear2-00"+ i +".mha")
+            sitk.WriteImage(im_1, "Data_cropped\\ear1-00"+ i +".nii.gz")
+            sitk.WriteImage(im_2, "Data_cropped\\ear2-00"+ i +".nii.gz")
         elif len(i) == 2:
-            sitk.WriteImage(im_1, "Data_cropped\\ear1-0"+ i +".mha")
-            sitk.WriteImage(im_2, "Data_cropped\\ear2-0"+ i +".mha")
+            sitk.WriteImage(im_1, "Data_cropped\\ear1-0"+ i +".nii.gz")
+            sitk.WriteImage(im_2, "Data_cropped\\ear2-0"+ i +".nii.gz")
         elif len(i) == 3:
-            sitk.WriteImage(im_1, "Data_cropped\\ear1-"+ i +".mha")
-            sitk.WriteImage(im_2, "Data_cropped\\ear2-"+ i +".mha")
+            sitk.WriteImage(im_1, "Data_cropped\\ear1-"+ i +".nii.gz")
+            sitk.WriteImage(im_2, "Data_cropped\\ear2-"+ i +".nii.gz")
 
 
         

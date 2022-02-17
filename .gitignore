@@ -1,13 +1,12 @@
 # Cathrine's files
-mess.ipynb
+
 Designed Database of MR Brain Images of Healthy Volunteers/*
 Illustration/*
 # Theresa's files 
-Files/* 
-
+__pycache__
 
 # other files 
 bachelor-env/*
 Data/*
 Data_cropped/*
-
+mess.ipynb
