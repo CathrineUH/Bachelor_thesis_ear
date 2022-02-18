@@ -68,7 +68,7 @@ def loadTest(path):
     return imTest 
 
 
-def loadImage(path, i,scan): 
+def loadScan(path, i,scan): 
     """
     The function loads a single 3D image
     
