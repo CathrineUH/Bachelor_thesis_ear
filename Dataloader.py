@@ -10,21 +10,19 @@ def reName(path):
     os.chdir(path)
     files = [f for f in os.listdir('.') if os.path.isfile(f)]
     count = 0
+    temp = ""
+    scan = 1
     for f in files:
-        ear = f[3]
-        if len(str(count)) == 1: 
-            newName = "Ear"+(ear)+ "-00"+str(count)+".nii.gz"
-            os.rename(f, newName)
-            count += 1
-        elif len(str(count)) == 2: 
-            newName = "Ear"+(ear)+ "-0"+str(count)+".nii.gz"
-            os.rename(f, newName)
-            count += 1
-        elif len(str(count)) == 3:
-            newName = "Ear"+(ear)+ "-"+str(count)+ ".nii.gz"
-            os.rename(f, newName)
-            count += 1
-        
+        i = f[8:12]
+        if (i == temp):
+            scan +=1
+            newName = "P"+ i +"_"+str(scan)+".nii.gz"
+        else:
+            scan = 1
+            newName = "P"+ i +"_"+str(scan)+".nii.gz"
+        os.rename(f, newName)
+        temp = i
+
 
 def loadTraining(path): 
     """ 
