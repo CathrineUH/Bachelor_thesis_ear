@@ -68,7 +68,7 @@ def loadTest(path):
     return imTest 
 
 
-def loadScan(path, i): 
+def loadImage(path, i,scan): 
     """
     The function loads a single 3D image
     
@@ -81,8 +81,9 @@ def loadScan(path, i):
     """
     
     i = str(i)
+    scan = str(scan)
         
-    im = sitk.ReadImage(path +"\\P"+ i+"_T1w.nii.gz")
+    im = sitk.ReadImage(path +"\\P"+ i+"_"+scan+".nii.gz")
     
     return sitk.GetArrayFromImage(im)
 
