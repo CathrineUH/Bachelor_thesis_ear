@@ -12,6 +12,8 @@ def reName(path):
     count = 0
     for f in files:
         ear = f[3]
+        if int(ear) == 2: 
+            count = 0 
         if len(str(count)) == 1: 
             newName = "Ear"+(ear)+ "-00"+str(count)+".nii.gz"
             os.rename(f, newName)
