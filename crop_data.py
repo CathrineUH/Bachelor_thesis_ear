@@ -28,7 +28,7 @@ def getEars(image):
     Output: 
         im: 3D cropped image 
     """
-    return image[:, 80:160, 10:90],image[:, 80:160, 90:170]
+    return image[50:130, 80:160, 10:90],image[50:130, 80:160, 90:170]
 
 def saveCropImage(path):
     """
