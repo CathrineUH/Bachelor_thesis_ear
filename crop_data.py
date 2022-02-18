@@ -43,23 +43,16 @@ def saveCropImage(path):
     os.chdir(path)
     files = [f for f in os.listdir('.') if os.path.isfile(f)]
     for j in files:
-        k = j.split('_')[0]
-        end = len(k)
-        i = int(k[1:end])
+        i = int(j[1:5])
+        scan = j[6]
         im = ls(path, i)
         im_1,im_2 = getEars(im)
         im_1 = sitk.GetImageFromArray(im_1)
         im_2 = sitk.GetImageFromArray(im_2)
         i = str(i)
-        if len(i) == 1:
-            sitk.WriteImage(im_1, "Data_cropped\\ear1-00"+ i +".nii.gz")
-            sitk.WriteImage(im_2, "Data_cropped\\ear2-00"+ i +".nii.gz")
-        elif len(i) == 2:
-            sitk.WriteImage(im_1, "Data_cropped\\ear1-0"+ i +".nii.gz")
-            sitk.WriteImage(im_2, "Data_cropped\\ear2-0"+ i +".nii.gz")
-        elif len(i) == 3:
-            sitk.WriteImage(im_1, "Data_cropped\\ear1-"+ i +".nii.gz")
-            sitk.WriteImage(im_2, "Data_cropped\\ear2-"+ i +".nii.gz")
+        
+        sitk.WriteImage(im_1, "Data_cropped\\ear1-P"+ i +"_"+ scan +".nii.gz")
+        sitk.WriteImage(im_2, "Data_cropped\\ear2-P"+ i +"_"+ scan +".nii.gz")
 
 
         
