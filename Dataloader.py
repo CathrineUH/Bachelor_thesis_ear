@@ -82,9 +82,14 @@ def loadScan(path, i,scan):
     
     i = str(i)
     scan = str(scan)
-        
-    im = sitk.ReadImage(path +"\\P"+ i+"_"+scan+".nii.gz")
-    
+    if len(i)==1:
+        im = sitk.ReadImage(path +"\\P000"+ i+"_"+scan+".nii.gz")
+    elif len(i)==2:
+        im = sitk.ReadImage(path +"\\P00"+ i+"_"+scan+".nii.gz")
+    elif len(i)==3:
+        im = sitk.ReadImage(path +"\\P0"+ i+"_"+scan+".nii.gz")
+    else:
+        im = sitk.ReadImage(path +"\\P"+ i+"_"+scan+".nii.gz")
     return sitk.GetArrayFromImage(im)
 
 def loadCropImage(ear,i):
