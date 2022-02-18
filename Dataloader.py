@@ -92,9 +92,9 @@ def loadCropImage(ear,i):
     """
     i = str(i)
     if len(i) == 1:
-        im = sitk.ReadImage("Data_cropped\\ear" + str(ear) +"-00" + i + ".mha")
+        im = sitk.ReadImage("Data_cropped\\ear" + str(ear) +"-00" + i + ".nii.gz")
     elif len(i) == 2:
-        im = sitk.ReadImage("Data_cropped\\ear" + str(ear) +"-0" + i + ".mha")
+        im = sitk.ReadImage("Data_cropped\\ear" + str(ear) +"-0" + i + ".nii.gz")
     elif len(i) == 3:
-        im = sitk.ReadImage("Data_cropped\\ear" + str(ear) + "-" + i + ".mha")
+        im = sitk.ReadImage("Data_cropped\\ear" + str(ear) + "-" + i + ".nii.gz")
     return sitk.GetArrayFromImage(im)
