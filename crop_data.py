@@ -51,8 +51,19 @@ def saveCropImage(path):
         im_2 = sitk.GetImageFromArray(im_2)
         i = str(i)
         scan = str(scan)
-        sitk.WriteImage(im_1, "Data_cropped\\ear1-P"+ i +"_"+ scan +".nii.gz")
-        sitk.WriteImage(im_2, "Data_cropped\\ear2-P"+ i +"_"+ scan +".nii.gz")
+        if(len(i)==1):
+            sitk.WriteImage(im_1, "Data_cropped\\ear1-P000"+ i +"_"+ scan +".nii.gz")
+            sitk.WriteImage(im_2, "Data_cropped\\ear2-P000"+ i +"_"+ scan +".nii.gz")
+        elif len(i)==2:
+            sitk.WriteImage(im_1, "Data_cropped\\ear1-P00"+ i +"_"+ scan +".nii.gz")
+            sitk.WriteImage(im_2, "Data_cropped\\ear2-P00"+ i +"_"+ scan +".nii.gz")
+        elif len(i)==3:
+            sitk.WriteImage(im_1, "Data_cropped\\ear1-P0"+ i +"_"+ scan +".nii.gz")
+            sitk.WriteImage(im_2, "Data_cropped\\ear2-P0"+ i +"_"+ scan +".nii.gz")
+        else:
+            sitk.WriteImage(im_1, "Data_cropped\\ear1-P"+ i +"_"+ scan +".nii.gz")
+            sitk.WriteImage(im_2, "Data_cropped\\ear2-P"+ i +"_"+ scan +".nii.gz")
+       
 
 
         
