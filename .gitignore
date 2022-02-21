@@ -2,11 +2,10 @@
 Data_all/*
 Illustration/*
 # Theresa's files 
-__pycache__
+__pycache__/*
 
 # other files 
 bachelor-env/*
 Data/*
 Data_cropped/*
 mess.ipynb
-Data.zip
