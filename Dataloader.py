@@ -79,7 +79,6 @@ def loadScan(path, i,scan):
     Output: 
         im: 3D image
     """
-    
     i = str(i)
     scan = str(scan)
     if len(i)==1:

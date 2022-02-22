@@ -3,6 +3,7 @@ Data_all/*
 Illustration/*
 # Theresa's files 
 __pycache__/*
+Data_first_50/* 
 
 # other files 
 bachelor-env/*
