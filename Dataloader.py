@@ -92,7 +92,7 @@ def loadScan(path, i,scan):
         im = sitk.ReadImage(path +"\\P"+ i+"_"+scan+".nii.gz")
     return sitk.GetArrayFromImage(im)
 
-def loadCropImage(ear,i):
+def loadCropImage(ear,i,scan):
     """
     The function loads a single 3D cropped image of the ear
     
@@ -105,10 +105,19 @@ def loadCropImage(ear,i):
 
     """
     i = str(i)
+    scan = str(scan)
+    ear = str(ear)
     if len(i) == 1:
-        im = sitk.ReadImage("Data_cropped\\ear" + str(ear) +"-00" + i + ".nii.gz")
+        im = sitk.ReadImage("Data_cropped\\ear" + ear +"-P000" + i + "_" + scan +".nii.gz")
     elif len(i) == 2:
-        im = sitk.ReadImage("Data_cropped\\ear" + str(ear) +"-0" + i + ".nii.gz")
+        im = sitk.ReadImage("Data_cropped\\ear" + ear +"-P00" + i + "_" + scan + ".nii.gz")
     elif len(i) == 3:
-        im = sitk.ReadImage("Data_cropped\\ear" + str(ear) + "-" + i + ".nii.gz")
+        im = sitk.ReadImage("Data_cropped\\ear" + ear + "-P0" + i + "_" + scan + ".nii.gz")
+    else:
+        im = sitk.ReadImage("Data_cropped\\ear" + ear + "-P" + i + "_" + scan + ".nii.gz")
+    return sitk.GetArrayFromImage(im)
+
+def loadImageFromFile(path,fileName):
+    os.chdir(path)
+    im = sitk.ReadImage(fileName)
     return sitk.GetArrayFromImage(im)

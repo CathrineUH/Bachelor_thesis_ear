@@ -64,7 +64,28 @@ def saveCropImage(path):
             sitk.WriteImage(im_1, "Data_cropped\\ear1-P"+ i +"_"+ scan +".nii.gz")
             sitk.WriteImage(im_2, "Data_cropped\\ear2-P"+ i +"_"+ scan +".nii.gz")
        
-
+def flipImage(path):
+    os.chdir(path)
+    files = [f for f in os.listdir('.') if os.path.isfile(f)]
+    for j in files:
+        i = int(j[1:5])
+        scan = int(j[6])
+        i = str(i)
+        scan = str(scan)
+        ear = str(ear)
+        if(len(i)==1):
+            sitk.WriteImage(im_1, "Data_cropped\\ear1-P000"+ i +"_"+ scan +".nii.gz")
+            sitk.WriteImage(im_2, "Data_cropped\\ear2-P000"+ i +"_"+ scan +".nii.gz")
+        elif len(i)==2:
+            sitk.WriteImage(im_1, "Data_cropped\\ear1-P00"+ i +"_"+ scan +".nii.gz")
+            sitk.WriteImage(im_2, "Data_cropped\\ear2-P00"+ i +"_"+ scan +".nii.gz")
+        elif len(i)==3:
+            sitk.WriteImage(im_1, "Data_cropped\\ear1-P0"+ i +"_"+ scan +".nii.gz")
+            sitk.WriteImage(im_2, "Data_cropped\\ear2-P0"+ i +"_"+ scan +".nii.gz")
+        else:
+            sitk.WriteImage(im_1, "Data_cropped\\ear1-P"+ i +"_"+ scan +".nii.gz")
+            sitk.WriteImage(im_2, "Data_cropped\\ear2-P"+ i +"_"+ scan +".nii.gz")
+   
 
         
 
