@@ -1,5 +1,7 @@
+from matplotlib.pyplot import get
 from Dataloader import loadScan as ls
 from Dataloader import loadImageFromFile as lf
+from Dataloader import getFiles as gf
 import SimpleITK as sitk
 import os 
 
@@ -66,14 +68,15 @@ def saveCropImage(path):
             sitk.WriteImage(im_2, "../Data_cropped\\ear2-P"+ i +"_"+ scan +".nii.gz")
        
 def flipImage(path):
-    os.chdir(path)
-    files = [f for f in os.listdir('.') if os.path.isfile(f)]
+    files = gf(path)
+    nr = 0
     for j in files:
         if(j[3]==str(1)):
-            im = lf(path,j)
+            im = lf(path,nr)
             img = sitk.GetImageFromArray(im)
             flipped_img = sitk.Flip(img, [True, True, False])
             sitk.WriteImage(flipped_img, j)
+        nr+=1    
    
 
         
