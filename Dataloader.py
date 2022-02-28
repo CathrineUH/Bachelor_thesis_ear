@@ -115,6 +115,7 @@ def loadCropImage(ear,i,scan):
     else:
         im = sitk.ReadImage("Data_cropped\\ear" + ear + "-P" + i + "_" + scan + ".nii.gz")
     return sitk.GetArrayFromImage(im)
+
 def getFiles(path):
     os.chdir(path)
     files = [f for f in os.listdir('.') if os.path.isfile(f)]
