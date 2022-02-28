@@ -74,7 +74,7 @@ def flipImage(path):
         if(j[3]==str(1)):
             im = lf(path,nr)
             img = sitk.GetImageFromArray(im)
-            flipped_img = sitk.Flip(img, [True, True, False])
+            flipped_img = sitk.Flip(img, [False, True, False])
             sitk.WriteImage(flipped_img, j)
         nr+=1    
    
