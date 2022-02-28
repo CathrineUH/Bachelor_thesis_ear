@@ -120,3 +120,8 @@ def loadImageFromFile(path,fileName):
     os.chdir(path)
     im = sitk.ReadImage(fileName)
     return sitk.GetArrayFromImage(im)
+
+def getFiles(path):
+    os.chdir(path)
+    files = [f for f in os.listdir('.') if os.path.isfile(f)]
+    return files
