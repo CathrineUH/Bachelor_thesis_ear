@@ -1,8 +1,8 @@
-from matplotlib.pyplot import get
 from Dataloader import loadScan as ls
 from Dataloader import loadImageFromFile as lf
 from Dataloader import getFiles as gf
 import SimpleITK as sitk
+import numpy as np
 import os 
 
 def resampleImage(path,image):
@@ -73,8 +73,8 @@ def flipImage(path):
     for j in files:
         if(j[3]==str(1)):
             im = lf(path,nr)
-            img = sitk.GetImageFromArray(im)
-            flipped_img = sitk.Flip(img, [True, False, False])
+            flipped_img = np.flip(im,axis=2)
+            flipped_img  = sitk.GetImageFromArray(flipped_img)
             sitk.WriteImage(flipped_img, j)
         nr+=1    
    
