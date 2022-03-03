@@ -27,7 +27,7 @@
                     "label": "R",
                     "description": "",
                     "associatedNodeID": "vtkMRMLScalarVolumeNode15",
-                    "position": [45.0, 32.11083743842365, 20.97783251231527],
+                    "position": [44.58216748768473, 32.0, 21.088177339901479],
                     "orientation": [-1.0, -0.0, -0.0, -0.0, -1.0, -0.0, 0.0, 0.0, 1.0],
                     "selected": true,
                     "locked": false,
