@@ -85,9 +85,9 @@
             ],
             "measurements": [],
             "display": {
-                "visibility": true,
+                "visibility": false,
                 "opacity": 1.0,
-                "color": [0.5000076295109484, 0.5000076295109484, 0.5000076295109484],
+                "color": [0.5, 0.5, 0.5],
                 "selectedColor": [1.0, 0.5000076295109484, 0.5000076295109484],
                 "activeColor": [0.4, 1.0, 0.0],
                 "propertiesLabelVisibility": false,
