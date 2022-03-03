@@ -75,7 +75,7 @@
                     "label": "B",
                     "description": "",
                     "associatedNodeID": "vtkMRMLScalarVolumeNode157",
-                    "position": [32.522113022113028, 41.17076167076167, 37.0],
+                    "position": [35.27395577395578, 38.61547911547912, 39.0],
                     "orientation": [-1.0, -0.0, -0.0, -0.0, -1.0, -0.0, 0.0, 0.0, 1.0],
                     "selected": true,
                     "locked": false,
@@ -87,7 +87,7 @@
             "display": {
                 "visibility": true,
                 "opacity": 1.0,
-                "color": [0.4, 1.0, 0.0],
+                "color": [0.5, 0.5, 0.5],
                 "selectedColor": [1.0, 0.5000076295109484, 0.5000076295109484],
                 "activeColor": [0.4, 1.0, 0.0],
                 "propertiesLabelVisibility": false,
