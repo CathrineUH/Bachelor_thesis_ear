@@ -1,5 +1,4 @@
 # Cathrine's files
-Data_all/*
 Illustration/*
 # Theresa's files 
 __pycache__/*
@@ -7,7 +6,6 @@ temp/*
 
 # other files 
 bachelor-env/*
-Data/*
 Data_cropped/*
 mess.ipynb
 Data_use/*
