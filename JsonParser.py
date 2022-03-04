@@ -7,7 +7,7 @@ from Dataloader import*
 # https://stackoverflow.com/questions/30237024/operate-on-slices-of-3d-image-in-simpleitk-and-create-new-3d-image
 def read_ear_landmarks(path_json,path_data,full_name):
     f = open(path_json+"\\"+full_name)
-    file_name = path_data +"\\"+ full_name[11:23]
+    file_name = path_data +"\\"+ full_name[0:12]
     # https://slicer.readthedocs.io/en/latest/developer_guide/script_repository.html
     # returns JSON object as a dictionary
     data = json.load(f)
