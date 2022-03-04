@@ -75,5 +75,5 @@ def crop_aorta_roi(bounds):
 
 
 if __name__ == '__main__':
-    bds = read_aorta_landmarks()
+    bds = read_ear_landmarks()
     crop_aorta_roi(bds)

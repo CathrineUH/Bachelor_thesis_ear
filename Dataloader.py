@@ -121,9 +121,7 @@ def getFiles(path):
     files = [f for f in os.listdir('.') if os.path.isfile(f)]
     return files
 
-def loadImageFromFile(path, nr):
-    os.chdir(path)
-    files = getFiles(path)
-    im = sitk.ReadImage(files[nr])
+def loadImageFromFile(file_name):
+    im = sitk.ReadImage(file_name)
     return sitk.GetArrayFromImage(im)
 
