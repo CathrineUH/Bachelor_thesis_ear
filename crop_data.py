@@ -1,27 +1,7 @@
-from Dataloader import loadScan as ls
-from Dataloader import loadImageFromFile as lf
-from Dataloader import getFiles as gf
+from Dataloader import*
 import SimpleITK as sitk
 import numpy as np
-import os 
 
-def resampleImage(path,image):
-    """
-    The function resamples a 3D image to the dimension of image 1
-    
-    Input: 
-        path: path to file location 
-        i: index of image (cannot be 16 or 78)
-
-    Output: 
-        im: 3D resampled image 
-    """
-    im =  ls(path,1)
-    if(image.GetSize() == im.GetSize()):
-        return image
-    else:
-        im_resam = sitk.Resample(image,im)
-    return im_resam
 
 def getEars(image):
     """
@@ -43,12 +23,11 @@ def saveCropImage(path):
     Output: 
         Files to the folder Data_cropped of the cropped images
     """
-    os.chdir(path)
-    files = [f for f in os.listdir('.') if os.path.isfile(f)]
+    files = getFiles(path)
     for j in files:
         i = int(j[1:5])
         scan = int(j[6])
-        im = ls(path, i,scan)
+        im = loadImageFromFile(j)
         im_1,im_2 = getEars(im)
         im_1 = sitk.GetImageFromArray(im_1)
         im_2 = sitk.GetImageFromArray(im_2)
@@ -68,11 +47,20 @@ def saveCropImage(path):
             sitk.WriteImage(im_2, "../Data_cropped\\ear2-P"+ i +"_"+ scan +".nii.gz")
        
 def flipImage(path):
-    files = gf(path)
+    """
+    The function flips and saves all the images in that path 
+    
+    Input: 
+        path: path to file locations
+
+    Output: 
+        Saves the flip image in the same path
+    """
+    files = getFiles(path)
     nr = 0
     for j in files:
         if(j[3]==str(1)):
-            im = lf(path,nr)
+            im = loadImageFromFile(j)
             flipped_img = np.flip(im,axis=2)
             flipped_img  = sitk.GetImageFromArray(flipped_img)
             sitk.WriteImage(flipped_img, j)
