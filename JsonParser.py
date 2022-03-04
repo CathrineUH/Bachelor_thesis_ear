@@ -1,5 +1,6 @@
 import SimpleITK as sitk
 import json
+import numpy as np
 
 # Tips:
 # https://github.com/InsightSoftwareConsortium/SimpleITK-Notebooks/blob/master/Utilities/intro_animation.py
@@ -10,30 +11,12 @@ def read_ear_landmarks(full_name):
     # returns JSON object as a dictionary
     data = json.load(f)
     t = data['markups'][0]['controlPoints']
-
-    first = True
-    xmin = xmax = ymax = ymin = zmin = zmax = 0
+    Dict = {'C': 0, 'A': 1, 'R': 2, 'M': 3, 'T': 4, 'B': 5}
     for lm in t:
-        pos = lm['position']
-        x = pos[0]
-        y = pos[1]
-        z = pos[2]
-        if first:
-            first = False
-            xmin = xmax = x
-            ymin = ymax = y
-            zmin = zmax = z
-        else:
-            xmin = min(xmin, x)
-            xmax = max(xmax, x)
-            ymin = min(ymin, y)
-            ymax = max(ymax, y)
-            zmin = min(zmin, z)
-            zmax = max(zmax, z)
-
+        Coordinat = np.zeros((6,3))
+        Coordinat[Dict[t[lm]['label']]] = t[lm]['position']
     f.close()
-    bounds = [xmin, xmax, ymin, ymax, zmin, zmax]
-    return bounds
+    return Coordinat
 
 
 def crop_aorta_roi(bounds):
