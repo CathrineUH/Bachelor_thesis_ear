@@ -11,8 +11,7 @@ def getFiles(path):
     Output: 
         files: All file names in the path.
     """
-    os.chdir(path)
-    files = [f for f in os.listdir('.') if os.path.isfile(f)]
+    files = os.listdir(path)
     return files
 
 def loadImageFromFile(file_name):
