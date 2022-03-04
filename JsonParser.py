@@ -28,8 +28,8 @@ def change_coordinate_system(positions, file_name):
     return coordinates 
 
 
-def write_all_write_landmarks_to_txt(files, path_data, path_out, full_name):
+def write_all_write_landmarks_to_txt(files, path_data, path_out):
    for i in files:
        coordinates = read_ear_landmarks(path_data,i)
-       file_name = path_out +"\\"+ full_name[11:23]
+       file_name = path_out +"\\"+ i[0:12]
        np.savetxt(file_name,coordinates,fmt='%.f')
