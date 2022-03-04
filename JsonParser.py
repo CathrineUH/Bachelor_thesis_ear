@@ -12,8 +12,8 @@ def read_ear_landmarks(full_name):
     data = json.load(f)
     t = data['markups'][0]['controlPoints']
     Dict = {'C': 0, 'A': 1, 'R': 2, 'M': 3, 'T': 4, 'B': 5}
-    for lm in t:
-        Coordinat = np.zeros((6,3))
+    Coordinat = np.zeros((6,3))
+    for lm in range(6):
         Coordinat[Dict[t[lm]['label']]] = t[lm]['position']
     f.close()
     return Coordinat
