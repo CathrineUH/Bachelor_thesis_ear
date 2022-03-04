@@ -5,9 +5,9 @@ from Dataloader import*
 # Tips:
 # https://github.com/InsightSoftwareConsortium/SimpleITK-Notebooks/blob/master/Utilities/intro_animation.py
 # https://stackoverflow.com/questions/30237024/operate-on-slices-of-3d-image-in-simpleitk-and-create-new-3d-image
-def read_ear_landmarks(path,full_name):
-    f = open(full_name)
-    file_name = path +"\\"+ full_name[11:23]
+def read_ear_landmarks(path_json,path_data,full_name):
+    f = open(path_json+"\\"+full_name)
+    file_name = path_data +"\\"+ full_name[11:23]
     # https://slicer.readthedocs.io/en/latest/developer_guide/script_repository.html
     # returns JSON object as a dictionary
     data = json.load(f)
@@ -28,8 +28,8 @@ def change_coordinate_system(positions, file_name):
     return coordinates 
 
 
-def write_all_write_landmarks_to_txt(files, path_data, path_out):
+def write_all_write_landmarks_to_txt(files, path_data, path_out, path_json):
    for i in files:
-       coordinates = read_ear_landmarks(path_data,i)
+       coordinates = read_ear_landmarks(path_json,path_data,i)
        file_name = path_out +"\\"+ i[0:12]
        np.savetxt(file_name,coordinates,fmt='%.f')
