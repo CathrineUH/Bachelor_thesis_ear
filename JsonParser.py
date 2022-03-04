@@ -1,7 +1,7 @@
 import SimpleITK as sitk
 import json
 import numpy as np
-
+from Dataloader import*
 # Tips:
 # https://github.com/InsightSoftwareConsortium/SimpleITK-Notebooks/blob/master/Utilities/intro_animation.py
 # https://stackoverflow.com/questions/30237024/operate-on-slices-of-3d-image-in-simpleitk-and-create-new-3d-image
@@ -28,6 +28,8 @@ def change_coordinate_system(positions, file_name):
     return coordinates 
 
 
-
-if __name__ == '__main__':
-    bds = read_ear_landmarks()
+def write_all_write_landmarks_to_txt(files, path, full_name):
+   for i in files:
+       coordinates = read_ear_landmarks(path,i)
+       file_name = path +"\\"+ full_name[11:23]
+       np.savetxt(file_name,coordinates,fmt='%.f')
