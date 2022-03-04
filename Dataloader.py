@@ -14,7 +14,7 @@ def getFiles(path):
     files = os.listdir(path)
     return files
 
-def loadImageFromFile(file_name):
+def loadImageFromFile(path,file_name):
     """
     The function takes a filename of an image and returns the image.
     
@@ -24,6 +24,6 @@ def loadImageFromFile(file_name):
     Output: 
         im: Images as a numpy array.
     """
-    im = sitk.ReadImage(file_name)
+    im = sitk.ReadImage(path +"\\"+ file_name)
     return sitk.GetArrayFromImage(im)
 
