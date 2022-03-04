@@ -4,10 +4,8 @@ import json
 # Tips:
 # https://github.com/InsightSoftwareConsortium/SimpleITK-Notebooks/blob/master/Utilities/intro_animation.py
 # https://stackoverflow.com/questions/30237024/operate-on-slices-of-3d-image-in-simpleitk-and-create-new-3d-image
-def read_aorta_landmarks():
-    full_name = 'C:/data/VideoMaterial/ABD_LYMPH_001/F.mrk.json'
+def read_ear_landmarks(full_name):
     f = open(full_name)
-
     # https://slicer.readthedocs.io/en/latest/developer_guide/script_repository.html
     # returns JSON object as a dictionary
     data = json.load(f)
