@@ -3,9 +3,7 @@
 # File: medical.py
 # Author: Amir Alansary <amiralansary@gmail.com>
 
-from dataReader import (filesListBrainMRLandmark,
-                        filesListCardioLandmark,
-                        filesListFetalUSLandmark)
+from dataReader import filesListBrainMRLandmark
 from gym import spaces
 import gym
 import shutil
@@ -129,16 +127,7 @@ class MedicalPlayer(gym.Env):
         returnLandmarks = (self.task != 'play')
 
         # add your data loader here
-        if file_type == "brain":
-            self.files = filesListBrainMRLandmark(files_list,
-                                                  returnLandmarks,
-                                                  self.agents)
-        elif file_type == "cardiac":
-            self.files = filesListCardioLandmark(files_list,
-                                                 returnLandmarks,
-                                                 self.agents)
-        elif file_type == "fetal":
-            self.files = filesListFetalUSLandmark(files_list,
+        self.files = filesListBrainMRLandmark(files_list,
                                                   returnLandmarks,
                                                   self.agents)
 

@@ -84,7 +84,8 @@ if __name__ == '__main__':
         choices=['play', 'eval', 'train'], default='train')
     parser.add_argument(
         '--file_type', help='Type of the training and validation files',
-        choices=['brain', 'cardiac', 'fetal'], default='train')
+        choices=['brain'], default='train')
+    parser.set_defaults(choices='brain')
     parser.add_argument(
         '--files', type=argparse.FileType('r'), nargs='+',
         help="""Filepath to the text file that contains list of images.
