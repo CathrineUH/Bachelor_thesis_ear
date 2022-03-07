@@ -17,7 +17,7 @@ __all__ = [
     'NiftiImage']
 
 
-def getLandmarksFromTXTFile(file, split=','):
+def getLandmarksFromTXTFile(file, split=' '):
     """
     Extract each landmark point line by line from a text file, and return
     vector containing all landmarks.
