@@ -12,6 +12,7 @@ tqdm
 opencv-python 
 pyglet 
 setuptools==59.5.0
+logger
 
 
 # if ModuleNotFoundError: No module named 'pkg_resources' ---> python -m pip install setuptools
