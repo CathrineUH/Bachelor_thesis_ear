@@ -9,7 +9,7 @@ then
 fi
 
 # create dir for logs
-mkdir -p "logs/"
+mkdir -p "runs/"
 
 ### General options
 ### –- specify queue --
