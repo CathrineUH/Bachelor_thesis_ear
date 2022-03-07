@@ -168,6 +168,7 @@ class CommNet(nn.Module):
                 self.comm_att2 = nn.ParameterList([nn.Parameter(torch.randn(agents)) for _ in range(agents)])
                 self.comm_att3 = nn.ParameterList([nn.Parameter(torch.randn(agents)) for _ in range(agents)])
 
+        # for intializing weights 
         if xavier:
             for module in self.modules():
                 if type(module) in [nn.Conv3d, nn.Linear]:
