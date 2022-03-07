@@ -8,6 +8,10 @@ matplotlib
 setuptools
 gym
 pillow
+tensorboard 
+tqdm 
+opencv-python 
+pyglet 
 
 
 # if ModuleNotFoundError: No module named 'pkg_resources' ---> python -m pip install setuptools
