@@ -10,9 +10,7 @@ import warnings
 warnings.simplefilter("ignore", category=ResourceWarning)
 
 
-__all__ = [
-    'filesListBrainMRLandmark',
-    'NiftiImage']
+__all__ = ['filesListBrainMRLandmark','NiftiImage']
 
 
 def getLandmarksFromTXTFile(file, split=' '):
@@ -74,8 +72,6 @@ class filesListBrainMRLandmark(object):
             for idx in indexes:
                 sitk_image, image = NiftiImage().decode(self.image_files[idx])
                 if self.returnLandmarks:
-                    # transform landmarks to image space if they are in
-                    # physical space
                     landmark_file = self.landmark_files[idx]
                     all_landmarks = getLandmarksFromTXTFile(landmark_file)
                     landmarks = [np.round(all_landmarks[landmark_ids[i] % 15])
