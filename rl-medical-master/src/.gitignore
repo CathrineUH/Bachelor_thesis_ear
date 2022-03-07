@@ -2,3 +2,6 @@ data/models/test_models
 data/experiments
 runs
 bachelor-env/*
+logs/*
+out/*
+batchjob.sh

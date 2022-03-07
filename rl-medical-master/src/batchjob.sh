@@ -25,7 +25,7 @@ mkdir -p "logs/"
 ### -- request 5GB of system-memory --
 #BSUB -R "rusage[mem=8GB]"
 ### -- set the email address --
-##BSUB -u s194324@student.dtu.dk
+##BSUB -u s191780@student.dtu.dk
 ### -- send notification at start --
 #BSUB -B
 ### -- send notification at completion-- 
