@@ -5,6 +5,7 @@ import torch
 import sys
 from torch.utils.tensorboard import SummaryWriter
 import csv
+import matplotlib.pyplot as plt
 
 
 class Logger(object):
@@ -29,7 +30,6 @@ class Logger(object):
     def plot_res(self, losses, distances):
         if len(losses) == 0 or not self.write:
             return
-        import matplotlib.pyplot as plt
         fig, axs = plt.subplots(2)
         axs[0].plot(list(range(len(losses))), losses, color='orange')
         axs[0].set_xlabel("Steps")
