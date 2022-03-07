@@ -1,5 +1,16 @@
-Antal af Subject;Kolonnemærkater;;;
-Rækkemærkater;A;L;R;Hovedtotal
-F;3;6;39;48
-M;2;2;31;35
-Hovedtotal;5;8;70;83
+Antal af Subject;Kolonnemærkater;;;;;;;;;train;test;val
+Rækkemærkater;A;L;R;Hovedtotal;;;;;female;36;6;6
+F;3;6;39;48;;;;;african;5;2;2
+African American;;;9;9;;;;;right;5;2;2
+Caucasian;3;6;30;39;;;;;Caucasion;31;4;4
+M;2;2;31;35;;;;;a;1;1;1
+African American;;;6;6;;;;;left;4;1;1
+Caucasian;2;2;25;29;;;;;right;26;2;2
+Hovedtotal;5;8;70;83;;;;;;;;
+;;;;;;;;;male;25;5;5
+;;;;;;;;;african;2;2;2
+;;;;;;;;;right;2;2;2
+;;;;;;;;;Caucasion;23;3;3
+;;;;;;;;;a;1;1;0
+;;;;;;;;;left;1;0;1
+;;;;;;;;;right;21;2;2
