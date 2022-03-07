@@ -11,5 +11,6 @@ bachelor-env/*
 Data_cropped/*
 mess.ipynb
 rl-medical-master/src/__pycache__/*
+bachelor-env/* 
 
 
