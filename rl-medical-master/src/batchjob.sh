@@ -1,7 +1,7 @@
 #!/bin/sh
 
 #  assert correct run dir
-run_dir="bachelor-thesis-ear\rl-medical-master\src"
+run_dir="bachelor-thesis-ear/rl-medical-master/src"
 if ! [ "$(basename $PWD)" = $run_dir ];
 then
     echo -e "\033[0;31mScript must be submitted from the directory: $run_dir\033[0m"
