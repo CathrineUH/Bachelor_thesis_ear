@@ -1,5 +1,6 @@
 # Cathrine's files
 Illustration/*
+
 # Theresa's files 
 __pycache__/*
 temp/*
@@ -8,3 +9,5 @@ temp/*
 bachelor-env/*
 Data_cropped/*
 mess.ipynb
+rl-medical-master/src/__pycache__/*
+
