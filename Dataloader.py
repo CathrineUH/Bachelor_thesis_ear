@@ -27,3 +27,8 @@ def loadImageFromFile(path,file_name):
     im = sitk.ReadImage(path +"\\"+ file_name)
     return sitk.GetArrayFromImage(im)
 
+
+def loadTraining(path):
+    la = 100
+    return la 
+
