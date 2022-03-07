@@ -1,7 +1,7 @@
 #!/bin/sh
 
 #  assert correct run dir
-run_dir="Heart_project"
+run_dir="bachelor-thesis-ear\rl-medical-master\src"
 if ! [ "$(basename $PWD)" = $run_dir ];
 then
     echo -e "\033[0;31mScript must be submitted from the directory: $run_dir\033[0m"
@@ -37,10 +37,10 @@ mkdir -p "logs/"
 ### -- end of LSF options --
 
 # activate env
-source unet-env/bin/activate
+source bachelor-env/bin/activate
 
 # load additional modules
 module load cuda/11.4
 
 # run scripts
-python main.py
+python DQN.py --task train --files data/filenames/training.txt data/filenames/training_landmark.txt --model_name CommNet --landmarks 0 1 2 3 4 5 --multiscale --viz 0 --train_freq 50 --write
