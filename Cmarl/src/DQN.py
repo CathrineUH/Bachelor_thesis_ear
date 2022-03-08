@@ -202,7 +202,7 @@ if __name__ == '__main__':
     # check input files
     if args.task == 'play':
         error_message = f"""Wrong input files {len(args.files)} for {args.task}
-                            task - should be 1 \'images.txt\' """
+                            task - should be 1 \'images.txt\'"""
         assert len(args.files) == 1, (error_message)
     else:
         error_message = f"""Wrong input files {len(args.files)} for
