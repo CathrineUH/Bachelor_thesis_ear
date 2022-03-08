@@ -18,5 +18,5 @@ Cmarl/src/logs/*
 Cmarl/src/out/*
 Cmarl/src/bachelor-env/*
 Cmarl/src/runs/*
-Cmarl/src/batchjob.sh/*
-Cmarl/src/create_env.sh/*
+Cmarl/src/batchjob.sh
+Cmarl/src/create_env.sh
