@@ -92,7 +92,7 @@ if __name__ == '__main__':
                 Each line of this file is a full path to an image scan.
                 For (task == train or eval) there should be two input files
                 ['images', 'landmarks']""")
-    parser.set_defaults(files = [data/filenames/training.txt, data/filenames/training_landmark.txt])
+    parser.set_defaults(files = ["data/filenames/training.txt", "data/filenames/training_landmark.txt"])
     parser.add_argument(
         '--val_files', type=argparse.FileType('r'), nargs='+',
         help="""Filepath to the text file that contains list of validation
