@@ -3,11 +3,11 @@
 echo "\e[33mINFO: create_env.sh will create a virtual environment to use on the DTUs HPC cluster"
 
 # set env name
-env_name="unet-env"
+env_name="bachelor-env"
 
-if [ $( basename $PWD ) != "Heart_project" ]
+if [ $( basename $PWD ) != "src" ]
 then 
-    echo "\e[33mWARN: Virtual environment about to be created without Heart_project as basename, instead it will be created at $PWD\e[0m" 
+    echo "\e[33mWARN: Virtual environment about to be created without src as basename, instead it will be created at $PWD\e[0m" 
 fi
 
 
@@ -22,11 +22,11 @@ python -m pip install --upgrade pip
 python -m pip install -r requirements.txt
 
 
-if [ $( basename $PWD ) = "Heart_project" ]
+if [ $( basename $PWD ) = "src" ]
 then 
     echo "Virtual environment created at $PWD"
 else
-    echo "\e[33mWARN: Virtual environment was not created with Heart_project as basename, instead it was created at $PWD\e[0m"
+    echo "\e[33mWARN: Virtual environment was not created with src as basename, instead it was created at $PWD\e[0m"
 fi
 
 deactivate
