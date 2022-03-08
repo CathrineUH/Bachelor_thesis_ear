@@ -84,7 +84,8 @@ if __name__ == '__main__':
         choices=['play', 'eval', 'train'], default='train')
     parser.add_argument(
         '--file_type', help='Type of the training and validation files',
-        choices=['brain', 'cardiac', 'fetal'], default='train')
+        choices=['brain'], default='train')
+    parser.set_defaults(file_type ='brain')
     parser.add_argument(
         '--files', type=argparse.FileType('r'), nargs='+',
         help="""Filepath to the text file that contains list of images.
@@ -114,7 +115,7 @@ if __name__ == '__main__':
         '--model_name', help='Models implemented are: Network3d, CommNet',
         default="CommNet", choices=['CommNet', 'Network3d'], type=str)
     parser.add_argument(
-        '--batch_size', help='Size of each batch', default=64, type=int)
+        '--batch_size', help='Size of each batch', default=2, type=int)
     parser.add_argument(
         '--memory_size',
         help="""Number of transitions stored in exp replay buffer.
@@ -152,7 +153,7 @@ if __name__ == '__main__':
         default=10, type=int)
     parser.add_argument(
         '--save_freq', help='Saves network every save_freq steps',
-        default=1000, type=int)
+        default=100, type=int)
     parser.add_argument(
         '--delta',
         help="""Amount to decreases epsilon each episode,
