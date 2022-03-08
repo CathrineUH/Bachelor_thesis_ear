@@ -85,13 +85,14 @@ if __name__ == '__main__':
     parser.add_argument(
         '--file_type', help='Type of the training and validation files',
         choices=['brain'], default='train')
-    parser.set_defaults(choices='brain')
+    parser.set_defaults(file_type='brain')
     parser.add_argument(
         '--files', type=argparse.FileType('r'), nargs='+',
         help="""Filepath to the text file that contains list of images.
                 Each line of this file is a full path to an image scan.
                 For (task == train or eval) there should be two input files
                 ['images', 'landmarks']""")
+        parser.set_defaults(files =[data/filenames/training.txt, data/filenames/training_landmark.txt])
     parser.add_argument(
         '--val_files', type=argparse.FileType('r'), nargs='+',
         help="""Filepath to the text file that contains list of validation
@@ -110,7 +111,7 @@ if __name__ == '__main__':
         default='', type=str)
     parser.add_argument(
         '--landmarks', nargs='*', help='Landmarks to use in the images',
-        type=int, default=[1])
+        type=int, default=list(range(0,6)))
     parser.add_argument(
         '--model_name', help='Models implemented are: Network3d, CommNet',
         default="CommNet", choices=['CommNet', 'Network3d'], type=str)
@@ -170,7 +171,7 @@ if __name__ == '__main__':
     parser.add_argument(
         '--write', help='Saves the training logs', dest='write',
         action='store_true')
-    parser.set_defaults(write=False)
+        
     parser.add_argument(
         '--team_reward', help='Refers to adding the (potentially weighted) average reward of all agents to their individiual rewards', 
         choices=[None, 'mean', 'attention'], default=None)
@@ -198,11 +199,11 @@ if __name__ == '__main__':
 
     # initial memory size must be less or equal than memory size
     init_memory_size = min(args.init_memory_size, args.memory_size)
-    # check input files
 
+    # check input files
     if args.task == 'play':
-        error_message = f"""Wrong input files {len(args.files)} 
-                            for {args.task} task - should be 1 \'images.txt\'"""
+        error_message = f"""Wrong input files {len(args.files)} for {args.task}
+                            task - should be 1 \'images.txt\' """
         assert len(args.files) == 1, (error_message)
     else:
         error_message = f"""Wrong input files {len(args.files)} for
