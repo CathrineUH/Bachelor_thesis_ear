@@ -84,15 +84,13 @@ if __name__ == '__main__':
         choices=['play', 'eval', 'train'], default='train')
     parser.add_argument(
         '--file_type', help='Type of the training and validation files',
-        choices=['brain'], default='train')
-    parser.set_defaults(file_type='brain')
+        choices=['brain', 'cardiac', 'fetal'], default='train')
     parser.add_argument(
         '--files', type=argparse.FileType('r'), nargs='+',
         help="""Filepath to the text file that contains list of images.
                 Each line of this file is a full path to an image scan.
                 For (task == train or eval) there should be two input files
                 ['images', 'landmarks']""")
-        parser.set_defaults(files =[data/filenames/training.txt, data/filenames/training_landmark.txt])
     parser.add_argument(
         '--val_files', type=argparse.FileType('r'), nargs='+',
         help="""Filepath to the text file that contains list of validation
@@ -111,12 +109,12 @@ if __name__ == '__main__':
         default='', type=str)
     parser.add_argument(
         '--landmarks', nargs='*', help='Landmarks to use in the images',
-        type=int, default=list(range(0,6)))
+        type=int, default=[1])
     parser.add_argument(
         '--model_name', help='Models implemented are: Network3d, CommNet',
         default="CommNet", choices=['CommNet', 'Network3d'], type=str)
     parser.add_argument(
-        '--batch_size', help='Size of each batch', default=2, type=int)
+        '--batch_size', help='Size of each batch', default=64, type=int)
     parser.add_argument(
         '--memory_size',
         help="""Number of transitions stored in exp replay buffer.
@@ -154,7 +152,7 @@ if __name__ == '__main__':
         default=10, type=int)
     parser.add_argument(
         '--save_freq', help='Saves network every save_freq steps',
-        default=100, type=int)
+        default=1000, type=int)
     parser.add_argument(
         '--delta',
         help="""Amount to decreases epsilon each episode,
@@ -171,7 +169,7 @@ if __name__ == '__main__':
     parser.add_argument(
         '--write', help='Saves the training logs', dest='write',
         action='store_true')
-        
+    parser.set_defaults(write=False)
     parser.add_argument(
         '--team_reward', help='Refers to adding the (potentially weighted) average reward of all agents to their individiual rewards', 
         choices=[None, 'mean', 'attention'], default=None)
