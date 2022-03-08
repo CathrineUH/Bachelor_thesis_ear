@@ -13,10 +13,9 @@ mess.ipynb
 Cmarl/src/__pycache__/*
 Cmarl/.github/*
 Cmarl/doc/*
-Cmarl/src/data/*
 Cmarl/src/logs/*
 Cmarl/src/out/*
-Cmarl/src/bachelor-env/*
+bachelor-env/*
 Cmarl/src/runs/*
 batchjob.sh
 create_env.sh
