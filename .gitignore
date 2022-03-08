@@ -1,6 +1,6 @@
 # Cathrine's files
 Illustration/*
-rl-medical-master/src/temp*
+
 
 # Theresa's files 
 __pycache__/*
@@ -10,6 +10,9 @@ temp/*
 bachelor-env/*
 Data_cropped/*
 mess.ipynb
-rl-medical-master/src/__pycache__/*
-
-
+Cmarl/src/__pycache__/*
+Cmarl/.github/*
+Cmarl/doc/*
+Cmarl/src/batchjob.sh
+Cmarl/src/create_env.sh
+Cmarl/src/data/*
