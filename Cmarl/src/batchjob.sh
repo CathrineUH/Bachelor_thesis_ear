@@ -15,7 +15,7 @@ mkdir -p "logs/"
 ### –- specify queue --
 #BSUB -q gpuv100
 ### -- set the job Name --
-#BSUB -J UNet
+#BSUB -J Cmarl
 ### -- ask for number of cores (default: 1) -- 
 #BSUB -n 1 
 ### -- Select the resources: 1 gpu in exclusive process mode --
@@ -32,8 +32,8 @@ mkdir -p "logs/"
 #BSUB -N 
 ### -- Specify the output and error file. %J is the job-id -- 
 ### -- -o and -e mean append, -oo and -eo mean overwrite -- 
-#BSUB -o logs/Unet%J.out 
-#BSUB -e logs/Unet%J.err 
+#BSUB -o logs/Cmarl%J.out 
+#BSUB -e logs/Cmarl%J.err 
 ### -- end of LSF options --
 
 # activate env
