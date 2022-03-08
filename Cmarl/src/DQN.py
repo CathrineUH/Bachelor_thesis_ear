@@ -110,7 +110,7 @@ if __name__ == '__main__':
         default='', type=str)
     parser.add_argument(
         '--landmarks', nargs='*', help='Landmarks to use in the images',
-        type=int, default=list(range(0, 6)))
+        type=int, default=[1])
     parser.add_argument(
         '--model_name', help='Models implemented are: Network3d, CommNet',
         default="CommNet", choices=['CommNet', 'Network3d'], type=str)
@@ -198,11 +198,11 @@ if __name__ == '__main__':
 
     # initial memory size must be less or equal than memory size
     init_memory_size = min(args.init_memory_size, args.memory_size)
-
     # check input files
+
     if args.task == 'play':
-        error_message = f"""Wrong input files {len(args.files)} for {args.task}
-                            task - should be 1 \'images.txt\' """
+        error_message = f"""Wrong input files {len(args.files)} 
+                            for {args.task} task - should be 1 \'images.txt\'"""
         assert len(args.files) == 1, (error_message)
     else:
         error_message = f"""Wrong input files {len(args.files)} for
