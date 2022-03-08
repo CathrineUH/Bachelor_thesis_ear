@@ -110,7 +110,7 @@ if __name__ == '__main__':
         default='', type=str)
     parser.add_argument(
         '--landmarks', nargs='*', help='Landmarks to use in the images',
-        type=int, default=[1])
+        type=int, default=list(range(0, 6)))
     parser.add_argument(
         '--model_name', help='Models implemented are: Network3d, CommNet',
         default="CommNet", choices=['CommNet', 'Network3d'], type=str)

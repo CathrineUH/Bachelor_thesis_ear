@@ -37,10 +37,10 @@ mkdir -p "logs/"
 ### -- end of LSF options --
 
 # activate env
-source unet-env/bin/activate
+source bachelor-env/bin/activate
 
 # load additional modules
 module load cuda/11.4
 
 # run scripts
-python main.py
+python DQN.py --task train --files data/filenames/training.txt data/filenames/training_landmark.txt --val_files data/filenames/validation.txt data/filenames/validation_landmark.txt  --model_name CommNet --multiscale --viz 0 --train_freq 50 --write
