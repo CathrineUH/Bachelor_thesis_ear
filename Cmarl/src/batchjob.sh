@@ -42,4 +42,4 @@ mkdir -p "logs/"
 module load cuda/11.4
 
 # run scripts
-python DQN.py --task train --model_name CommNet --landmarks 0 1 2 3 4 5 --viz 0 --train_freq 50 --write
+python DQN.py --task train --files data/filenames/training.txt data/filenames/training_landmark.txt --model_name CommNet --landmarks 0 1 2 3 4 5 --viz 0 --train_freq 50 --write
