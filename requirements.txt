@@ -7,4 +7,4 @@ pyglet
 tqdm 
 scipy 
 tensorboard 
-setuptools==5.9
+setuptools
