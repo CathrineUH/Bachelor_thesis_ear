@@ -3,3 +3,8 @@ numpy
 SimpleITK
 gym
 pillow
+pyglet 
+tqdm 
+scipy 
+tensorboard 
+setuptools==5.9
