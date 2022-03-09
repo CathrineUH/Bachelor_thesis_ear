@@ -84,7 +84,7 @@ if __name__ == '__main__':
         choices=['play', 'eval', 'train'], default='train')
     parser.add_argument(
         '--file_type', help='Type of the training and validation files',
-        choices=['brain', 'cardiac', 'fetal'], default='train')
+        choices=['brain',], default='train')
     parser.add_argument(
         '--files', type=argparse.FileType('r'), nargs='+',
         help="""Filepath to the text file that contains list of images.
@@ -109,7 +109,7 @@ if __name__ == '__main__':
         default='', type=str)
     parser.add_argument(
         '--landmarks', nargs='*', help='Landmarks to use in the images',
-        type=int, default=[1])
+        type=int, default=list(range(0,6)))
     parser.add_argument(
         '--model_name', help='Models implemented are: Network3d, CommNet',
         default="CommNet", choices=['CommNet', 'Network3d'], type=str)
