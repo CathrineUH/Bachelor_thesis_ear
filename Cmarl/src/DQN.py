@@ -29,7 +29,7 @@ os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 
 ###############################################################################
 # BREAKOUT (84,84) - MEDICAL 2D (60,60) - MEDICAL 3D (26,26,26)
-IMAGE_SIZE = (45, 45, 45)
+IMAGE_SIZE = (25, 25, 25)
 # how many frames to keep
 # in other words, how many observations the network can see
 FRAME_HISTORY = 4
@@ -84,7 +84,8 @@ if __name__ == '__main__':
         choices=['play', 'eval', 'train'], default='train')
     parser.add_argument(
         '--file_type', help='Type of the training and validation files',
-        choices=['brain',], default='train')
+        choices=['brain'], default='train')
+    parser.set_defaults(file_type='brain')
     parser.add_argument(
         '--files', type=argparse.FileType('r'), nargs='+',
         help="""Filepath to the text file that contains list of images.
@@ -169,7 +170,7 @@ if __name__ == '__main__':
     parser.add_argument(
         '--write', help='Saves the training logs', dest='write',
         action='store_true')
-    parser.set_defaults(write=False)
+    parser.set_defaults(write=True)
     parser.add_argument(
         '--team_reward', help='Refers to adding the (potentially weighted) average reward of all agents to their individiual rewards', 
         choices=[None, 'mean', 'attention'], default=None)
@@ -181,7 +182,7 @@ if __name__ == '__main__':
         '--train_freq',
         help="""Number of agent steps between each training step on one
                 mini-batch""",
-        default=1, type=int)
+        default=50, type=int)
     parser.add_argument(
         '--seed',
         help="Random seed for both training and evaluating. If none is provided, no seed will be set", type=int)
