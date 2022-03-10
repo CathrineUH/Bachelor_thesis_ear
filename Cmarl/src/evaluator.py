@@ -17,7 +17,9 @@ class Evaluator(object):
         results used when playing demos.
         """
         if fixed_spawn is None:
-            num_runs = 1 
+            num_runs = 1
+            fixed_spawn = np.array([0, 0, 0]).reshape(-1, 3)
+            fixed_spawn = np.stack([fixed_spawn for _ in range(self.agents)], axis=-1)
         else:
             # fixed_spawn should be, for example, [0.5 , 0.5 , 0.5, 0, 0, 0] for 2 runs
             # In the first run agents spawn in the middle and in the second they will spawn from the corner
@@ -41,7 +43,10 @@ class Evaluator(object):
         distances = []
         for j in range(num_runs):
             for k in range(num_files):
-                score, start_dists, q_values, info = self.play_one_episode(render, fixed_spawn=fixed_spawn[j])
+                if fixed_spawn == None:
+                    score, start_dists, q_values, info = self.play_one_episode(render)
+                else:
+                    score, start_dists, q_values, info = self.play_one_episode(render, fixed_spawn=fixed_spawn[j])
                 row = [j * num_files + k + 1] + list(chain.from_iterable(zip(
                     [info[f"filename_{i}"] for i in range(self.agents)],
                     [info[f"agent_xpos_{i}"] for i in range(self.agents)],
