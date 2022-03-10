@@ -43,7 +43,7 @@ class Evaluator(object):
         distances = []
         for j in range(num_runs):
             for k in range(num_files):
-                if fixed_spawn == None:
+                if fixed_spawn[j].any() == None:
                     score, start_dists, q_values, info = self.play_one_episode(render)
                 else:
                     score, start_dists, q_values, info = self.play_one_episode(render, fixed_spawn=fixed_spawn[j])
