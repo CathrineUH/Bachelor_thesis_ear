@@ -43,7 +43,10 @@ class Evaluator(object):
         distances = []
         for j in range(num_runs):
             for k in range(num_files):
-                score, start_dists, q_values, info = self.play_one_episode(render, fixed_spawn=fixed_spawn[j])
+                if fixed_spawn == None:
+                    score, start_dists, q_values, info = self.play_one_episode(render)
+                else:
+                    score, start_dists, q_values, info = self.play_one_episode(render, fixed_spawn=fixed_spawn[j])
                 row = [j * num_files + k + 1] + list(chain.from_iterable(zip(
                     [info[f"filename_{i}"] for i in range(self.agents)],
                     [info[f"agent_xpos_{i}"] for i in range(self.agents)],
