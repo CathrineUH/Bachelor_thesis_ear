@@ -186,23 +186,18 @@ class CommNet(nn.Module):
         input2 = []
         for i in range(self.agents):
             x = input1[:, i]
-            
             x = self.conv0(x)
             x = self.prelu0(x)
             x = self.maxpool0(x)
-
             x = self.conv1(x)
             x = self.prelu1(x)
             x = self.maxpool1(x)
-          
             x = self.conv2(x)
             x = self.prelu2(x)
             x = self.maxpool2(x)
-            
             x = self.conv3(x)
             x = self.prelu3(x)
             x = x.view(-1, 512)
-            
             input2.append(x)
         input2 = torch.stack(input2, dim=1)
          
