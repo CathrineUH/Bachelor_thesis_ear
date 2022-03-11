@@ -1,6 +1,7 @@
 from Dataloader import*
 import SimpleITK as sitk
 import numpy as np
+import shutil as sh
 
 
 def getEars(image):
@@ -27,25 +28,28 @@ def saveCropImage(path,name_of_folder):
     for j in files:
         i = int(j[1:5])
         scan = int(j[6])
-        im = loadImageFromFile(j)
+        im = loadImageFromFile(path,j)
         im_1,im_2 = getEars(im)
         im_1 = sitk.GetImageFromArray(im_1)
         im_2 = sitk.GetImageFromArray(im_2)
         i = str(i)
         scan = str(scan)
         if(len(i)==1):
-            sitk.WriteImage(im_1, "../"+name_of_folder+"\\ear1-P000"+ i +"_"+ scan +".nii.gz")
-            sitk.WriteImage(im_2, "../"+name_of_folder+"\\ear2-P000"+ i +"_"+ scan +".nii.gz")
+            sitk.WriteImage(im_1, name_of_folder+"\\ear1-P000"+ i +"_"+ scan +".nii.gz")
+            sitk.WriteImage(im_2, name_of_folder+"\\ear2-P000"+ i +"_"+ scan +".nii.gz")
         elif len(i)==2:
-            sitk.WriteImage(im_1, "../"+name_of_folder+"\\ear1-P00"+ i +"_"+ scan +".nii.gz")
-            sitk.WriteImage(im_2, "../"+name_of_folder+"\\ear2-P00"+ i +"_"+ scan +".nii.gz")
+            sitk.WriteImage(im_1, name_of_folder+"\\ear1-P00"+ i +"_"+ scan +".nii.gz")
+            sitk.WriteImage(im_2, name_of_folder+"\\ear2-P00"+ i +"_"+ scan +".nii.gz")
         elif len(i)==3:
-            sitk.WriteImage(im_1, "../"+name_of_folder+"\\ear1-P0"+ i +"_"+ scan +".nii.gz")
-            sitk.WriteImage(im_2, "../"+name_of_folder+"\\ear2-P0"+ i +"_"+ scan +".nii.gz")
+            sitk.WriteImage(im_1, name_of_folder+"\\ear1-P0"+ i +"_"+ scan +".nii.gz")
+            sitk.WriteImage(im_2, name_of_folder+"\\ear2-P0"+ i +"_"+ scan +".nii.gz")
         else:
-            sitk.WriteImage(im_1, "../"+name_of_folder+"\\ear1-P"+ i +"_"+ scan +".nii.gz")
-            sitk.WriteImage(im_2, "../"+name_of_folder+"\\ear2-P"+ i +"_"+ scan +".nii.gz")
-       
+            sitk.WriteImage(im_1, name_of_folder+"\\ear1-P"+ i +"_"+ scan +".nii.gz")
+            sitk.WriteImage(im_2, name_of_folder+"\\ear2-P"+ i +"_"+ scan +".nii.gz")
+    
+def moveImage(data_path,fileName,path_new,newFileName):
+    sh.move(data_path+"\\"+fileName,path_new+"\\"+newFileName)
+
 def flipImage(path):
     """
     The function flips and saves all the images in that path 
