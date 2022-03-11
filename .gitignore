@@ -5,6 +5,10 @@ Illustration/*
 # Theresa's files 
 __pycache__/*
 temp/*
+gifs/* 
+runs/* 
+models/*
+sh-files/*
 
 # other files 
 bachelor-env/*
