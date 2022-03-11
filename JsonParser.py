@@ -31,7 +31,7 @@ def change_coordinate_system(positions, file_name):
     return coordinates 
 
 
-def write_all_write_landmarks_to_txt(files, path_data, path_out, path_json):
+def write_all_landmarks_to_txt(files, path_data, path_out, path_json):
    for i in files:
        coordinates = read_ear_landmarks(path_json,path_data,i)
        file_name = path_out +"\\"+ i[0:12]
