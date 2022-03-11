@@ -1,15 +1,18 @@
 import SimpleITK as sitk
 import json
+import numpy as np
 
-# Tips:
-# https://github.com/InsightSoftwareConsortium/SimpleITK-Notebooks/blob/master/Utilities/intro_animation.py
-# https://stackoverflow.com/questions/30237024/operate-on-slices-of-3d-image-in-simpleitk-and-create-new-3d-image
-def read_aorta_landmarks():
-    full_name = 'C:/data/VideoMaterial/ABD_LYMPH_001/F.mrk.json'
-    f = open(full_name)
+def read_landmarks(path_json,path_data,full_name):
+    f = open(path_json+"\\"+full_name)
+    file_name = path_data +"\\"+ full_name[0:12]
+   
+    data = json.load(f)
+    t = data['markups'][0]['controlPoints']
+    Dict = {'C': 0, 'A': 1, 'R': 2, 'M': 3, 'T': 4, 'B': 5}
+    Coordinat = np.zeros((6,3))
+    for lm in range(6):
+        Coordinat[Dict[t[lm]['label']]] = t[lm]['position']
 
-    # https://slicer.readthedocs.io/en/latest/developer_guide/script_repository.html
-    # returns JSON object as a dictionary
     data = json.load(f)
     t = data['markups'][0]['controlPoints']
 
@@ -38,29 +41,14 @@ def read_aorta_landmarks():
     return bounds
 
 
-def crop_aorta_roi(bounds):
-    full_name = 'C:/data/VideoMaterial/ABD_LYMPH_001/abdominal_lymph_nodes.nrrd'
-    resampled_name = 'C:/data/test/abdominal_lymph_nodes_resampled.nrrd'
+def crop_roi(full_name,resampled_name,bounds,padding):
     image = sitk.ReadImage(full_name)
-    # print(image.GetOrigin())
-    # print(image.GetSize())
-    # print(image.GetSpacing())
-    # print(image.GetSize())
-    # print(image.GetWidth())
-    # print(image.GetHeight())
-    # print(image.GetDepth())
-    # print(image.GetPixelID())
-    # print(image.GetNumberOfComponentsPerPixel())
 
     # Create the sampled image with same direction
     direction = image.GetDirection()
 
     # Desired voxel spacing for new image
-    new_spacing = [0.25, 0.25, 0.25]
-
-    # adjust bounds
-    # Add some millimeters on each side
-    padding = 15
+    new_spacing = [1,1,1]
 
     # in slice size (max of x length and y length plus padding in both sides)
     max_l = max(bounds[1]-bounds[0], bounds[3]-bounds[2]) + 2 * padding
@@ -92,7 +80,3 @@ def crop_aorta_roi(bounds):
 
     sitk.WriteImage(resampled_image, resampled_name)
 
-
-if __name__ == '__main__':
-    bds = read_aorta_landmarks()
-    crop_aorta_roi(bds)
