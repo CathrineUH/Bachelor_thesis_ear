@@ -11,9 +11,9 @@ def getEars(image):
     Output: 
         im: 3D cropped image 
     """
-    return image[50:130, 80:160, 10:90],image[50:130, 80:160, 90:170]
+    return image[40:140, 60:160, 0:100],image[40:140, 60:160, 70:170]
 
-def saveCropImage(path):
+def saveCropImage(path,name_of_folder):
     """
     The function saves all the cropped image to the folder Data_cropped 
     
@@ -34,17 +34,17 @@ def saveCropImage(path):
         i = str(i)
         scan = str(scan)
         if(len(i)==1):
-            sitk.WriteImage(im_1, "../Data_cropped\\ear1-P000"+ i +"_"+ scan +".nii.gz")
-            sitk.WriteImage(im_2, "../Data_cropped\\ear2-P000"+ i +"_"+ scan +".nii.gz")
+            sitk.WriteImage(im_1, "../"+name_of_folder+"\\ear1-P000"+ i +"_"+ scan +".nii.gz")
+            sitk.WriteImage(im_2, "../"+name_of_folder+"\\ear2-P000"+ i +"_"+ scan +".nii.gz")
         elif len(i)==2:
-            sitk.WriteImage(im_1, "../Data_cropped\\ear1-P00"+ i +"_"+ scan +".nii.gz")
-            sitk.WriteImage(im_2, "../Data_cropped\\ear2-P00"+ i +"_"+ scan +".nii.gz")
+            sitk.WriteImage(im_1, "../"+name_of_folder+"\\ear1-P00"+ i +"_"+ scan +".nii.gz")
+            sitk.WriteImage(im_2, "../"+name_of_folder+"\\ear2-P00"+ i +"_"+ scan +".nii.gz")
         elif len(i)==3:
-            sitk.WriteImage(im_1, "../Data_cropped\\ear1-P0"+ i +"_"+ scan +".nii.gz")
-            sitk.WriteImage(im_2, "../Data_cropped\\ear2-P0"+ i +"_"+ scan +".nii.gz")
+            sitk.WriteImage(im_1, "../"+name_of_folder+"\\ear1-P0"+ i +"_"+ scan +".nii.gz")
+            sitk.WriteImage(im_2, "../"+name_of_folder+"\\ear2-P0"+ i +"_"+ scan +".nii.gz")
         else:
-            sitk.WriteImage(im_1, "../Data_cropped\\ear1-P"+ i +"_"+ scan +".nii.gz")
-            sitk.WriteImage(im_2, "../Data_cropped\\ear2-P"+ i +"_"+ scan +".nii.gz")
+            sitk.WriteImage(im_1, "../"+name_of_folder+"\\ear1-P"+ i +"_"+ scan +".nii.gz")
+            sitk.WriteImage(im_2, "../"+name_of_folder+"\\ear2-P"+ i +"_"+ scan +".nii.gz")
        
 def flipImage(path):
     """

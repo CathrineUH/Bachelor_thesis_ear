@@ -1,11 +1,11 @@
 import SimpleITK as sitk
 import json
 import numpy as np
+from sqlalchemy import true
 
-def read_landmarks(path_json,path_data,full_name):
+def compute_center_of_mass(path_json,full_name):
     f = open(path_json+"\\"+full_name)
-    file_name = path_data +"\\"+ full_name[0:12]
-   
+
     data = json.load(f)
     t = data['markups'][0]['controlPoints']
     Dict = {'C': 0, 'A': 1, 'R': 2, 'M': 3, 'T': 4, 'B': 5}
@@ -13,35 +13,25 @@ def read_landmarks(path_json,path_data,full_name):
     for lm in range(6):
         Coordinat[Dict[t[lm]['label']]] = t[lm]['position']
 
-    data = json.load(f)
-    t = data['markups'][0]['controlPoints']
-
-    first = True
-    xmin = xmax = ymax = ymin = zmin = zmax = 0
-    for lm in t:
-        pos = lm['position']
+    xmean = ymean = zmean = 0
+    for lm in Coordinat:
+        pos = lm
         x = pos[0]
         y = pos[1]
         z = pos[2]
-        if first:
-            first = False
-            xmin = xmax = x
-            ymin = ymax = y
-            zmin = zmax = z
-        else:
-            xmin = min(xmin, x)
-            xmax = max(xmax, x)
-            ymin = min(ymin, y)
-            ymax = max(ymax, y)
-            zmin = min(zmin, z)
-            zmax = max(zmax, z)
-
+        xmean += x
+        ymean += y
+        zmean += z
+    
+    xmean /= 6
+    ymean /= 6
+    zmean /= 6
     f.close()
-    bounds = [xmin, xmax, ymin, ymax, zmin, zmax]
+    bounds = [xmean, ymean, zmean]
     return bounds
 
 
-def crop_roi(full_name,resampled_name,bounds,padding):
+def crop_roi(full_name,resampled_name,bounds,radius):
     image = sitk.ReadImage(full_name)
 
     # Create the sampled image with same direction
@@ -51,16 +41,15 @@ def crop_roi(full_name,resampled_name,bounds,padding):
     new_spacing = [1,1,1]
 
     # in slice size (max of x length and y length plus padding in both sides)
-    max_l = max(bounds[1]-bounds[0], bounds[3]-bounds[2]) + 2 * padding
+    max_l = max(bounds[0],bounds[1]) + 2 * radius
     nvox_xy = int(max_l / new_spacing[0] + 1)
     new_l_xy = nvox_xy * new_spacing[0]
-    nvox_z = int((bounds[5] - bounds[4] + 2 * padding) / new_spacing[2])
-    print('Size of new volume: ', nvox_xy, nvox_xy, nvox_z, ' voxels')
+    nvox_z = int((bounds[2] + 2 * radius) / new_spacing[2])
 
     # Compute new origin from center of old bounds
-    new_origin_x = (bounds[1] + bounds[0]) / 2 - new_l_xy / 2
-    new_origin_y = (bounds[3] + bounds[2]) / 2 - new_l_xy / 2
-    new_origin_z = (bounds[5] + bounds[4]) / 2 - nvox_z * new_spacing[2] / 2
+    new_origin_x = (bounds[0])- new_l_xy 
+    new_origin_y = (bounds[1]) - new_l_xy 
+    new_origin_z = (bounds[2]) - nvox_z * new_spacing[2]
 
     # Size in number of voxels per side
     # new_size = [100, 100, 100]
