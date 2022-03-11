@@ -12,7 +12,7 @@ sh-files/*
 
 # other files 
 bachelor-env/*
-Data_cropped/*
+Data_cropped_80/*
 mess.ipynb
 Cmarl/src/__pycache__/*
 Cmarl/.github/*
