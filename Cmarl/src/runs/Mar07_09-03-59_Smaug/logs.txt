@@ -1,0 +1,3 @@
+Logs from runs\Mar07_09-03-59_Smaug
+DQN.py --task train --files data/filenames/image_files.txt data/filenames/landmark_files.txt --model_name CommNet --file_type brain --landmarks 13 14 0 1 2 --multiscale --viz 0 --train_freq 50 --write
+
