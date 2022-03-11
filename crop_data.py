@@ -50,6 +50,10 @@ def saveCropImage(path,name_of_folder):
 def moveImage(data_path,fileName,path_new,newFileName):
     sh.move(data_path+"\\"+fileName,path_new+"\\"+newFileName)
 
+def copyImage(data_path,FileName,newPath):
+    sh.copy(data_path+"\\"+FileName,newPath,follow_symlinks=True)
+
+
 def flipImage(path):
     """
     The function flips and saves all the images in that path 
@@ -64,10 +68,10 @@ def flipImage(path):
     nr = 0
     for j in files:
         if(j[3]==str(1)):
-            im = loadImageFromFile(j)
+            im = loadImageFromFile(path,j)
             flipped_img = np.flip(im,axis=2)
             flipped_img  = sitk.GetImageFromArray(flipped_img)
-            sitk.WriteImage(flipped_img, j)
+            sitk.WriteImage(flipped_img, path +"\\"+ j)
         nr+=1    
    
 
