@@ -29,7 +29,6 @@ def saveCropImage(path,name_of_folder):
         i = int(j[1:5])
         scan = int(j[6])
         im = loadImageFromFile(path,j)
-        im = sitk.GetImageFromArray(im)
         im_1,im_2 = getEars(im)
         i = str(i)
         scan = str(scan)
