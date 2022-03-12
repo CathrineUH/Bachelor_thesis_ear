@@ -32,3 +32,12 @@ def loadTraining(path):
     la = 100
     return la 
 
+def changetxtfile(path,filename,txtfile,nr):
+    f = open(path +"\\"+filename, "r+")
+    l = f.readlines()
+    with open(txtfile,'a') as file:
+        for i in l:
+            first = i[0:24]
+            last = i[24:]
+            temp = first + nr +"/"+last
+            file.write(temp)
