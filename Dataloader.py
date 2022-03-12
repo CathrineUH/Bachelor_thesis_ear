@@ -25,10 +25,19 @@ def loadImageFromFile(path,file_name):
         im: Images as a numpy array.
     """
     im = sitk.ReadImage(path +"\\"+ file_name)
-    return sitk.GetArrayFromImage(im)
+    return im
 
 
 def loadTraining(path):
     la = 100
     return la 
 
+def changetxtfile(path,filename,txtfile,nr):
+    f = open(path +"\\"+filename, "r+")
+    l = f.readlines()
+    with open(txtfile,'a') as file:
+        for i in l:
+            first = i[0:24]
+            last = i[24:]
+            temp = first + nr +"/"+last
+            file.write(temp)

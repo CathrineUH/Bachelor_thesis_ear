@@ -12,7 +12,7 @@ def getEars(image):
     Output: 
         im: 3D cropped image 
     """
-    return image[40:140, 60:160, 0:100],image[40:140, 60:160, 70:170]
+    return image[50:160, 40:150, 40:150], image[0:110, 40:150, 40:150]
 
 def saveCropImage(path,name_of_folder):
     """
@@ -30,8 +30,6 @@ def saveCropImage(path,name_of_folder):
         scan = int(j[6])
         im = loadImageFromFile(path,j)
         im_1,im_2 = getEars(im)
-        im_1 = sitk.GetImageFromArray(im_1)
-        im_2 = sitk.GetImageFromArray(im_2)
         i = str(i)
         scan = str(scan)
         if(len(i)==1):
