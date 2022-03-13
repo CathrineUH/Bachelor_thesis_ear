@@ -1,0 +1,119 @@
+{
+    "@schema": "https://raw.githubusercontent.com/slicer/slicer/master/Modules/Loadable/Markups/Resources/Schema/markups-schema-v1.0.3.json#",
+    "markups": [
+        {
+            "type": "Fiducial",
+            "coordinateSystem": "LPS",
+            "coordinateUnits": "mm",
+            "locked": false,
+            "fixedNumberOfControlPoints": false,
+            "labelFormat": "%N-%d",
+            "lastUsedControlPointNumber": 7,
+            "controlPoints": [
+                {
+                    "id": "1",
+                    "label": "C",
+                    "description": "",
+                    "associatedNodeID": "vtkMRMLScalarVolumeNode25",
+                    "position": [-38.308538028506088, 7.591247048455077, -75.6180708296621],
+                    "orientation": [-1.0, -0.0, -0.0, -0.0, -1.0, -0.0, 0.0, 0.0, 1.0],
+                    "selected": true,
+                    "locked": false,
+                    "visibility": true,
+                    "positionStatus": "defined"
+                },
+                {
+                    "id": "2",
+                    "label": "A",
+                    "description": "",
+                    "associatedNodeID": "vtkMRMLScalarVolumeNode25",
+                    "position": [-35.777758227264758, 7.8401734124048449, -76.31911662708686],
+                    "orientation": [-1.0, -0.0, -0.0, -0.0, -1.0, -0.0, 0.0, 0.0, 1.0],
+                    "selected": true,
+                    "locked": false,
+                    "visibility": true,
+                    "positionStatus": "defined"
+                },
+                {
+                    "id": "4",
+                    "label": "R",
+                    "description": "",
+                    "associatedNodeID": "vtkMRMLScalarVolumeNode25",
+                    "position": [-34.0776000352518, 8.79268046031848, -81.6526478028555],
+                    "orientation": [-1.0, -0.0, -0.0, -0.0, -1.0, -0.0, 0.0, 0.0, 1.0],
+                    "selected": true,
+                    "locked": false,
+                    "visibility": true,
+                    "positionStatus": "defined"
+                },
+                {
+                    "id": "5",
+                    "label": "M",
+                    "description": "",
+                    "associatedNodeID": "vtkMRMLScalarVolumeNode25",
+                    "position": [-33.67836741185201, 7.920494430619451, -71.69638417839342],
+                    "orientation": [-1.0, -0.0, -0.0, -0.0, -1.0, -0.0, 0.0, 0.0, 1.0],
+                    "selected": true,
+                    "locked": false,
+                    "visibility": true,
+                    "positionStatus": "defined"
+                },
+                {
+                    "id": "6",
+                    "label": "T",
+                    "description": "",
+                    "associatedNodeID": "vtkMRMLScalarVolumeNode25",
+                    "position": [-32.60457877346434, 6.535302686316108, -63.81730123735463],
+                    "orientation": [-1.0, -0.0, -0.0, -0.0, -1.0, -0.0, 0.0, 0.0, 1.0],
+                    "selected": true,
+                    "locked": false,
+                    "visibility": true,
+                    "positionStatus": "defined"
+                },
+                {
+                    "id": "7",
+                    "label": "B",
+                    "description": "",
+                    "associatedNodeID": "vtkMRMLScalarVolumeNode25",
+                    "position": [-29.078407511301778, -0.7138470646218806, -60.285091512948458],
+                    "orientation": [-1.0, -0.0, -0.0, -0.0, -1.0, -0.0, 0.0, 0.0, 1.0],
+                    "selected": true,
+                    "locked": false,
+                    "visibility": true,
+                    "positionStatus": "defined"
+                }
+            ],
+            "measurements": [],
+            "display": {
+                "visibility": true,
+                "opacity": 1.0,
+                "color": [0.4, 1.0, 0.0],
+                "selectedColor": [1.0, 0.5000076295109484, 0.5000076295109484],
+                "activeColor": [0.4, 1.0, 0.0],
+                "propertiesLabelVisibility": false,
+                "pointLabelsVisibility": true,
+                "textScale": 3.0,
+                "glyphType": "Sphere3D",
+                "glyphScale": 1.0,
+                "glyphSize": 5.0,
+                "useGlyphScale": true,
+                "sliceProjection": false,
+                "sliceProjectionUseFiducialColor": true,
+                "sliceProjectionOutlinedBehindSlicePlane": false,
+                "sliceProjectionColor": [1.0, 1.0, 1.0],
+                "sliceProjectionOpacity": 0.6,
+                "lineThickness": 0.2,
+                "lineColorFadingStart": 1.0,
+                "lineColorFadingEnd": 10.0,
+                "lineColorFadingSaturation": 1.0,
+                "lineColorFadingHueOffset": 0.0,
+                "handlesInteractive": false,
+                "translationHandleVisibility": true,
+                "rotationHandleVisibility": true,
+                "scaleHandleVisibility": true,
+                "interactionHandleScale": 3.0,
+                "snapMode": "toVisibleSurface"
+            }
+        }
+    ]
+}
