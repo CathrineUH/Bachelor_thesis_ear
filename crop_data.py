@@ -67,15 +67,8 @@ def flipImage(path):
     for j in files:
         if(j[3]==str(1)):
             im = loadImageFromFile(path,j)
-            newSpace = im.GetSpacing()
-            newOrgin = im.GetOrigin()
-            im = sitk.GetArrayFromImage(im)
-            flipped_img = np.flip(im,axis=2)
-            flipped_img  = sitk.GetImageFromArray(flipped_img)
-            flipped_img.SetOrigin(newOrgin)
-            flipped_img.SetSpacing(newSpace)
+            flipped_img = sitk.Flip(im, [True, False, False])
             sitk.WriteImage(flipped_img, path +"\\"+ j)
-        nr+=1    
    
 
         
