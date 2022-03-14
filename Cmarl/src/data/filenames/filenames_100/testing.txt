@@ -5,7 +5,6 @@
 ./Cmarl/src/data/images/image_100/ear1-P1170_1.nii.gz
 ./Cmarl/src/data/images/image_100/ear2-P0060_1.nii.gz
 ./Cmarl/src/data/images/image_100/ear2-P0060_2.nii.gz
-./Cmarl/src/data/images/image_100/ear2-P0317_1.nii.gz
 ./Cmarl/src/data/images/image_100/ear2-P0407_1.nii.gz
 ./Cmarl/src/data/images/image_100/ear2-P1051_1.nii.gz
 ./Cmarl/src/data/images/image_100/ear2-P1051_2.nii.gz
