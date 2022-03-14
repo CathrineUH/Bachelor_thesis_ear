@@ -12,7 +12,7 @@
             "controlPoints": [
                 {
                     "id": "1",
-                    "label": "F_22-1",
+                    "label": "C",
                     "description": "",
                     "associatedNodeID": "vtkMRMLScalarVolumeNode19",
                     "position": [115.39745794449749, 119.4973373413086, -72.4472057959349],
@@ -24,7 +24,7 @@
                 },
                 {
                     "id": "2",
-                    "label": "F_22-2",
+                    "label": "A",
                     "description": "",
                     "associatedNodeID": "vtkMRMLScalarVolumeNode19",
                     "position": [112.38619300490194, 119.4973373413086, -75.96034822546305],
@@ -36,7 +36,7 @@
                 },
                 {
                     "id": "3",
-                    "label": "F_22-3",
+                    "label": "R",
                     "description": "",
                     "associatedNodeID": "vtkMRMLScalarVolumeNode19",
                     "position": [110.34029364585877, 118.52192750524303, -75.98670046446753],
@@ -48,7 +48,7 @@
                 },
                 {
                     "id": "4",
-                    "label": "F_22-4",
+                    "label": "M",
                     "description": "",
                     "associatedNodeID": "vtkMRMLScalarVolumeNode19",
                     "position": [110.34029364585877, 117.74909378158964, -68.25836322793357],
@@ -60,7 +60,7 @@
                 },
                 {
                     "id": "5",
-                    "label": "F_22-5",
+                    "label": "T",
                     "description": "",
                     "associatedNodeID": "vtkMRMLScalarVolumeNode19",
                     "position": [109.3402886390686, 117.74909378158964, -62.07569343870641],
@@ -72,7 +72,7 @@
                 },
                 {
                     "id": "6",
-                    "label": "F_22-6",
+                    "label": "B",
                     "description": "",
                     "associatedNodeID": "vtkMRMLScalarVolumeNode19",
                     "position": [104.24437158018628, 129.92724388336468, -57.945716857910159],
