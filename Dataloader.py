@@ -37,7 +37,7 @@ def changetxtfile(path,filename,txtfile,nr):
     l = f.readlines()
     with open(txtfile,'a') as file:
         for i in l:
-            first = i[0:24]
-            last = i[24:]
-            temp = first + nr +"/"+last
+            first = i[0:27]
+            last = i[27:]
+            temp = first +"landmarks_"+ nr +"/"+last
             file.write(temp)
