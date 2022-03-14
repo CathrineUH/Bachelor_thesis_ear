@@ -12,11 +12,8 @@
 ./Cmarl/src/data/landmarks/landmarks_100/ear1-P0392_2.txt
 ./Cmarl/src/data/landmarks/landmarks_100/ear1-P0403_1.txt
 ./Cmarl/src/data/landmarks/landmarks_100/ear1-P0493_1.txt
-./Cmarl/src/data/landmarks/landmarks_100/ear1-P0504_2.txt
-./Cmarl/src/data/landmarks/landmarks_100/ear1-P0517_2.txt
 ./Cmarl/src/data/landmarks/landmarks_100/ear1-P0534_1.txt
 ./Cmarl/src/data/landmarks/landmarks_100/ear1-P0557_2.txt
-./Cmarl/src/data/landmarks/landmarks_100/ear1-P0572_1.txt
 ./Cmarl/src/data/landmarks/landmarks_100/ear1-P0581_2.txt
 ./Cmarl/src/data/landmarks/landmarks_100/ear1-P0642_1.txt
 ./Cmarl/src/data/landmarks/landmarks_100/ear1-P0642_2.txt
@@ -39,7 +36,6 @@
 ./Cmarl/src/data/landmarks/landmarks_100/ear2-P0124_2.txt
 ./Cmarl/src/data/landmarks/landmarks_100/ear2-P0326_1.txt
 ./Cmarl/src/data/landmarks/landmarks_100/ear2-P0361_1.txt
-./Cmarl/src/data/landmarks/landmarks_100/ear2-P0361_2.txt
 ./Cmarl/src/data/landmarks/landmarks_100/ear2-P0392_1.txt
 ./Cmarl/src/data/landmarks/landmarks_100/ear2-P0406_1.txt
 ./Cmarl/src/data/landmarks/landmarks_100/ear2-P0536_1.txt
