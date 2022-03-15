@@ -15,7 +15,7 @@ def getEars(image,nr=80):
     if nr==110:
         return image[50:160, 40:150, 40:150], image[0:110, 40:150, 40:150]
     else:
-        return image[80:160, 70:150, 40:120], image[10:90, 80:160, 40:120]
+        return image[80:160, 70:150, 40:120], image[10:90, 70:150, 40:120]
 
 def saveCropImage(path,name_of_folder,nr = 80):
     """
