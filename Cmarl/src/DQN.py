@@ -115,7 +115,7 @@ if __name__ == '__main__':
         '--model_name', help='Models implemented are: Network3d, CommNet',
         default="CommNet", choices=['CommNet', 'Network3d'], type=str)
     parser.add_argument(
-        '--batch_size', help='Size of each batch', default=2, type=int)
+        '--batch_size', help='Size of each batch', default=32, type=int)
     parser.add_argument(
         '--memory_size',
         help="""Number of transitions stored in exp replay buffer.
