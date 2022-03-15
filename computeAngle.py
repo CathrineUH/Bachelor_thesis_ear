@@ -13,7 +13,7 @@ def compute_angle(results, is_degrees=True):
     if is_degrees != True:
         is_degrees = False
     
-    df = pd.read_csv(file, delimiter=',')
+    df = pd.read_csv(results, delimiter=',')
     m, _ = df.shape 
     angles_est = np.zeros((m, 1))
     angles_ann = np.zeros((m, 1))
