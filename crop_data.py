@@ -4,7 +4,7 @@ import numpy as np
 import shutil as sh
 
 
-def getEars(image):
+def getEars(image,nr=80):
     """
     The function crops the image to get the ears(left and rigth)
     Input: 
@@ -12,9 +12,12 @@ def getEars(image):
     Output: 
         im: 3D cropped image 
     """
-    return image[50:160, 40:150, 40:150], image[0:110, 40:150, 40:150]
+    if nr==110:
+        return image[50:160, 40:150, 40:150], image[0:110, 40:150, 40:150]
+    else:
+        return image[80:160, 70:150, 40:120], image[10:90, 70:150, 40:120]
 
-def saveCropImage(path,name_of_folder):
+def saveCropImage(path,name_of_folder,nr = 80):
     """
     The function saves all the cropped image to the folder Data_cropped 
     
@@ -22,14 +25,14 @@ def saveCropImage(path,name_of_folder):
         path: path to file location 
 
     Output: 
-        Files to the folder Data_cropped of the cropped images
+        Files to the folder of the cropped images
     """
     files = getFiles(path)
     for j in files:
         i = int(j[1:5])
         scan = int(j[6])
         im = loadImageFromFile(path,j)
-        im_1,im_2 = getEars(im)
+        im_1,im_2 = getEars(im,nr)
         i = str(i)
         scan = str(scan)
         if(len(i)==1):
@@ -63,7 +66,6 @@ def flipImage(path):
         Saves the flip image in the same path
     """
     files = getFiles(path)
-    nr = 0
     for j in files:
         if(j[3]==str(1)):
             im = loadImageFromFile(path,j)
