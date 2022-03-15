@@ -66,7 +66,6 @@ def flipImage(path):
         Saves the flip image in the same path
     """
     files = getFiles(path)
-    nr = 0
     for j in files:
         if(j[3]==str(1)):
             im = loadImageFromFile(path,j)
