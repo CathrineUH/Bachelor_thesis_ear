@@ -8,6 +8,7 @@ import csv
 import wandb
 
 
+
 class Logger(object):
     def __init__(self, directory, write, save_freq=10, comment="", project = ''):
         self.parent_dir = directory
@@ -20,10 +21,11 @@ class Logger(object):
             self.boardWriter = SummaryWriter(comment=comment)
             self.dir = self.boardWriter.log_dir
             self.log(f"Logs from {self.dir}\n{' '.join(sys.argv)}\n")
-        dit_wan ='./Tensorboard/'+ self.dir+ "/"
-        os.makedirs(dit_wan)
+        dir_wan ='./Tensorboard/'+ self.dir+ "/"
+        os.makedirs(dir_wan)
         wandb.init(project = project, name = self.dir, dir = dir_wan)
         wandb.init(sync_tensorboard=True) 
+        
     def write_to_board(self, name, scalars, index=0):
         self.log(f"{name} at {index}: {str(scalars)}")
         if self.write:
