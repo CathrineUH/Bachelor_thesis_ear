@@ -7,7 +7,6 @@ from torch.utils.tensorboard import SummaryWriter
 import csv
 import wandb
 
-
 class Logger(object):
     def __init__(self, directory, write, save_freq=10, comment="", project =""):
         self.parent_dir = directory
@@ -21,14 +20,14 @@ class Logger(object):
             self.dir = self.boardWriter.log_dir
             self.log(f"Logs from {self.dir}\n{' '.join(sys.argv)}\n")
         
-        wandb_defaults = {
-            "name" : self.dir,
-            "dir" : "./Tensorboard/"+ self.dir,
-            "project": "Ear_project_" + project,
-        }
-        os.makedirs(wandb_defaults["dir"]+"/wandb")
-        self.wandb_run = wandb.init(**wandb_defaults)
-        wandb.tensorboard.patch(save=False, tensorboardX=True)
+        # wandb_defaults = {
+        #     "name" : self.dir,
+        #     "dir" : "./Tensorboard/"+ self.dir,
+        #     "project": "Ear_project_" + project,
+        # }
+        # os.makedirs(wandb_defaults["dir"]+"/wandb")
+        # self.wandb_run = wandb.init(**wandb_defaults)
+        # wandb.tensorboard.patch(save=False, tensorboardX=True)
 
     def write_to_board(self, name, scalars, index=0):
         self.log(f"{name} at {index}: {str(scalars)}")
