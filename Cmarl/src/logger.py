@@ -5,6 +5,7 @@ import torch
 import sys
 from torch.utils.tensorboard import SummaryWriter
 import csv
+import wandb
 
 
 class Logger(object):
