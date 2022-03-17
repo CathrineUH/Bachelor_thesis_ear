@@ -7,8 +7,6 @@ from torch.utils.tensorboard import SummaryWriter
 import csv
 import wandb
 
-
-
 class Logger(object):
     def __init__(self, directory, write, save_freq=10, comment="", project = ''):
         self.parent_dir = directory
