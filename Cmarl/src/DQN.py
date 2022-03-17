@@ -189,6 +189,10 @@ if __name__ == '__main__':
     parser.add_argument(
         '--fixed_spawn', nargs='*',  type=float,
         help='Starting position of the agents during rollout. Randomised if not specified.',)
+
+    parser.add_argument(
+        '--project', help='Type of the training and validation files',
+        choices=['train','eval','test'], default='train')
     args = parser.parse_args()
 
     agents = len(args.landmarks)
