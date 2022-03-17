@@ -23,8 +23,8 @@ class Logger(object):
             self.log(f"Logs from {self.dir}\n{' '.join(sys.argv)}\n")
         dir_wan ='./Tensorboard/'+ self.dir+ "/"
         os.makedirs(dir_wan)
-        wandb.init(project = project, name = self.dir, dir = dir_wan)
-        wandb.init(sync_tensorboard=True) 
+        run = wandb.init(project = project, name = self.dir, dir = dir_wan, monitor_gym = True,save_code = True)
+        wandb.tensorboard.patch(save=False)
         
     def write_to_board(self, name, scalars, index=0):
         self.log(f"{name} at {index}: {str(scalars)}")
