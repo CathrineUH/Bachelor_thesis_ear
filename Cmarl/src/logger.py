@@ -5,6 +5,7 @@ import torch
 import sys
 from torch.utils.tensorboard import SummaryWriter
 import csv
+import wandb
 
 
 class Logger(object):
@@ -19,6 +20,8 @@ class Logger(object):
             self.boardWriter = SummaryWriter(comment=comment)
             self.dir = self.boardWriter.log_dir
             self.log(f"Logs from {self.dir}\n{' '.join(sys.argv)}\n")
+        
+        wandb.init(project = self.dir, entity="thecat", sync_tensorboard = True)
 
     def write_to_board(self, name, scalars, index=0):
         self.log(f"{name} at {index}: {str(scalars)}")
