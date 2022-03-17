@@ -21,11 +21,15 @@ class Logger(object):
             self.boardWriter = SummaryWriter(comment=comment)
             self.dir = self.boardWriter.log_dir
             self.log(f"Logs from {self.dir}\n{' '.join(sys.argv)}\n")
-        dir_wan ='./Tensorboard/'+ self.dir+ "/"
-        os.makedirs(dir_wan)
-        run = wandb.init(project = project, name = self.dir, dir = dir_wan, monitor_gym = True,save_code = True)
-        wandb.tensorboard.patch(save=False)
         
+        wandb_defaults = {
+            "sync_tensorboard" : True,
+            "name" : self.dir
+            "dir" : "./Tensorboard/"+ self.dir
+            "project": "Ear_project" + project,
+        }
+        os.makedirs(wandb_defaults["dir"]+"/wandb")
+        self.wandb_run = wandb.init(**wandb_defaults)
     def write_to_board(self, name, scalars, index=0):
         self.log(f"{name} at {index}: {str(scalars)}")
         if self.write:
