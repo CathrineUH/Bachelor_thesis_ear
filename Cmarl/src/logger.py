@@ -24,8 +24,8 @@ class Logger(object):
         
         wandb_defaults = {
             "sync_tensorboard" : True,
-            "name" : self.dir
-            "dir" : "./Tensorboard/"+ self.dir
+            "name" : self.dir,
+            "dir" : "./Tensorboard/"+ self.dir,
             "project": "Ear_project" + project,
         }
         os.makedirs(wandb_defaults["dir"]+"/wandb")
