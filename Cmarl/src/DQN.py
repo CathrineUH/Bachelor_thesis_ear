@@ -217,7 +217,7 @@ if __name__ == '__main__':
     if args.seed is not None:
         set_reproducible(args.seed)
 
-    logger = Logger(args.log_dir, args.write, args.save_freq, comment=args.log_comment)
+    logger = Logger(args.log_dir, args.write, args.save_freq, comment=args.log_comment, project=args.project)
 
     if args.task != 'train':
         dqn = DQN(agents, frame_history=FRAME_HISTORY, logger=logger,

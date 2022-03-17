@@ -8,7 +8,7 @@ import csv
 
 
 class Logger(object):
-    def __init__(self, directory, write, save_freq=10, comment=""):
+    def __init__(self, directory, write, save_freq=10, comment="", project =""):
         self.parent_dir = directory
         self.write = write
         self.dir = ""
