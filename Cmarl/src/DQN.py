@@ -189,6 +189,9 @@ if __name__ == '__main__':
     parser.add_argument(
         '--fixed_spawn', nargs='*',  type=float,
         help='Starting position of the agents during rollout. Randomised if not specified.',)
+    parser.add_argument(
+        '--project', help='Models implemented are: Network3d, CommNet',
+        default="Train", choices=['Train', 'Eval','test'], type=str,)
     args = parser.parse_args()
 
     agents = len(args.landmarks)
@@ -213,7 +216,7 @@ if __name__ == '__main__':
     if args.seed is not None:
         set_reproducible(args.seed)
 
-    logger = Logger(args.log_dir, args.write, args.save_freq, comment=args.log_comment)
+    logger = Logger(args.log_dir, args.write, args.save_freq, comment=args.log_comment, project = args.project)
 
     if args.task != 'train':
         dqn = DQN(agents, frame_history=FRAME_HISTORY, logger=logger,
