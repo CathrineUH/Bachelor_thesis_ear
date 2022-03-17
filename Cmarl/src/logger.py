@@ -20,7 +20,7 @@ class Logger(object):
             self.boardWriter = SummaryWriter(comment=comment)
             self.dir = self.boardWriter.log_dir
             self.log(f"Logs from {self.dir}\n{' '.join(sys.argv)}\n")
-        
+        os.makedirs('./Tensorboard/'+ self.dir + '/wandb')
         wandb.init(project = project , name = self.dir, dir = './Tensorboard/', entity="thecat", sync_tensorboard = True)
 
     def write_to_board(self, name, scalars, index=0):
