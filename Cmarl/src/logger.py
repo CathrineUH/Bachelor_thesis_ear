@@ -18,8 +18,8 @@ class Logger(object):
 
         if self.write:
             wandb_defaults = {
-                "name" : self.dir + comment,
-                "dir" : "./Tensorboard/"+ self.dir + comment,
+                "name" : self.dir,
+                "dir" : "./Tensorboard/"+ self.dir,
                 "project": "Ear_project_" + project,
             }
             os.makedirs(wandb_defaults["dir"]+"/wandb")
