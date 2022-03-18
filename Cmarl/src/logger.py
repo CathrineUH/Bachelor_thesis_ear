@@ -15,19 +15,19 @@ class Logger(object):
         self.fig_index = 0
         self.model_index = 0
         self.save_freq = save_freq
+
         if self.write:
+            wandb_defaults = {
+                "name" : self.dir + comment,
+                "dir" : "./Tensorboard/"+ self.dir + comment,
+                "project": "Ear_project_" + project,
+            }
+            os.makedirs(wandb_defaults["dir"]+"/wandb")
+            self.wandb_run = wandb.init(**wandb_defaults)
+            wandb.tensorboard.patch(save=False, tensorboardX=True)
             self.boardWriter = SummaryWriter(comment=comment)
             self.dir = self.boardWriter.log_dir
             self.log(f"Logs from {self.dir}\n{' '.join(sys.argv)}\n")
-        
-        # wandb_defaults = {
-        #     "name" : self.dir,
-        #     "dir" : "./Tensorboard/"+ self.dir,
-        #     "project": "Ear_project_" + project,
-        # }
-        # os.makedirs(wandb_defaults["dir"]+"/wandb")
-        # self.wandb_run = wandb.init(**wandb_defaults)
-        # wandb.tensorboard.patch(save=False, tensorboardX=True)
 
     def write_to_board(self, name, scalars, index=0):
         self.log(f"{name} at {index}: {str(scalars)}")
