@@ -267,7 +267,7 @@ if __name__ == '__main__':
 
             dqn = DQN(agents, frame_history=FRAME_HISTORY, logger=logger,
                   type=args.model_name, collective_rewards=args.team_reward, attention=args.attention)
-            model = dqn.q_network
+            model = dqn.q_network 
             model.load_state_dict(torch.load(args.load, map_location=model.device))
             trainer = Trainer(environment,
                             eval_env=eval_env,
@@ -289,7 +289,7 @@ if __name__ == '__main__':
                             lr=lr,
                             scheduler_gamma=args.scheduler_gamma,
                             scheduler_step_size=args.scheduler_step_size,
-                            dqn = model,
+                            dqn = dqn,
                             eps = eps,
                             episode = episode
                             ).train()

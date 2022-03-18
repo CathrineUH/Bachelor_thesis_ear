@@ -36,6 +36,7 @@ class Trainer(object):
                  dqn = None,
                  episode = None
                 ):
+        self.episode = episode 
         self.env = env
         self.eval_env = eval_env
         self.agents = env.agents
@@ -85,10 +86,11 @@ class Trainer(object):
     def train(self):
         self.logger.log(self.dqn.q_network)
         self.init_memory()
+        episode = self.episode 
         if episode == None:
             episode = 1
         else:
-            episode = episode
+            episode = episode + 1
         acc_steps = 0
         epoch_distances = []
         while episode <= self.max_episodes:
