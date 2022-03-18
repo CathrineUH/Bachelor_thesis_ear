@@ -6,6 +6,7 @@ import sys
 from torch.utils.tensorboard import SummaryWriter
 import csv
 import wandb
+from datetime import datetime as t
 
 class Logger(object):
     def __init__(self, directory, write, save_freq=10, comment="", project =""):
@@ -18,8 +19,8 @@ class Logger(object):
 
         if self.write:
             wandb_defaults = {
-                "name" : self.dir,
-                "dir" : "./Tensorboard/"+ self.dir,
+                "name" : t.strftime("%b%d_%H-%M-%S")+comment,
+                "dir" : "./Tensorboard/"+ t.strftime("%b%d_%H-%M-%S")+comment,
                 "project": "Ear_project_" + project,
             }
             os.makedirs(wandb_defaults["dir"]+"/wandb")
