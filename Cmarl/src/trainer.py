@@ -2,7 +2,6 @@ from fileinput import filename
 from fnmatch import fnmatch
 import torch
 import numpy as np
-from zmq import EVENT_CLOSE_FAILED
 from expreplay import ReplayMemory
 from DQNModel import DQN
 from evaluator import Evaluator
