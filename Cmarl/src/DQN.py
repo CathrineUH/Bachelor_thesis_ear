@@ -253,24 +253,66 @@ if __name__ == '__main__':
                                   landmark_ids=args.landmarks,
                                   agents=agents,
                                   logger=logger)
-        trainer = Trainer(environment,
-                          eval_env=eval_env,
-                          batch_size=args.batch_size,
-                          image_size=IMAGE_SIZE,
-                          frame_history=FRAME_HISTORY,
-                          update_frequency=args.target_update_freq,
-                          replay_buffer_size=args.memory_size,
-                          init_memory_size=init_memory_size,
-                          gamma=args.discount,
-                          steps_per_episode=args.steps_per_episode,
-                          max_episodes=args.max_episodes,
-                          delta=args.delta,
-                          logger=logger,
-                          model_name=args.model_name,
-                          train_freq=args.train_freq,
-                          team_reward=args.team_reward,
-                          attention=args.attention,
-                          lr=args.lr,
-                          scheduler_gamma=args.scheduler_gamma,
-                          scheduler_step_size=args.scheduler_step_size
-                         ).train()
+        if args.load is not None:
+            txt_path = args.load
+            count = 0
+            i = 0 
+            while count < 2:
+                if txt_path[i] == "/":
+                    count+=1
+                i+=1
+            txt_path = txt_path[0:i]
+            f = np.loadtxt(txt_path+"/saveparameters.txt")
+            lr, eps, episode = f[0], f[1], f[2]
+
+            dqn = DQN(agents, frame_history=FRAME_HISTORY, logger=logger,
+                  type=args.model_name, collective_rewards=args.team_reward, attention=args.attention)
+            model = dqn.q_network
+            model.load_state_dict(torch.load(args.load, map_location=model.device))
+            trainer = Trainer(environment,
+                            eval_env=eval_env,
+                            batch_size=args.batch_size,
+                            image_size=IMAGE_SIZE,
+                            frame_history=FRAME_HISTORY,
+                            update_frequency=args.target_update_freq,
+                            replay_buffer_size=args.memory_size,
+                            init_memory_size=init_memory_size,
+                            gamma=args.discount,
+                            steps_per_episode=args.steps_per_episode,
+                            max_episodes=args.max_episodes,
+                            delta=args.delta,
+                            logger=logger,
+                            model_name=args.model_name,
+                            train_freq=args.train_freq,
+                            team_reward=args.team_reward,
+                            attention=args.attention,
+                            lr=lr,
+                            scheduler_gamma=args.scheduler_gamma,
+                            scheduler_step_size=args.scheduler_step_size,
+                            dqn = model,
+                            eps = eps,
+                            episode = episode
+                            ).train()
+
+        else:
+            trainer = Trainer(environment,
+                            eval_env=eval_env,
+                            batch_size=args.batch_size,
+                            image_size=IMAGE_SIZE,
+                            frame_history=FRAME_HISTORY,
+                            update_frequency=args.target_update_freq,
+                            replay_buffer_size=args.memory_size,
+                            init_memory_size=init_memory_size,
+                            gamma=args.discount,
+                            steps_per_episode=args.steps_per_episode,
+                            max_episodes=args.max_episodes,
+                            delta=args.delta,
+                            logger=logger,
+                            model_name=args.model_name,
+                            train_freq=args.train_freq,
+                            team_reward=args.team_reward,
+                            attention=args.attention,
+                            lr=args.lr,
+                            scheduler_gamma=args.scheduler_gamma,
+                            scheduler_step_size=args.scheduler_step_size
+                            ).train()

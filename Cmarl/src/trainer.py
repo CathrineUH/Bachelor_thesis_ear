@@ -1,5 +1,8 @@
+from fileinput import filename
+from fnmatch import fnmatch
 import torch
 import numpy as np
+from zmq import EVENT_CLOSE_FAILED
 from expreplay import ReplayMemory
 from DQNModel import DQN
 from evaluator import Evaluator
@@ -30,7 +33,9 @@ class Trainer(object):
                  attention=False,
                  lr=1e-3,
                  scheduler_gamma=0.5,
-                 scheduler_step_size=100
+                 scheduler_step_size=100,
+                 dqn = None,
+                 episode = None
                 ):
         self.env = env
         self.eval_env = eval_env
@@ -42,6 +47,7 @@ class Trainer(object):
         self.max_episodes = max_episodes
         self.steps_per_episode = steps_per_episode
         self.eps = eps
+        self.lr = lr
         self.min_eps = min_eps
         self.delta = delta
         self.batch_size = batch_size
@@ -55,16 +61,19 @@ class Trainer(object):
             self.image_size,
             self.frame_history,
             self.agents)
-        self.dqn = DQN(
-            self.agents,
-            self.frame_history,
-            logger=logger,
-            type=model_name,
-            collective_rewards=team_reward,
-            attention=attention,
-            lr=lr,
-            scheduler_gamma=scheduler_gamma,
-            scheduler_step_size=scheduler_step_size)
+        if dqn == None:
+            self.dqn = DQN(
+                self.agents,
+                self.frame_history,
+                logger=logger,
+                type=model_name,
+                collective_rewards=team_reward,
+                attention=attention,
+                lr=self.lr,
+                scheduler_gamma=scheduler_gamma,
+                scheduler_step_size=scheduler_step_size)
+        else:
+            self.dqn = dqn
         self.dqn.q_network.train(True)
         self.evaluator = Evaluator(eval_env,
                                    self.dqn.q_network,
@@ -77,7 +86,10 @@ class Trainer(object):
     def train(self):
         self.logger.log(self.dqn.q_network)
         self.init_memory()
-        episode = 1
+        if episode == None:
+            episode = 1
+        else:
+            episode = episode
         acc_steps = 0
         epoch_distances = []
         while episode <= self.max_episodes:
@@ -118,6 +130,12 @@ class Trainer(object):
                 self.dqn.save_model(name="latest_dqn.pt", forced=True)
                 self.dqn.scheduler.step()
                 epoch_distances = []
+                lr_save = self.lr
+                eps_save = self.eps
+                episode_save = episode
+                filename = './'+ self.logger.dir+'/'+'saveparameters.txt'
+                np.savetxt(filename,[lr_save, eps_save, episode_save])
+
             episode += 1
 
     def init_memory(self):
