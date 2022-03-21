@@ -35,6 +35,10 @@ def compute_angle(results, is_degrees=True):
         V = V.T 
         v2 = V[:, 0]
 
+        # check for opposite signs 
+        if np.sign(v1[2]) != np.sign(v2[2]):
+            v1 = -v1 
+
         # compute angle 
         angle = np.arccos(np.dot(v1, v2)/(np.linalg.norm(v1) * np.linalg.norm(v2)))
         if angle >= np.pi:   
@@ -56,6 +60,11 @@ def compute_angle(results, is_degrees=True):
         _, _, V = np.linalg.svd(data - mu)
         V = V.T 
         v2 = V[:, 0]
+
+        #
+        # check for opposite signs 
+        if np.sign(v1[2]) != np.sign(v2[2]):
+            v1 = -v1 
 
         # compute angle 
         angle = np.arccos(np.dot(v1, v2)/(np.linalg.norm(v1) * np.linalg.norm(v2)))
