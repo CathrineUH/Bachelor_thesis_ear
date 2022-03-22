@@ -145,7 +145,7 @@ def read_json_files():
 
 
 
-def get_physical_point_from_result(results, number_of_agents):
+def get_physical_point_from_result(df, number_of_agents):
     """
     A function that computes the physical coordinates from agents index position
     Input:
@@ -154,9 +154,7 @@ def get_physical_point_from_result(results, number_of_agents):
     Output:
         A (6, 3, #test_im) array with physical coordinates 
     """
-
-    # read data frame 
-    df = pd.read_csv(results)
+ 
     m, _ = df.shape
     
     path_image = "Cmarl\\src\\data\\images\\image_map"
@@ -200,13 +198,13 @@ def get_physical_point_from_result(results, number_of_agents):
 
 
 
-def compute_angle_naiv(results, number_of_agents, is_degrees=True):
+def compute_angle_naiv(df, number_of_agents, is_degrees=True):
 
     if is_degrees != True:
         is_degrees = is_degrees
     
     coor_anno = read_json_files()
-    coor_esto = get_physical_point_from_result(results, number_of_agents)
+    coor_esto = get_physical_point_from_result(df, number_of_agents)
     
     if coor_anno.shape[2] != coor_esto.shape[2]:
         print("Number of test files do not match")
@@ -253,12 +251,12 @@ def get_pca_direction(R, M, T):
     return direction 
 
 
-def compute_angle_pca(results, number_of_agents, is_degrees=True):
+def compute_angle_pca(df, number_of_agents, is_degrees=True):
     if is_degrees != True:
         is_degrees = is_degrees
     
     coor_anno = read_json_files()
-    coor_esto = get_physical_point_from_result(results, number_of_agents)
+    coor_esto = get_physical_point_from_result(df, number_of_agents)
     
     if coor_anno.shape[2] != coor_esto.shape[2]:
         print("Number of test files do not match")
