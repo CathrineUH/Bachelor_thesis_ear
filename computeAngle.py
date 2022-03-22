@@ -115,7 +115,7 @@ def read_json_files():
     """
 
     # get filenames for testing files 
-    path_test = "Cmarl\\src\\data\\filenames\\filenames_map\\testing.txt"
+    path_test = "Cmarl/src/data/filenames/filenames_map/testing.txt"
     file = open(path_test)
     paths = file.read()
     paths = paths.split("\n")
@@ -123,12 +123,12 @@ def read_json_files():
     m = np.size(paths)
 
     # get jason files 
-    path_json = "json_Files\\json_100"
+    path_json = "json_Files/json_100"
     physical_points = np.zeros((6, 3, m))
 
     for i in range(m):
         name = paths[i][34:46] 
-        json_file = open(path_json + "\\" + name + ".json")
+        json_file = open(path_json + "/" + name + ".json")
         data = json.load(json_file)
         t = data['markups'][0]['controlPoints']
         Dict = {'C': 0, 'A': 1, 'R': 2, 'M': 3, 'T': 4, 'B': 5}
@@ -157,12 +157,12 @@ def get_physical_point_from_result(df, number_of_agents):
  
     m, _ = df.shape
     
-    path_image = "Cmarl\\src\\data\\images\\image_map"
+    path_image = "Cmarl/src/data/images/image_map"
     physical_points = np.zeros((6, 3, m))
 
     for i in range(m):
         name = df.loc[i, "Filename 0"]
-        im = sitk.ReadImage(path_image + "\\" + name + ".nii.gz")
+        im = sitk.ReadImage(path_image + "/" + name + ".nii.gz")
 
         if number_of_agents == 12:
             C = np.min([df.loc[i, "Distance 0"], df.loc[i, "Distance 1"]])
