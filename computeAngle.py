@@ -172,7 +172,7 @@ def get_physical_point_from_result(df, number_of_agents):
                 Cidx = int(np.where(C == [df.loc[i, "Distance 0"], df.loc[i, "Distance 1"]])[0])
 
             A = np.min([df.loc[i, "Distance 2"], df.loc[i, "Distance 3"]])
-            if df.loc[i, "Distance 2"] == df.loc[i, "Distance 3"]
+            if df.loc[i, "Distance 2"] == df.loc[i, "Distance 3"]: 
                 Aidx = 0
             else:
                 Aidx = int(np.where(A == [df.loc[i, "Distance 2"], df.loc[i, "Distance 3"]])[0]) + 2
