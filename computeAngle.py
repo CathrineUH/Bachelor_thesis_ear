@@ -166,22 +166,39 @@ def get_physical_point_from_result(df, number_of_agents):
 
         if number_of_agents == 12:
             C = np.min([df.loc[i, "Distance 0"], df.loc[i, "Distance 1"]])
-            Cidx = int(np.where(C == [df.loc[i, "Distance 0"], df.loc[i, "Distance 1"]])[0])
+            if [df.loc[i, "Distance 0"] == df.loc[i, "Distance 1"]]:
+                Cidx = 0
+            else: 
+                Cidx = int(np.where(C == [df.loc[i, "Distance 0"], df.loc[i, "Distance 1"]])[0])
 
             A = np.min([df.loc[i, "Distance 2"], df.loc[i, "Distance 3"]])
-            Aidx = int(np.where(A == [df.loc[i, "Distance 2"], df.loc[i, "Distance 3"]])[0]) + 2
+            if df.loc[i, "Distance 2"] == df.loc[i, "Distance 3"]
+                Aidx = 0
+            else:
+                Aidx = int(np.where(A == [df.loc[i, "Distance 2"], df.loc[i, "Distance 3"]])[0]) + 2
 
             R = np.min([df.loc[i, "Distance 4"], df.loc[i, "Distance 5"]])
-            Ridx = int(np.where(R == [df.loc[i, "Distance 4"], df.loc[i, "Distance 5"]])[0]) + 4
+            if df.loc[i, "Distance 4"] == df.loc[i, "Distance 5"]:
+                Ridx = 0
+            else: 
+                Ridx = int(np.where(R == [df.loc[i, "Distance 4"], df.loc[i, "Distance 5"]])[0]) + 4
 
             M = np.min([df.loc[i, "Distance 6"], df.loc[i, "Distance 7"]])
-            Midx = int(np.where(M == [df.loc[i, "Distance 6"], df.loc[i, "Distance 7"]])[0]) + 6
+            if df.loc[i, "Distance 6"] == df.loc[i, "Distance 7"]:
+                Midx = 0
+            else: 
+                Midx = int(np.where(M == [df.loc[i, "Distance 6"], df.loc[i, "Distance 7"]])[0]) + 6
 
             T = np.min([df.loc[i, "Distance 8"], df.loc[i, "Distance 9"]])
-            Tidx = int(np.where(T == [df.loc[i, "Distance 8"], df.loc[i, "Distance 9"]])[0]) + 8 
+            if df.loc[i, "Distance 8"] ==  df.loc[i, "Distance 9"]:
+                Tidx = 0
+            else: 
+                Tidx = int(np.where(T == [df.loc[i, "Distance 8"], df.loc[i, "Distance 9"]])[0]) + 8 
 
             B = np.min([df.loc[i, "Distance 10"], df.loc[i, "Distance 11"]])
-            Bidx = int(np.where(B == [df.loc[i, "Distance 10"], df.loc[i, "Distance 11"]])[0]) + 10 
+            if df.loc[i, "Distance 10"] ==  df.loc[i, "Distance 11"]
+            else: 
+                Bidx = int(np.where(B == [df.loc[i, "Distance 10"], df.loc[i, "Distance 11"]])[0]) + 10 
 
             agent_nr = [Cidx, Aidx, Ridx, Midx, Tidx, Bidx]
         else: 
