@@ -1,7 +1,6 @@
 import numpy as np
 import pandas as pd 
 
-
 def compute_angle(df, is_degrees = True):
     """
     Function that computes the angle between the facial nerve and chorda tympani
@@ -12,6 +11,7 @@ def compute_angle(df, is_degrees = True):
     Output:
         The angle in radians/degrees 
     """
+    
     if is_degrees != True:
         is_degrees = is_degrees
     
