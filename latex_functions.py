@@ -57,7 +57,7 @@ def print_angles(angles):
         else: 
             print("$" + str(round(angles[i][1], 2)) + "$ & ", end = "")
     # Difference
-    print("$|Diff|$ [$|\\degree$] &", end = "")
+    print("$|$Diff$|$ [$|\\degree$] &", end = "")
     for i in range(m):
         if i == m - 1:
             print("$" + str(np.abs(round(diff[i], 2))) + "$ \\\\")
