@@ -1,3 +1,5 @@
+import numpy as np
+
 def print_errors_latex(error):
     m, _ = error.shape
     # min
@@ -58,8 +60,8 @@ def print_angles(angles):
     print("$|Diff|$ [$|\\degree$] &", end = "")
     for i in range(m):
         if i == m - 1:
-            print("$" + str(round(diff[i], 2)) + "$ \\\\")
+            print("$" + str(np.abs(round(diff[i], 2))) + "$ \\\\")
         else: 
-            print("$" + str(round(diff[i], 2)) + "$ & ", end = "")
+            print("$" + str(np.abs(round(diff[i], 2))) + "$ & ", end = "")
 
     
