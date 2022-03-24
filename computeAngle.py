@@ -2,7 +2,7 @@ import numpy as np
 import pandas as pd 
 import json 
 import SimpleITK as sitk 
-def compute_angle_index_pca(results, is_degrees=True):
+def compute_angle_index_pca(df, is_degrees=True):
     """
     Function that computes the angle between the facial nerve and chorda tympani
     The calculations are based on the landmarks: C, A, and R, M, T  
@@ -15,7 +15,6 @@ def compute_angle_index_pca(results, is_degrees=True):
     if is_degrees != True:
         is_degrees = is_degrees
     
-    df = pd.read_csv(results, delimiter=',')
     m, _ = df.shape 
     angles_est = np.zeros((m, 1))
     angles_ann = np.zeros((m, 1))
@@ -60,7 +59,7 @@ def get_angle_index_pca(i, df, which):
     return angle 
     
 
-def compute_angle_index_naiv(results, is_degrees = True):
+def compute_angle_index_naiv(df, is_degrees = True):
     """
     Function that computes the angle between the facial nerve and chorda tympani
     The calculations are based on the landmarks: C, A, T 
@@ -73,7 +72,6 @@ def compute_angle_index_naiv(results, is_degrees = True):
     if is_degrees != True:
         is_degrees = is_degrees
     
-    df = pd.read_csv(results, delimiter=',')
     m, _ = df.shape 
     angles_est = np.zeros((m, 1))
     angles_ann = np.zeros((m, 1))
