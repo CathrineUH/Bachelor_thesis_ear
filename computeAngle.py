@@ -2,7 +2,7 @@ import numpy as np
 import pandas as pd 
 import json 
 import SimpleITK as sitk 
-def compute_angle_index_pca(df, is_degrees=True):
+def compute_angle_index_pca(df, number_of_agents, is_degrees=True):
     """
     Function that computes the angle between the facial nerve and chorda tympani
     The calculations are based on the landmarks: C, A, and R, M, T  
@@ -15,28 +15,32 @@ def compute_angle_index_pca(df, is_degrees=True):
     if is_degrees != True:
         is_degrees = is_degrees
     
+    if number_of_agents == 12:
+        agents = get_best_agents(df)
+    else: 
+        agents = [0, 1, 2, 3, 4, 5]
+
     m, _ = df.shape 
     angles_est = np.zeros((m, 1))
-    angles_ann = np.zeros((m, 1))
+    angles_ann = np.zeros((m, 1))   
     for i in range(m):
         ########################## estimated angle ##########################
-        angles_est[i] = get_angle_index_pca(i, df, "Agent")
+        angles_est[i] = get_angle_index_pca(i, df, "Agent", agents)
 
         ########################## angle found from annotation ##########################
-        angles_ann[i] = get_angle_index_pca(i, df, "Landmark")
+        angles_ann[i] = get_angle_index_pca(i, df, "Landmark", agents)
 
-    
     if is_degrees:
         angles_est *= 180 / np.pi 
         angles_ann *= 180 / np.pi 
     return angles_ann, angles_est
 
-def get_angle_index_pca(i, df, which):
-    c1, c2, c3 = df.loc[i, which + " 0 pos x"], df.loc[i, which + " 0 pos y"], df.loc[i, which + " 0 pos z"]
-    a1, a2, a3 = df.loc[i, which + " 1 pos x"], df.loc[i, which + " 1 pos y"], df.loc[i, which + " 1 pos z"]
-    r1, r2, r3 = df.loc[i, which + " 2 pos x"], df.loc[i, which + " 2 pos y"], df.loc[i, which + " 2 pos z"]
-    m1, m2, m3 = df.loc[i, which + " 3 pos x"], df.loc[i, which + " 3 pos y"], df.loc[i, which + " 3 pos z"]
-    t1, t2, t3 = df.loc[i, which + " 4 pos x"], df.loc[i, which + " 4 pos y"], df.loc[i, which + " 4 pos z"]
+def get_angle_index_pca(i, df, which, agents):
+    c1, c2, c3 = df.loc[i, which + " " + str(agents[0]) + " pos x"], df.loc[i, which + " " + str(agents[0]) + " pos y"], df.loc[i, which + " " + str(agents[0]) + " pos z"]
+    a1, a2, a3 = df.loc[i, which + " " + str(agents[1]) + " pos x"], df.loc[i, which + " " + str(agents[1]) + " pos y"], df.loc[i, which + " " + str(agents[1]) + " pos z"]
+    r1, r2, r3 = df.loc[i, which + " " + str(agents[2]) + " pos x"], df.loc[i, which + " " + str(agents[2]) + " pos y"], df.loc[i, which + " " + str(agents[2]) + " pos z"]
+    m1, m2, m3 = df.loc[i, which + " " + str(agents[3]) + " pos x"], df.loc[i, which + " " + str(agents[3]) + " pos y"], df.loc[i, which + " " + str(agents[3]) + " pos z"]
+    t1, t2, t3 = df.loc[i, which + " " + str(agents[4]) + " pos x"], df.loc[i, which + " " + str(agents[4]) + " pos y"], df.loc[i, which + " " + str(agents[4]) + " pos z"]
 
     # chorda vector 
     v1 = np.array([c1 - a1, c2 - a2, c3 - a3])
@@ -59,7 +63,7 @@ def get_angle_index_pca(i, df, which):
     return angle 
     
 
-def compute_angle_index_naiv(df, is_degrees = True):
+def compute_angle_index_naiv(df, number_of_agents, is_degrees = True):
     """
     Function that computes the angle between the facial nerve and chorda tympani
     The calculations are based on the landmarks: C, A, T 
@@ -76,12 +80,17 @@ def compute_angle_index_naiv(df, is_degrees = True):
     angles_est = np.zeros((m, 1))
     angles_ann = np.zeros((m, 1))
 
+    if number_of_agents == 12: 
+        agents = get_best_agents(df)
+    else: 
+        agents = [0, 1, 2, 3, 4, 5]
+
     for i in range(m):
         ########################## estimated angle ##########################
-        angles_est[i] = get_angle_index_naiv(i, df, "Agent")
+        angles_est[i] = get_angle_index_naiv(i, df, "Agent", agents)
 
         ########################## angle found from annotation ##########################
-        angles_ann[i] = get_angle_index_naiv(i, df, "Landmark")
+        angles_ann[i] = get_angle_index_naiv(i, df, "Landmark", agents)
     
     if is_degrees:
         angles_est *= 180 / np.pi 
@@ -89,12 +98,66 @@ def compute_angle_index_naiv(df, is_degrees = True):
     return angles_ann, angles_est
         
 
+def get_best_agents(df):
+    """
+    A function that computes the physical coordinates from agents index position
+    Input:
+        results: Path to csv file with results
+        number_of_agents: the number of agents used to train (6 or 12)
+    Output:
+        A (6, 3, #test_im) array with physical coordinates 
+    """
+ 
+    m, _ = df.shape
+    
+
+    for i in range(m):
+        C = np.min([df.loc[i, "Distance 0"], df.loc[i, "Distance 1"]])
+        if [df.loc[i, "Distance 0"] == df.loc[i, "Distance 1"]]:
+            Cidx = 0
+        else: 
+            Cidx = int(np.where(C == [df.loc[i, "Distance 0"], df.loc[i, "Distance 1"]])[0])
+
+        A = np.min([df.loc[i, "Distance 2"], df.loc[i, "Distance 3"]])
+        if df.loc[i, "Distance 2"] == df.loc[i, "Distance 3"]: 
+            Aidx = 0
+        else:
+            Aidx = int(np.where(A == [df.loc[i, "Distance 2"], df.loc[i, "Distance 3"]])[0]) + 2
+
+        R = np.min([df.loc[i, "Distance 4"], df.loc[i, "Distance 5"]])
+        if df.loc[i, "Distance 4"] == df.loc[i, "Distance 5"]:
+            Ridx = 0
+        else: 
+            Ridx = int(np.where(R == [df.loc[i, "Distance 4"], df.loc[i, "Distance 5"]])[0]) + 4
+
+        M = np.min([df.loc[i, "Distance 6"], df.loc[i, "Distance 7"]])
+        if df.loc[i, "Distance 6"] == df.loc[i, "Distance 7"]:
+            Midx = 0
+        else: 
+            Midx = int(np.where(M == [df.loc[i, "Distance 6"], df.loc[i, "Distance 7"]])[0]) + 6
+
+        T = np.min([df.loc[i, "Distance 8"], df.loc[i, "Distance 9"]])
+        if df.loc[i, "Distance 8"] ==  df.loc[i, "Distance 9"]:
+            Tidx = 0
+        else: 
+            Tidx = int(np.where(T == [df.loc[i, "Distance 8"], df.loc[i, "Distance 9"]])[0]) + 8 
+
+        B = np.min([df.loc[i, "Distance 10"], df.loc[i, "Distance 11"]])
+        if df.loc[i, "Distance 10"] ==  df.loc[i, "Distance 11"]: 
+            Bidx = 0
+        else: 
+            Bidx = int(np.where(B == [df.loc[i, "Distance 10"], df.loc[i, "Distance 11"]])[0]) + 10 
+
+        agent_nr = [Cidx, Aidx, Ridx, Midx, Tidx, Bidx]
+
+    return agent_nr
 
 
-def get_angle_index_naiv(i, df, which):
-    c1, c2, c3 = df.loc[i, which + " 0 pos x"], df.loc[i, which + " 0 pos y"], df.loc[i, which + " 0 pos z"]
-    a1, a2, a3 = df.loc[i, which + " 1 pos x"], df.loc[i, which + " 1 pos y"], df.loc[i, which + " 1 pos z"]
-    t1, t2, t3 = df.loc[i, which + " 4 pos x"], df.loc[i, which + " 4 pos y"], df.loc[i, which + " 4 pos z"]
+
+def get_angle_index_naiv(i, df, which, agents):
+    c1, c2, c3 = df.loc[i, which + " " + str(agents[0]) + " pos x"], df.loc[i, which + " " + str(agents[0]) + " pos y"], df.loc[i, which + " " + str(agents[0]) + " pos z"]
+    a1, a2, a3 = df.loc[i, which + " " + str(agents[1]) + " pos x"], df.loc[i, which + " " + str(agents[1]) + " pos y"], df.loc[i, which + " " + str(agents[1]) + " pos z"]
+    t1, t2, t3 = df.loc[i, which + " " + str(agents[4]) + " pos x"], df.loc[i, which + " " + str(agents[4]) + " pos y"], df.loc[i, which + " " + str(agents[4]) + " pos z"]
 
     # find vectors 
     v1 = np.array([c1 - a1, c2 - a2, c3 - a3])
