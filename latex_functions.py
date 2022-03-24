@@ -39,18 +39,23 @@ def print_errors_latex(error):
 def print_angles(angles):
     m, _ = angles.shape
     diff = angles[:, 0] - angles[:, 1]
+    # annotation
+    print("Ann [$|\\degree$] &", end = "")
     for i in range(m):
         if i == m - 1:
             print("$" + str(round(angles[i][0], 2)) + "$ \\\\")
         else: 
             print("$" + str(round(angles[i][0], 2)) + "$ & ", end = "")
 
+    # Model
+    print("Model [$|\\degree$] &", end = "")
     for i in range(m):
         if i == m - 1:
             print("$" + str(round(angles[i][1], 2)) + "$ \\\\")
         else: 
             print("$" + str(round(angles[i][1], 2)) + "$ & ", end = "")
-
+    # Difference
+    print("$|Diff|$ [$|\\degree$] &", end = "")
     for i in range(m):
         if i == m - 1:
             print("$" + str(round(diff[i], 2)) + "$ \\\\")
