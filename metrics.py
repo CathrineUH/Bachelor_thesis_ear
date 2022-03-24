@@ -61,11 +61,16 @@ def performence_metric(results,number_of_agents):
     min_dis = min_distance(df,number_of_agents)
     max_dis = max_distance(df,number_of_agents)
     rmse = RMSE(df, number_of_agents)
-    angles_ann_naiv, angles_est_naiv = compute_angle_naiv(df,number_of_agents)
-    angles_ann_pca, angles_est_pca = compute_angle_pca(df,number_of_agents)
+    angles_ann_index_naiv, angles_est_index_naiv = compute_angle_index_naiv(df,number_of_agents)
+    angles_ann_index_pca, angles_est_index_pca = compute_angle_index_pca(df,number_of_agents)
+
+    angles_ann_physical_naiv, angles_est_physical_naiv = compute_angle_physical_naiv(df, number_of_agents)
+    angles_ann_physical_pca, angles_est_physical_pca = compute_angle_physical_pca(df, number_of_agents)
     
-    angels_naiv = np.concatenate([angles_ann_naiv, angles_est_naiv],axis = 1)
-    angels_pca = np.concatenate([angles_ann_pca, angles_est_pca], axis = 1)
+    angels_naiv_index = np.concatenate([angles_ann_index_naiv, angles_est_index_naiv],axis = 1)
+    angels_pca_index = np.concatenate([angles_ann_index_pca, angles_est_index_pca], axis = 1)
+    angles_naiv_physical = np.abs([angles_ann_physical_naiv, angles_est_physical_naiv],axis = 1)
+    angles_pca_physical = np.abs([angles_ann_physical_pca, angles_est_physical_pca],axis = 1)
     errors = np.concatenate([ min_dis, max_dis, rmse], axis = 1)
 
-    return errors, angels_naiv, angels_pca
+    return errors, angels_naiv_index, angels_pca_index, angles_naiv_physical, angles_pca_physical
