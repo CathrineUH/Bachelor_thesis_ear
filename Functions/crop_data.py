@@ -1,4 +1,4 @@
-from Dataloader import*
+from .Dataloader import *
 import SimpleITK as sitk
 import numpy as np
 import shutil as sh

@@ -1,7 +1,6 @@
 import numpy as np 
-from Dataloader import getFiles
+from .Dataloader import getFiles
 import SimpleITK as sitk 
-from Dataloader import getFiles
 from skimage.exposure import match_histograms 
 
 def match_hist_one_image(im_ref, im_src):

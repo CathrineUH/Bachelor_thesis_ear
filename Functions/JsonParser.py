@@ -1,7 +1,7 @@
 import SimpleITK as sitk
 import json
 import numpy as np
-from Dataloader import*
+from .Dataloader import*
 # Tips:
 # https://github.com/InsightSoftwareConsortium/SimpleITK-Notebooks/blob/master/Utilities/intro_animation.py
 # https://stackoverflow.com/questions/30237024/operate-on-slices-of-3d-image-in-simpleitk-and-create-new-3d-image

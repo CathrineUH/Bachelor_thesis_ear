@@ -1,6 +1,6 @@
 import numpy as np
 import pandas as pd 
-from computeAngle import *
+from .computeAngle import *
 
 def RMSE(df, number_of_agents):
     """
