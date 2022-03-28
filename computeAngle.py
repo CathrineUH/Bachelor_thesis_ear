@@ -376,5 +376,3 @@ def compute_angle_physical_pca(df, number_of_agents, is_degrees=True):
         angles_ann *= 180 / np.pi 
 
     return angles_ann, angles_est
-
-
