@@ -1,29 +1,17 @@
 # Cathrine's files
-Illustration/*
-results.csv
-
 
 # Theresa's files 
 __pycache__/*
-temp/*
 gifs/* 
-runs/* 
 models/*
-sh-files/*
+
 
 # other files 
-bachelor-env/*
-Data_cropped_80/*
+runs/* 
+sh-files/*
 mess.ipynb
 Cmarl/src/__pycache__/*
 Cmarl/.github/*
 Cmarl/doc/*
-logs/*
-out/*
-bachelor-env/*
-runs/*
-batchjob.sh
-create_env.sh
-batchjob_eval.sh
 Tensorboard/*
 junk/*
