@@ -1,36 +1,53 @@
 import numpy as np 
 from Dataloader import getFiles
 import SimpleITK as sitk 
-def image_mapping(image, mu = 230):
-    """
-    function that given an image maps the pixel values to the range [0, 255]
-    Input: 
-        image: an MRI
-        mu: where to center the image 
-    Output: 
-        mapped image with pixel values [0, 255]
-    """
-    if mu != 230:
-        mu = mu
-    
-    im_map = image - mu
-    im_max = np.max(im_map)
-    im_min = np.min(im_map)
-    scaling = 255 / (im_max - im_min)
-    im_map = im_map * scaling 
-    im_map += np.abs(np.min(im_map))    
-    return im_map
+from Dataloader import getFiles
+from skimage.exposure import match_histograms 
+
+def match_hist_one_image(im_ref, im_src):
+    multi = True if im_src.shape[-1] > 1 else False
+    return match_histograms(im_src, im_ref, multichannel = multi)
 
 
-def map_all_images(path):
-    files = getFiles(path)
+def compute_global_max(files, quantile):
+    all_images = np.zeros((96, 110, 110, 110))
+    for count, i in enumerate(files):
+        im = sitk.GetArrayFromImage(sitk.ReadImage("Data_use_100/" + i))
+        all_images[count] = im 
+    global_max = np.quantile(all_images, quantile)
+    return global_max 
+
+def scale_image(im, global_max):
+    im[im > global_max] = global_max 
+    im = im * 255.0 / global_max 
+    return im  
+
+
+def save_all_scaled_images(im_ref_idx, quantile):
+    # im_ref_idx = 15 
+
+    files = getFiles("Data_use_100")
+    im_ref = sitk.GetArrayFromImage(sitk.ReadImage("Data_use_100/" + files[im_ref_idx]))
+    global_max = compute_global_max(files, quantile)
+
     for f in files:
-        im = (sitk.ReadImage(path + "/" + f))
-        space = im.GetSpacing()
-        orgin = im.GetOrigin()
-        im = sitk.GetArrayFromImage(im)
-        im_map = image_mapping(im)
-        im_map = sitk.GetImageFromArray(im_map)
-        im_map.SetOrigin(orgin)
-        im_map.SetSpacing(space)
-        sitk.WriteImage(im_map, "Data_Map/" + f)
+        # load 
+        im_src = sitk.ReadImage("Data_use_100/" + f)
+        space = im_src.GetSpacing()
+        orgin = im_src.GetOrigin()
+        im_src = sitk.GetArrayFromImage(im_src)
+
+        # scale 
+        im_matched = match_hist_one_image(im_ref, im_src)
+        im_scaled = scale_image(im_matched, global_max)
+
+        # save 
+        im_scaled = sitk.GetImageFromArray(im_scaled)
+        im_scaled.SetOrigin(orgin)
+        im_scaled.SetSpacing(space)
+        sitk.WriteImage(im_scaled, "Data_Scaled/" + f)
+
+
+
+
+
