@@ -12,7 +12,6 @@ sh-files/*
 mess.ipynb
 Cmarl/src/__pycache__/*
 Cmarl/.github/*
-Cmarl/doc/*
 Tensorboard/*
 junk/*
 Data_Scaled/*
