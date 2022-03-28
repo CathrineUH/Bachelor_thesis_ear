@@ -176,7 +176,7 @@ def read_json_files():
     """
 
     # get filenames for testing files 
-    path_test = "Cmarl/src/data/filenames/filenames_map/testing.txt"
+    path_test = "Cmarl/src/data/filenames/testing.txt"
     file = open(path_test)
     paths = file.read()
     paths = paths.split("\n")
@@ -188,7 +188,7 @@ def read_json_files():
     physical_points = np.zeros((6, 3, m))
 
     for i in range(m):
-        name = paths[i][34:46] 
+        name = paths[i][36:48] 
         json_file = open(path_json + "/" + name + ".json")
         data = json.load(json_file)
         t = data['markups'][0]['controlPoints']
@@ -218,7 +218,7 @@ def get_physical_point_from_result(df, number_of_agents):
  
     m, _ = df.shape
     
-    path_image = "Cmarl/src/data/images/image_map"
+    path_image = "Cmarl/src/data/images/Data_scaled"
     physical_points = np.zeros((6, 3, m))
 
     for i in range(m):
