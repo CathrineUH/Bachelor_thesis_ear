@@ -12,7 +12,7 @@ def match_hist_one_image(im_ref, im_src):
 def compute_global_max(files, quantile):
     all_images = np.zeros((96, 110, 110, 110))
     for count, i in enumerate(files):
-        im = sitk.GetArrayFromImage(sitk.ReadImage("Data_use_100/" + i))
+        im = sitk.GetArrayFromImage(sitk.ReadImage("junk/Data_use_100/" + i))
         all_images[count] = im 
     global_max = np.quantile(all_images, quantile)
     return global_max 
@@ -26,13 +26,13 @@ def scale_image(im, global_max):
 def save_all_scaled_images(im_ref_idx, quantile):
     # im_ref_idx = 15 
 
-    files = getFiles("Data_use_100")
-    im_ref = sitk.GetArrayFromImage(sitk.ReadImage("Data_use_100/" + files[im_ref_idx]))
+    files = getFiles("junk/Data_use_100")
+    im_ref = sitk.GetArrayFromImage(sitk.ReadImage("junk/Data_use_100/" + files[im_ref_idx]))
     global_max = compute_global_max(files, quantile)
 
     for f in files:
         # load 
-        im_src = sitk.ReadImage("Data_use_100/" + f)
+        im_src = sitk.ReadImage("junk/Data_use_100/" + f)
         space = im_src.GetSpacing()
         orgin = im_src.GetOrigin()
         im_src = sitk.GetArrayFromImage(im_src)
