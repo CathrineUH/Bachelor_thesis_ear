@@ -15,3 +15,4 @@ Cmarl/.github/*
 Tensorboard/*
 junk/*
 Data_Scaled/*
+Functions/__pycache__/*
