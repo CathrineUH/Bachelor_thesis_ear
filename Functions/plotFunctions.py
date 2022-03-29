@@ -3,33 +3,35 @@ import numpy as np
 import color_dtu_design as color
 import matplotlib.pyplot as plt
 
-def plot_erros(j, title, models, number_of_agents,legend, marker):
+def plot_erros(title, models, number_of_agents,legend, marker):
     x = np.arange(1,7)
     errors = [[0] for i in number_of_agents]
     m = number_of_agents.shape[0]
 
     for i in range(m):
         errors[i] = performence_metric(models[i],number_of_agents[i])[0]
-    plt.figure()
-    for i in range(m):
-        col = color.color_design.color_design(i+2).color
-        if number_of_agents[i] == 12:
-            temp1 = errors[i].T[j,[0,2,4,6,8,10]]
-            temp2 = errors[i].T[j,[1,3,5,7,9,11]]
-            plt.plot(x,temp1, marker = marker[i],color=col, linestyle = 'None')
-            plt.plot(x,temp2, marker = marker[i],color=col, linestyle = 'None')
-        else:
-            temp = errors[i][:].T[j]
-            plt.plot(x,temp, marker=marker[i],color=col, linestyle = 'None')
-    labels = ['C', 'A', 'R', 'M', 'T', 'B']
+    for j in range(4):
 
-    plt.xticks(x, labels)
-    plt.legend(legend)
-    # plt.legend(['Discount 0.7', 'Discount 0.8','Discount 0.9','Discount 0.9 attention','Discount 0.9 double'])
-    plt.ylabel('[mm]')
-    plt.xlabel('Agents for each landmark')
-    plt.title(title)
-    plt.show()
+        plt.figure(j)
+        for i in range(m):
+            col = color.color_design.color_design(i+2).color
+            if number_of_agents[i] == 12:
+                temp1 = errors[i].T[j,[0,2,4,6,8,10]]
+                temp2 = errors[i].T[j,[1,3,5,7,9,11]]
+                plt.plot(x,temp1, marker = marker[i],color=col, linestyle = 'None')
+                plt.plot(x,temp2, marker = marker[i],color=col, linestyle = 'None')
+            else:
+                temp = errors[i][:].T[j]
+                plt.plot(x,temp, marker=marker[i],color=col, linestyle = 'None')
+        labels = ['C', 'A', 'R', 'M', 'T', 'B']
+
+        plt.xticks(x, labels)
+        plt.legend(legend)
+        # plt.legend(['Discount 0.7', 'Discount 0.8','Discount 0.9','Discount 0.9 attention','Discount 0.9 double'])
+        plt.ylabel('[mm]')
+        plt.xlabel('Agents for each landmark')
+        plt.title(title[j])
+        plt.show()
 
 
 def diffangels(angles_naiv_index, angles_PCA_index, angles_naiv_physical, angles_PCA_physical):
