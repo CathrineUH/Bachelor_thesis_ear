@@ -3,18 +3,13 @@ import numpy as np
 import color_dtu_design as color
 import matplotlib.pyplot as plt
 
-def plot_erros(title, models, number_of_agents,legend, marker):
+def plot_erros(title, errors, number_of_agents,legend, marker):
     x = np.arange(1,7)
-    errors = [[0] for i in number_of_agents]
     m = number_of_agents.shape[0]
-
-    for i in range(m):
-        errors[i] = performence_metric(models[i],number_of_agents[i])[0]
     for j in range(4):
-
         plt.figure(j)
         for i in range(m):
-            col = color.color_design.color_design(i+2).color
+            col = color.color_design.color_design(i+1).color
             if number_of_agents[i] == 12:
                 temp1 = errors[i].T[j,[0,2,4,6,8,10]]
                 temp2 = errors[i].T[j,[1,3,5,7,9,11]]
@@ -43,21 +38,29 @@ def diffangels(angles_naiv_index, angles_PCA_index, angles_naiv_physical, angles
     angels = np.abs(np.concatenate([diff_naiv_index, diff_PCA_index,diff_naiv_physical,diff_PCA_physical],axis = 1))
     return angels
 
-def plotdifang(title, models, number_of_agents,legend, marker):
+def plotdifang(title, angels, number_of_agents,legend, marker):
     x = np.arange(1,14)
-    angles = [[0] for i in range(len(models))]
-    m = len(models)
-    for i in range(m):
-        _,naiv_i,pca_i,naiv_p,pca_p = performence_metric(models[i],number_of_agents[i])
-        angles[i] = diffangels(naiv_i,pca_i,naiv_p,pca_p)
+    m = len(number_of_agents)
     for j in range(4):
-        plt.figure(j)
+        plt.figure(j+4)
         for i in range(m):
             col = color.color_design.color_design(i+1).color
-            temp = angles[i][:].T[j]
+            temp = angels[i][:].T[j]
             plt.plot(x,temp, marker=marker[i],color=col, linestyle = 'None')
         plt.legend(legend)
         plt.ylabel('[mm]')
         plt.xlabel('Test Image')
         plt.title(title[j])
         plt.show()
+
+
+def plot_all_plots(title_erros, title_angels, legend, marker, models, number_of_agents):
+    m = len(models)
+    errors = [[0] for i in number_of_agents]
+    angels = [[0] for i in range(len(models))]
+    for i in range(m):
+        errors[i],naiv_i,pca_i,naiv_p,pca_p = performence_metric(models[i],number_of_agents[i])
+        angels[i] = diffangels(naiv_i,pca_i,naiv_p,pca_p)
+
+    plot_erros(title_erros, errors, number_of_agents, legend, marker)
+    plotdifang(title_angels, angels, number_of_agents, legend, marker)
