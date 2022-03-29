@@ -58,9 +58,10 @@ def plot_all_plots(title_erros, title_angels, legend, marker, models, number_of_
     for i in range(m):
         errors[i],naiv_i,pca_i,naiv_p,pca_p = performence_metric(models[i],number_of_agents[i])
         angels[i] = diffangels(naiv_i,pca_i,naiv_p,pca_p)
-    te = [[0] for i in number_of_agents]
     if col==None:
+        te = [[0] for i in number_of_agents]
         for i in range(m):
             te[i] = colorl.color_design.color_design(i+1).color
-    plot_erros(title_erros, errors, number_of_agents, legend, marker,te)
-    plotdifang(title_angels, angels, number_of_agents, legend, marker,te)
+        col = te
+    plot_erros(title_erros, errors, number_of_agents, legend, marker,col)
+    plotdifang(title_angels, angels, number_of_agents, legend, marker,col)
