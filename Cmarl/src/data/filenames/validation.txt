@@ -1,7 +1,6 @@
 ./Cmarl/src/data/images/Data_Scaled/ear1-P0051_2.nii.gz
 ./Cmarl/src/data/images/Data_Scaled/ear2-P0008_1.nii.gz
 ./Cmarl/src/data/images/Data_Scaled/ear2-P0034_1.nii.gz
-./Cmarl/src/data/images/Data_Scaled/ear2-P0064_1.nii.gz
 ./Cmarl/src/data/images/Data_Scaled/ear2-P0064_2.nii.gz
 ./Cmarl/src/data/images/Data_Scaled/ear2-P0099_1.nii.gz
 ./Cmarl/src/data/images/Data_Scaled/ear2-P1032_1.nii.gz
