@@ -44,7 +44,7 @@ def save_all_scaled_images(im_ref_idx, quantile):
         im_scaled = sitk.GetImageFromArray(im_scaled)
         im_scaled.SetOrigin(orgin)
         im_scaled.SetSpacing(space)
-        sitk.WriteImage(im_scaled, "Data_Scaled/" + f)
+        sitk.WriteImage(im_scaled, "tmp/" + f)
 
 
 

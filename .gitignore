@@ -4,6 +4,7 @@
 __pycache__/*
 gifs/* 
 models/*
+tmp/* 
 
 
 # other files 
