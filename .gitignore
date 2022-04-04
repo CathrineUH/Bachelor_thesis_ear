@@ -17,3 +17,4 @@ Tensorboard/*
 junk/*
 Data_Scaled/*
 Functions/__pycache__/*
+Data_good/*

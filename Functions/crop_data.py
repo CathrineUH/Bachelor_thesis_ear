@@ -1,3 +1,4 @@
+from sympy import source
 from .Dataloader import *
 import SimpleITK as sitk
 import numpy as np
@@ -54,6 +55,11 @@ def moveImage(data_path,fileName,path_new,newFileName):
 def copyImage(data_path,FileName,newPath):
     sh.copy(data_path+"\\"+FileName,newPath,follow_symlinks=True)
 
+def renameImage(path):
+    for filename in os.listdir(path):
+        source = path+"/"+filename
+        destination = path + "/" + filename[5:8] + "_"+filename[13]+".nii.gz"
+        os.rename(source, destination)
 
 def flipImage(path):
     """
