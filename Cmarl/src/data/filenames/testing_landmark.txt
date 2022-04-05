@@ -1,5 +1,3 @@
-./Cmarl/src/data/landmarks/landmarks_100/ear1-P0066_1.txt
-./Cmarl/src/data/landmarks/landmarks_100/ear1-P0318_1.txt
 ./Cmarl/src/data/landmarks/landmarks_100/ear1-P1051_2.txt
 ./Cmarl/src/data/landmarks/landmarks_100/ear1-P1133_1.txt
 ./Cmarl/src/data/landmarks/landmarks_100/ear2-P0060_1.txt
@@ -9,4 +7,3 @@
 ./Cmarl/src/data/landmarks/landmarks_100/ear2-P1051_2.txt
 ./Cmarl/src/data/landmarks/landmarks_100/ear2-P1065_3.txt
 ./Cmarl/src/data/landmarks/landmarks_100/ear2-P1094_1.txt
-./Cmarl/src/data/landmarks/landmarks_100/ear2-P1142_1.txt
