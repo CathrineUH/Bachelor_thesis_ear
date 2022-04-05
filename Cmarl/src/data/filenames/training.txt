@@ -69,3 +69,9 @@
 ./Cmarl/src/data/images/Data_Scaled/ear2-P1124_1.nii.gz
 ./Cmarl/src/data/images/Data_Scaled/ear2-P1138_1.nii.gz
 ./Cmarl/src/data/images/Data_Scaled/ear2-P1169_1.nii.gz
+./Cmarl/src/data/images/Data_Scaled/ear2-P1142_1.nii.gz
+./Cmarl/src/data/images/Data_Scaled/ear1-P0066_1.nii.gz
+./Cmarl/src/data/images/Data_Scaled/ear1-P0318_1.nii.gz
+./Cmarl/src/data/images/Data_Scaled/ear2-P1068_1.nii.gz
+./Cmarl/src/data/images/Data_Scaled/ear2-P0099_1.nii.gz
+./Cmarl/src/data/images/Data_Scaled/ear2-P1034_1.nii.gz
