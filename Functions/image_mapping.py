@@ -3,11 +3,6 @@ from .Dataloader import getFiles
 import SimpleITK as sitk 
 from skimage.exposure import match_histograms 
 
-def match_hist_one_image(im_ref, im_src):
-    multi = True if im_src.shape[-1] > 1 else False
-    return match_histograms(im_src, im_ref, multichannel = multi)
-
-
 def compute_global_max(files, quantile):
     all_images = np.zeros((96, 110, 110, 110))
     for count, i in enumerate(files):
@@ -22,29 +17,29 @@ def scale_image(im, global_max):
     return im  
 
 
-def save_all_scaled_images(im_ref_idx, quantile):
+def save_all_scaled_images(quantile):
     # im_ref_idx = 15 
 
     files = getFiles("junk/Data_use_100")
-    im_ref = sitk.GetArrayFromImage(sitk.ReadImage("junk/Data_use_100/" + files[im_ref_idx]))
     global_max = compute_global_max(files, quantile)
 
-    for f in files:
+    for count, f in enumerate(files):
+        if count == 32: 
+            continue 
         # load 
-        im_src = sitk.ReadImage("junk/Data_use_100/" + f)
-        space = im_src.GetSpacing()
-        orgin = im_src.GetOrigin()
-        im_src = sitk.GetArrayFromImage(im_src)
+        im = sitk.ReadImage("junk/Data_use_100/" + f)
+        space = im.GetSpacing()
+        orgin = im.GetOrigin()
+        im = sitk.GetArrayFromImage(im)
 
         # scale 
-        im_matched = match_hist_one_image(im_ref, im_src)
-        im_scaled = scale_image(im_matched, global_max)
+        im_scaled = scale_image(im, global_max)
 
         # save 
         im_scaled = sitk.GetImageFromArray(im_scaled)
         im_scaled.SetOrigin(orgin)
         im_scaled.SetSpacing(space)
-        sitk.WriteImage(im_scaled, "tmp/" + f)
+        sitk.WriteImage(im_scaled, "Data_Scaled/" + f)
 
 
 
