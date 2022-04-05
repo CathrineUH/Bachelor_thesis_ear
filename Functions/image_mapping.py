@@ -1,7 +1,6 @@
 import numpy as np 
 from .Dataloader import getFiles
 import SimpleITK as sitk 
-from skimage.exposure import match_histograms 
 
 def compute_global_max(files, quantile):
     all_images = np.zeros((96, 110, 110, 110))
