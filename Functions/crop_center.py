@@ -1,17 +1,21 @@
 import SimpleITK as sitk
 import json
+import numpy as np
 
-def read_aorta_landmarks():
-    full_name = 'C:/data/VideoMaterial/ABD_LYMPH_001/F.mrk.json'
+def bound_landmarks(full_name):
     f = open(full_name)
 
     data = json.load(f)
     t = data['markups'][0]['controlPoints']
+    Dict = {'C': 0, 'A': 1, 'R': 2, 'M': 3, 'T': 4, 'B': 5}
+    Coordinat = np.zeros((6,3))
+    for lm in range(6):
+        Coordinat[Dict[t[lm]['label']]] = t[lm]['position']
 
     first = True
     xmin = xmax = ymax = ymin = zmin = zmax = 0
-    for lm in t:
-        pos = lm['position']
+    for lm in Coordinat:
+        pos = lm
         x = pos[0]
         y = pos[1]
         z = pos[2]
@@ -33,35 +37,24 @@ def read_aorta_landmarks():
     return bounds
 
 
-def crop_aorta_roi(bounds):
-    full_name = 'C:/data/VideoMaterial/ABD_LYMPH_001/abdominal_lymph_nodes.nrrd'
-    resampled_name = 'C:/data/test/abdominal_lymph_nodes_resampled.nrrd'
+def crop_ear_roi(full_name,bounds, resampled_name):
     image = sitk.ReadImage(full_name)
-    # print(image.GetOrigin())
-    # print(image.GetSize())
-    # print(image.GetSpacing())
-    # print(image.GetSize())
-    # print(image.GetWidth())
-    # print(image.GetHeight())
-    # print(image.GetDepth())
-    # print(image.GetPixelID())
-    # print(image.GetNumberOfComponentsPerPixel())
 
     # Create the sampled image with same direction
     direction = image.GetDirection()
 
     # Desired voxel spacing for new image
-    new_spacing = [0.25, 0.25, 0.25]
+    new_spacing = image.GetSpacing()
 
     # adjust bounds
     # Add some millimeters on each side
-    padding = 15
+    padding = 30
 
     # in slice size (max of x length and y length plus padding in both sides)
     max_l = max(bounds[1]-bounds[0], bounds[3]-bounds[2]) + 2 * padding
     nvox_xy = int(max_l / new_spacing[0] + 1)
     new_l_xy = nvox_xy * new_spacing[0]
-    nvox_z = int((bounds[5] - bounds[4] + 2 * padding) / new_spacing[2])
+    nvox_z = int((bounds[5] - bounds[4] + padding)/ new_spacing[2])
     print('Size of new volume: ', nvox_xy, nvox_xy, nvox_z, ' voxels')
 
     # Compute new origin from center of old bounds
@@ -70,8 +63,8 @@ def crop_aorta_roi(bounds):
     new_origin_z = (bounds[5] + bounds[4]) / 2 - nvox_z * new_spacing[2] / 2
 
     # Size in number of voxels per side
-    # new_size = [100, 100, 100]
-    new_size = [nvox_xy, nvox_xy, nvox_z]
+    new_size = [100, 100, 100]
+    # new_size = [nvox_xy, nvox_xy, nvox_z]
     new_image = sitk.Image(new_size, image.GetPixelIDValue())
     new_image.SetOrigin([new_origin_x, new_origin_y, new_origin_z])
     new_image.SetSpacing(new_spacing)
@@ -89,6 +82,9 @@ def crop_aorta_roi(bounds):
 
 
 if __name__ == '__main__':
-    bds = read_aorta_landmarks()
-    crop_aorta_roi(bds)
+    full_name = "007_1_L.json"
+    full_name_image = "Data_good/007_1.nii.gz"
+    resampled_name = "007_1_L.nii.gz"
+    bds = bound_landmarks(full_name = full_name)
+    crop_ear_roi(full_name_image,bds, resampled_name)
 
