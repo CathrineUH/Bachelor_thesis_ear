@@ -1,6 +1,7 @@
 import SimpleITK as sitk
 import json
 import numpy as np
+from Dataloader import getFiles 
 
 def bound_landmarks(full_name):
     f = open(full_name)
@@ -16,8 +17,8 @@ def bound_landmarks(full_name):
     xmin = xmax = ymax = ymin = zmin = zmax = 0
     for lm in Coordinat:
         pos = lm
-        x = pos[0]
-        y = pos[1]
+        x = -pos[0]
+        y = -pos[1]
         z = pos[2]
         if first:
             first = False
@@ -82,9 +83,10 @@ def crop_ear_roi(full_name,bounds, resampled_name):
 
 
 if __name__ == '__main__':
-    full_name = "007_1_L.json"
-    full_name_image = "Data_good/007_1.nii.gz"
-    resampled_name = "007_1_L.nii.gz"
-    bds = bound_landmarks(full_name = full_name)
-    crop_ear_roi(full_name_image,bds, resampled_name)
+    full_name = getFiles("Annotations_good")
+    full_name_image = getFiles("Data_good")
+    for i in range(len(full_name)):
+        resampled_name = "Data_crop/" + full_name[i][0:7]+".nii.gz"
+        bds = bound_landmarks(full_name = "Annotations_good/"+full_name[i])
+        crop_ear_roi("Data_good/"+full_name_image[i],bds, resampled_name)
 
