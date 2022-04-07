@@ -19,7 +19,7 @@ def bound_landmarks(full_name):
         pos = lm
         x = -pos[0]
         y = -pos[1]
-        z = pos[2]
+        z =  pos[2]
         if first:
             first = False
             xmin = xmax = x
@@ -89,4 +89,10 @@ if __name__ == '__main__':
         resampled_name = "Data_crop/" + full_name[i][0:7]+".nii.gz"
         bds = bound_landmarks(full_name = "Annotations_good/"+full_name[i])
         crop_ear_roi(full_name_image,bds, resampled_name)
+    # full_name = "Test_001_1.json"
+    # full_name_image = "Data_good/001_1.nii.gz"
+    # resampled_name = "001_1.nii.gz"
+    # bds = bound_landmarks(full_name = full_name)
+    # print(bds)
+    # crop_ear_roi(full_name_image,bds, resampled_name)
 
