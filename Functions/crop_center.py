@@ -49,7 +49,7 @@ def crop_ear_roi(full_name,bounds, resampled_name):
 
     # adjust bounds
     # Add some millimeters on each side
-    padding = 30 
+    padding = 40 
 
     # in slice size (max of x length and y length plus padding in both sides)
     max_l = max(bounds[1]-bounds[0], bounds[3]-bounds[2]) + 2 * padding
@@ -59,8 +59,8 @@ def crop_ear_roi(full_name,bounds, resampled_name):
     print('Size of new volume: ', nvox_xy, nvox_xy, nvox_z, ' voxels')
 
     # Compute new origin from center of old bounds
-    new_origin_x = (bounds[1] + bounds[0]) / 2 - new_l_xy / 2 - new_l_xy / 3  
-    new_origin_y = (bounds[3] + bounds[2]) / 2 - new_l_xy / 2 + new_l_xy / 3  
+    new_origin_x = (bounds[1] + bounds[0]) / 2 - 6 / 10 * new_l_xy  
+    new_origin_y = (bounds[3] + bounds[2]) / 2 - 1 / 6 * new_l_xy 
     new_origin_z = (bounds[5] + bounds[4]) / 2 - nvox_z * new_spacing[2] / 2
 
 
