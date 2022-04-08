@@ -17,7 +17,7 @@ def bound_landmarks(full_name):
     xmin = xmax = ymax = ymin = zmin = zmax = 0
     for lm in Coordinat:
         pos = lm
-        x = -pos[0]
+        x = pos[0]
         y = -pos[1]
         z =  pos[2]
         if first:
@@ -45,7 +45,7 @@ def crop_ear_roi(full_name,bounds, resampled_name):
     direction = image.GetDirection()
 
     # Desired voxel spacing for new image
-    new_spacing = image.GetSpacing()
+    new_spacing = [1,1,1]
 
     # adjust bounds
     # Add some millimeters on each side
@@ -55,7 +55,7 @@ def crop_ear_roi(full_name,bounds, resampled_name):
     max_l = max(bounds[1]-bounds[0], bounds[3]-bounds[2]) + 2 * padding
     nvox_xy = int(max_l / new_spacing[0] + 1)
     new_l_xy = nvox_xy * new_spacing[0]
-    nvox_z = int((bounds[5] - bounds[4] + padding)/ new_spacing[2])
+    nvox_z = int((bounds[5] - bounds[4] + 2*padding)/ new_spacing[2])
     print('Size of new volume: ', nvox_xy, nvox_xy, nvox_z, ' voxels')
 
     # Compute new origin from center of old bounds
@@ -64,8 +64,8 @@ def crop_ear_roi(full_name,bounds, resampled_name):
     new_origin_z = (bounds[5] + bounds[4]) / 2 - nvox_z * new_spacing[2] / 2
 
     # Size in number of voxels per side
-    new_size = [100, 100, 100]
-    # new_size = [nvox_xy, nvox_xy, nvox_z]
+    # new_size = [100, 100, 100]
+    new_size = [nvox_xy, nvox_xy, nvox_z]
     new_image = sitk.Image(new_size, image.GetPixelIDValue())
     new_image.SetOrigin([new_origin_x, new_origin_y, new_origin_z])
     new_image.SetSpacing(new_spacing)
@@ -84,15 +84,15 @@ def crop_ear_roi(full_name,bounds, resampled_name):
 
 if __name__ == '__main__':
     full_name = getFiles("Annotations_good")
-    for i in range(len(full_name)):
-        full_name_image = "Data_good/" + full_name[i][0:5] + ".nii.gz"
-        resampled_name = "Data_crop/" + full_name[i][0:7]+".nii.gz"
-        bds = bound_landmarks(full_name = "Annotations_good/"+full_name[i])
-        crop_ear_roi(full_name_image,bds, resampled_name)
-    # full_name = "Test_001_1.json"
-    # full_name_image = "Data_good/001_1.nii.gz"
-    # resampled_name = "001_1.nii.gz"
-    # bds = bound_landmarks(full_name = full_name)
-    # print(bds)
-    # crop_ear_roi(full_name_image,bds, resampled_name)
+    # for i in range(len(full_name)):
+    #     full_name_image = "Data_good/" + full_name[i][0:5] + ".nii.gz"
+    #     resampled_name = "Data_crop/" + full_name[i][0:7]+".nii.gz"
+    #     bds = bound_landmarks(full_name = "Annotations_good/"+full_name[i])
+    #     crop_ear_roi(full_name_image,bds, resampled_name)
+    full_name = full_name[0]
+    full_name_image = "Data_good/" + full_name[0:5] + ".nii.gz"
+    resampled_name = full_name[0:7]+".nii.gz"
+    bds = bound_landmarks(full_name = "Annotations_good/"+full_name)
+    print(bds)
+    crop_ear_roi(full_name_image,bds, resampled_name)
 
