@@ -1,7 +1,7 @@
 import SimpleITK as sitk
 import json
 import numpy as np
-from Dataloader import getFiles 
+from .Dataloader import getFiles 
 
 def bound_landmarks(full_name):
     f = open(full_name)
