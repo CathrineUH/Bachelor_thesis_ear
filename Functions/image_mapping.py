@@ -20,7 +20,7 @@ def save_all_scaled_images(image_path,quantile):
     # im_ref_idx = 15 
 
     files = getFiles(image_path)
-    global_max = compute_global_max(files, quantile)
+    global_max = compute_global_max(image_path,files, quantile)
 
     for count, f in enumerate(files):
         if count == 32: 
