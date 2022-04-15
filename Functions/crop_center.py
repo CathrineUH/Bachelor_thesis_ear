@@ -92,15 +92,15 @@ def crop_ear_roi(full_name,bounds, resampled_name):
 
 if __name__ == '__main__':
     full_name = getFiles("Annotations_good")
-    # for i in range(1, len(full_name)):
-    #     full_name_image = "Data_good/" + full_name[i][0:5] + ".nii.gz"
-    #     resampled_name = "Data_crop/" + full_name[i][0:7]+".nii.gz"
-    #     bds = bound_landmarks(full_name = "Annotations_good/"+full_name[i])
-    #     crop_ear_roi(full_name_image,bds, resampled_name)
-    full_name = full_name[0]
-    full_name_image = "Data_good/" + full_name[0:5] + ".nii.gz"
-    resampled_name = full_name[0:7]+".nii.gz"
-    bds = bound_landmarks(full_name = "Annotations_good/"+full_name)
-    print(bds)
-    crop_ear_roi(full_name_image,bds, resampled_name)
+    for i in range(1, len(full_name)):
+        full_name_image = "Data_good/" + full_name[i][0:5] + ".nii.gz"
+        resampled_name = "Data_crop/" + full_name[i][0:7]+".nii.gz"
+        bds = bound_landmarks(full_name = "Annotations_good/"+full_name[i])
+        crop_ear_roi(full_name_image,bds, resampled_name)
+    # full_name = full_name[0]
+    # full_name_image = "Data_good/" + full_name[0:5] + ".nii.gz"
+    # resampled_name = full_name[0:7]+".nii.gz"
+    # bds = bound_landmarks(full_name = "Annotations_good/"+full_name)
+    # print(bds)
+    # crop_ear_roi(full_name_image,bds, resampled_name)
 
