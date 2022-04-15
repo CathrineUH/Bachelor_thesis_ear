@@ -17,7 +17,7 @@ Cmarl/src/__pycache__/*
 Cmarl/.github/*
 Tensorboard/*
 junk/*
-Cmarl/src/data/images/Data_Scaled/*
+Cmarl/src/data/images/*
 Functions/__pycache__/*
 Data_good/*
 Data_crop/*
