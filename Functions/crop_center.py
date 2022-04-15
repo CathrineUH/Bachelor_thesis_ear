@@ -45,7 +45,8 @@ def crop_ear_roi(full_name,bounds, resampled_name):
     direction = image.GetDirection()
 
     # Desired voxel spacing for new image
-    new_spacing = [0.5, 0.5, 0.5]
+    new_spacing = [1, 1, 1]
+    # new_spacing = [0.5, 0.5, 0.5]
 
     # adjust bounds
     # Add some millimeters on each side
