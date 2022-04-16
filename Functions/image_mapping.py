@@ -3,10 +3,10 @@ from .Dataloader import getFiles
 import SimpleITK as sitk 
 
 def compute_global_max(image_path,files, quantile):
-    all_images = np.zeros((96, 110, 110, 110))
-    for count, i in enumerate(files):
-        im = sitk.GetArrayFromImage(sitk.ReadImage(image_path+"/" + i))
-        all_images[count] = im 
+    all_images = np.array([])
+    for file in files:
+        im = sitk.GetArrayFromImage(sitk.ReadImage(image_path + "/" + file))
+        all_images = np.append(all_images, im.flatten())
     global_max = np.quantile(all_images, quantile)
     return global_max 
 
@@ -23,8 +23,8 @@ def save_all_scaled_images(image_path,quantile):
     global_max = compute_global_max(image_path,files, quantile)
 
     for count, f in enumerate(files):
-        if count == 32: 
-            continue 
+        #if count == 32: 
+        #    continue 
         # load 
         im = sitk.ReadImage(image_path+"/" + f)
         space = im.GetSpacing()
