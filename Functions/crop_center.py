@@ -38,9 +38,8 @@ def bound_landmarks(full_name):
     return bounds
 
 
-def crop_ear_roi(full_name,bounds, resampled_name):
+def crop_ear_roi(full_name,bounds, resampled_name,ear):
     image = sitk.ReadImage(full_name)
-    ear = full_name[6]
     # Create the sampled image with same direction
     direction = image.GetDirection()
 
@@ -50,7 +49,7 @@ def crop_ear_roi(full_name,bounds, resampled_name):
 
     # adjust bounds
     # Add some millimeters on each side
-    padding = 40 
+    padding = 50 
 
     # in slice size (max of x length and y length plus padding in both sides)
     max_l = max(bounds[1]-bounds[0], bounds[3]-bounds[2]) + 2 * padding
@@ -61,13 +60,14 @@ def crop_ear_roi(full_name,bounds, resampled_name):
 
     # Compute new origin from center of old bounds
     if (ear =="R"):
-        new_origin_x = (bounds[1] + bounds[0]) / 2 - 6 / 10 * new_l_xy 
-        new_origin_y = (bounds[3] + bounds[2]) / 2 - 1 / 6 * new_l_xy 
-        new_origin_z = (bounds[5] + bounds[4]) / 2 - nvox_z * new_spacing[2] / 2
+        new_origin_x = (bounds[1] + bounds[0]) / 2 + 7 / 10 * new_l_xy
+        new_origin_y = (bounds[3] + bounds[2]) / 2 + 2 / 12 * new_l_xy
+        new_origin_z = (bounds[5] + bounds[4]) / 2 - nvox_z * new_spacing[2] / 3
+
     else:
-        new_origin_x = (bounds[1] + bounds[0]) / 2 + 4 / 10 * new_l_xy
-        new_origin_y = (bounds[3] + bounds[2]) / 2 + 1 / 12 * new_l_xy
-        new_origin_z = (bounds[5] + bounds[4]) / 2 - nvox_z * new_spacing[2] / 2
+        new_origin_x = (bounds[1] + bounds[0]) / 2 + 3 / 10 * new_l_xy
+        new_origin_y = (bounds[3] + bounds[2]) / 2 + 4 / 12 * new_l_xy
+        new_origin_z = (bounds[5] + bounds[4]) / 2 - nvox_z * new_spacing[2] / 3
 
 
 
@@ -86,21 +86,23 @@ def crop_ear_roi(full_name,bounds, resampled_name):
     interpolator = sitk.sitkLinear
     # Create final reasampled image
     resampled_image = sitk.Resample(image, new_image, translation, interpolator)
-
+    if ear=="R":
+        resampled_image = sitk.Flip(resampled_image, [True, False, False])
     sitk.WriteImage(resampled_image, resampled_name)
 
 
 if __name__ == '__main__':
     full_name = getFiles("Annotations_good")
     for i in range(1, len(full_name)):
+        ear = full_name[i][6]
         full_name_image = "Data_good/" + full_name[i][0:5] + ".nii.gz"
         resampled_name = "Data_crop/" + full_name[i][0:7]+".nii.gz"
         bds = bound_landmarks(full_name = "Annotations_good/"+full_name[i])
-        crop_ear_roi(full_name_image,bds, resampled_name)
-    # full_name = full_name[0]
+        crop_ear_roi(full_name_image,bds, resampled_name,ear)
+    # full_name = full_name[1]
+    # ear = full_name[6]
     # full_name_image = "Data_good/" + full_name[0:5] + ".nii.gz"
     # resampled_name = full_name[0:7]+".nii.gz"
     # bds = bound_landmarks(full_name = "Annotations_good/"+full_name)
-    # print(bds)
-    # crop_ear_roi(full_name_image,bds, resampled_name)
+    # crop_ear_roi(full_name_image,bds, resampled_name,ear)
 
