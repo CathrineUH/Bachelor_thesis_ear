@@ -16,7 +16,7 @@ def scale_image(im, global_max):
     return im  
 
 
-def save_all_scaled_images(image_path,quantile):
+def save_all_scaled_images(image_path,quantile,image_path_out):
     # im_ref_idx = 15 
 
     files = getFiles(image_path)
@@ -38,7 +38,7 @@ def save_all_scaled_images(image_path,quantile):
         im_scaled = sitk.GetImageFromArray(im_scaled)
         im_scaled.SetOrigin(orgin)
         im_scaled.SetSpacing(space)
-        sitk.WriteImage(im_scaled, "Data_good_Scaled/" + f)
+        sitk.WriteImage(im_scaled, image_path_out+"/" + f)
 
 
 
