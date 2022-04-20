@@ -11,8 +11,8 @@ from .Dataloader import*
 
 def read_ear_landmarks(path_json,path_data,full_name):
     f = open(path_json+"\\"+full_name)
-    file_name = path_data +"\\"+ full_name[0:12]
-
+    # file_name = path_data +"\\"+ full_name[0:12]
+    file_name = path_data +"\\"+ full_name[0:7]+".nii.gz"
     data = json.load(f)
     t = data['markups'][0]['controlPoints']
     Dict = {'C': 0, 'A': 1, 'R': 2, 'M': 3, 'T': 4, 'B': 5}
@@ -34,5 +34,5 @@ def change_coordinate_system(positions, file_name):
 def write_all_landmarks_to_txt(files, path_data, path_out, path_json):
    for i in files:
        coordinates = read_ear_landmarks(path_json,path_data,i)
-       file_name = path_out +"\\"+ i[0:12]
+       file_name = path_out +"\\"+ i[0:7]
        np.savetxt(file_name+".txt",coordinates,fmt='%.f')
