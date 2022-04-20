@@ -2,6 +2,10 @@ import numpy as np
 from .Dataloader import getFiles
 import SimpleITK as sitk 
 
+import numpy as np 
+from .Dataloader import getFiles
+import SimpleITK as sitk 
+
 def compute_global_max(image_path,files, quantile):
     all_images = np.array([])
     for file in files:
@@ -39,7 +43,6 @@ def save_all_scaled_images(image_path,quantile):
         im_scaled.SetOrigin(orgin)
         im_scaled.SetSpacing(space)
         sitk.WriteImage(im_scaled, "Data_good_Scaled/" + f)
-
 
 
 

@@ -7,3 +7,16 @@
 ./Cmarl/src/data/images/Data_Scaled/ear2-P1051_2.nii.gz
 ./Cmarl/src/data/images/Data_Scaled/ear2-P1065_3.nii.gz
 ./Cmarl/src/data/images/Data_Scaled/ear2-P1094_1.nii.gz
+./Cmarl/src/data/images/Data_good_Scaled/011_1_R.nii.gz
+./Cmarl/src/data/images/Data_good_Scaled/020_1_L.nii.gz
+./Cmarl/src/data/images/Data_good_Scaled/020_2_L.nii.gz
+./Cmarl/src/data/images/Data_good_Scaled/078_1_L.nii.gz
+./Cmarl/src/data/images/Data_good_Scaled/078_1_R.nii.gz
+./Cmarl/src/data/images/Data_good_Scaled/084_1_R.nii.gz
+./Cmarl/src/data/images/Data_good_Scaled/028_1_R.nii.gz
+./Cmarl/src/data/images/Data_good_Scaled/028_2_R.nii.gz
+./Cmarl/src/data/images/Data_good_Scaled/035_1_L.nii.gz
+./Cmarl/src/data/images/Data_good_Scaled/035_2_L.nii.gz
+./Cmarl/src/data/images/Data_good_Scaled/008_1_R.nii.gz
+./Cmarl/src/data/images/Data_good_Scaled/008_2_L.nii.gz
+./Cmarl/src/data/images/Data_good_Scaled/036_2_R.nii.gz
