@@ -8,3 +8,4 @@ from .latex_functions import *
 from .metrics import *
 from .plotFunctions import *
 from .color import*
+from .angleVis import*
