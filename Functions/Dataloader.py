@@ -22,15 +22,24 @@ def loadImageFromFile(path,file_name):
         file_name: filename of the image.
 
     Output: 
-        im: Images as a numpy array.
+        im: Images as a sitk image
     """
     im = sitk.ReadImage(path +"\\"+ file_name)
     return im
 
+def loadImagenpFromFile(path,file_name):
+    """
+    The function takes a filename of an image and returns the image.
+    
+    Input: 
+        file_name: filename of the image.
 
-def loadTraining(path):
-    la = 100
-    return la 
+    Output: 
+        im: Images as a numpy array.
+    """
+    im = loadImageFromFile(path,file_name)
+    im = sitk.GetArrayFromImage(im)
+    return im
 
 def changetxtfile(path,filename,txtfile,nr):
     f = open(path +"\\"+filename, "r+")
