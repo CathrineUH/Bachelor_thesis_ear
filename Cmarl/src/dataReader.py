@@ -131,28 +131,8 @@ class NiftiImage(object):
         assert self._is_nifti(
             image.name), "unknown image format for %r" % image.name
 
-        if label:
-            sitk_image = sitk.ReadImage(image.name, sitk.sitkInt8)
-        else:
-            sitk_image = sitk.ReadImage(image.name, sitk.sitkFloat32)
-            np_image = sitk.GetArrayFromImage(sitk_image)
-            # threshold image between p10 and p98 then re-scale [0-255]
-            p0 = np_image.min().astype('float')
-            p10 = np.percentile(np_image, 10)
-            p99 = np.percentile(np_image, 99)
-            p100 = np_image.max().astype('float')
-            sitk_image = sitk.Threshold(sitk_image,
-                                        lower=p10,
-                                        upper=p100,
-                                        outsideValue=p10)
-            sitk_image = sitk.Threshold(sitk_image,
-                                        lower=p0,
-                                        upper=p99,
-                                        outsideValue=p99)
-            sitk_image = sitk.RescaleIntensity(sitk_image,
-                                               outputMinimum=0,
-                                               outputMaximum=255)
-
+        sitk_image = sitk.ReadImage(image.name, sitk.sitkFloat32)
+        
         # Convert from [depth, width, height] to [width, height, depth]
         image.data = sitk.GetArrayFromImage(
             sitk_image).transpose(2, 1, 0)  # .astype('uint8')

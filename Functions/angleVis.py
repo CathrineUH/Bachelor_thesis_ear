@@ -4,6 +4,7 @@ import numpy as np
 import matplotlib.pyplot as plt 
 import matplotlib
 from .computeAngle import * 
+from .color import * 
 
 
 class VisualizeAngle: 
@@ -127,6 +128,85 @@ class VisualizeAngle:
 
         return angle * 180 / np.pi 
 
+    def plot_angle_slice(self, chorda, facial):
+        # defining points of lines 
+        x1, y1 = chorda[0]
+        x2, y2 = chorda[-1]
+        x3, y3, _ = facial[0]
+        x4, y4, _ = facial[-1]
+
+        D = (x1 - x2) * (y3 - y4) - (y1 - y2) * (x3 - x4)
+        first = (x1 * y2 - y1 * x2) 
+        last = (x3 * y4 - y3 * x4)
+
+        # points of intersection 
+        Px = (first * (x3 - x4) - (x1 - x2) * last)/ D
+        Py = (first * (y3 - y4) - (y1 - y2) * last) / D
+
+        r = 2 
+
+        x_list = []
+        y_list = []
+        slope_facial = (y4 - y3) / (x4 - x3)
+        slope_chorda = (y2 - y1) / (x2 - x1)
+        b_facial = y4 - slope_facial * x4 
+        b_chorda = y1 - slope_chorda * x1 
+        def line_circle_intersect(m, b, x0, y0, r): 
+            c1 = 1 + m ** 2
+            c2 = - 2.0 * x0 + 2 * m * ( b - y0 )
+            c3 = x0 * 2 + ( b - y0 ) * 2 - r ** 2
+
+            # solve the quadratic equation:
+            delta = c2 ** 2 - 4.0 * c1 * c3
+
+            x1 = ( - c2 + np.sqrt(delta) ) / ( 2.0 * c1 )
+            x2 = ( - c2 - np.sqrt(delta) ) / ( 2.0 * c1 )
+
+            x_list.append(x1)
+            x_list.append(x2)
+
+            y1 = m * x1 + b
+            y2 = m * x2 + b
+
+            y_list.append(y1)
+            y_list.append(y2)
+                
+        line_circle_intersect(slope_facial, b_facial, Px, Py, r)
+        line_circle_intersect(slope_chorda, b_chorda, Px, Py, r)
+
+        def get_point_angle(x,y,x0,y0):
+
+            num = x - x0
+            den = np.sqrt( ( x - x0 )**2 + ( y - y0 )**2 )
+
+            theta = np.arccos( num / den )
+
+            if not y - y0 >= 0: theta = 2 * np.pi - theta
+
+            #print(theta, np.rad2deg(theta), y - y0 )
+
+            return theta
+
+        theta_list = []
+
+        for i in range(len(x_list)):
+
+            x = x_list[i]
+            y = y_list[i]
+
+            theta_list.append(get_point_angle(x,y,Px,Py) )
+        
+        theta1 = theta_list[1]
+        theta2 = theta_list[3]
+        circ = np.linspace(theta1, theta2, 100)
+        circ_x = r * np.cos(circ) + Px 
+        circ_y = r * np.sin(circ) + Py 
+
+        mid_angle = (theta1 + theta2) / 2.0 
+        mid_angle_x = (r + 2.8) * np.cos(mid_angle) + Px
+        mid_angle_y = (r + 2.8) * np.sin(mid_angle) + Py
+        return circ_x, circ_y, mid_angle_x, mid_angle_y
+
     def plot_angle_in_plane(self, nr): 
         """
         This is the function to call. It plots the angle 
@@ -139,29 +219,35 @@ class VisualizeAngle:
         angle_model = self.compute_angle(chorda_model, facial_model)
         matplotlib.rcParams.update({'font.size': 18})
         def plot(chorda, facial, p_rot, title, angle): 
+            circ_x, circ_y, mid_angle_x, mid_angle_y = self.plot_angle_slice(chorda, facial)
             c = chorda 
             f = facial 
             plt.figure()
-            plt.plot(c[:, 0], c[:, 1], linestyle = '-', color = "b", label = "chorda nerve")
-            plt.plot(f[:, 0], f[:, 1], linestyle = '-', color = "r", label = "facial nerve")
-            marker = ["o", "o", "v", "v", "v"]
-            color = ["g", "g", "k", "k", "k"]
-            label = ["C", "A", "R", "M", "T"]
+            plt.plot(c[:, 0], c[:, 1], linestyle = '-', color = col(8).color, label = "CTN")
+            plt.plot(f[:, 0], f[:, 1], linestyle = '-', color = col(1).color, label = "FN")
+            color = [col(6).color, col(6).color, col(2).color, col(2).color, col(2).color]
             for i in range(5): 
-                plt.scatter(p_rot[i, 0], p_rot[i, 1], marker = marker[i], color = color[i], label = label[i])
+                if i == 0: 
+                    plt.scatter(p_rot[i, 0], p_rot[i, 1], marker = "o", color = color[i], label = "Landmark")
+                else: 
+                   plt.scatter(p_rot[i, 0], p_rot[i, 1], marker = "o", color = color[i]) 
+            plt.plot(circ_x, circ_y, color = col(10).color)
+            plt.text(mid_angle_x, mid_angle_y, angle, fontsize = 12)
             plt.legend()
             plt.axis("square")
             plt.gca().set_aspect("equal")
-            plt.title("From " + title + ". Angle = " + str(angle))
-            # plt.xlim([np.min(p_rot[:, 0]) + 2, np.max(p_rot[:, 0] - 2)])
-            plt.ylim([np.min(p_rot[:, 1]) - 2, np.max(p_rot[:, 1] + 2)])
-            plt.grid()
+            plt.title(title)
+            plt.xlim([np.min(p_rot[:, 1]) - 5, np.max(p_rot[:, 1] + 5)])
+            plt.ylim([np.min(p_rot[:, 1]) - 5, np.max(p_rot[:, 1] + 5)])
+            plt.xticks([])
+            plt.yticks([])
             plt.show()
 
         # plot time
-        plot(chorda_plot_model, facial_plot_model, points_model,  "model", np.round(angle_model, 2))
-        plot(chorda_plot_ann, facial_plot_ann, points_ann, "landmarks", np.round(angle_ann, 2))
+        plot(chorda_plot_model, facial_plot_model, points_model,  "Model", np.round(angle_model, 2))
+        plot(chorda_plot_ann, facial_plot_ann, points_ann, "Landmarks", np.round(angle_ann, 2))
 
+        
     def compute_all_angles(self): 
         angles = np.zeros((self.nr_image, 2))
 
