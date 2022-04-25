@@ -3,6 +3,7 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt 
 import matplotlib
+from setuptools import PEP420PackageFinder
 from .computeAngle import * 
 from .color import * 
 
@@ -128,7 +129,7 @@ class VisualizeAngle:
 
         return angle * 180 / np.pi 
 
-    def plot_angle_slice(self, chorda, facial):
+    def plot_angle_slice(self, chorda, facial,p_rot):
         # defining points of lines 
         x1, y1 = chorda[0]
         x2, y2 = chorda[-1]
@@ -196,8 +197,29 @@ class VisualizeAngle:
 
             theta_list.append(get_point_angle(x,y,Px,Py) )
         
-        theta1 = theta_list[1]
-        theta2 = theta_list[3]
+        P0 = theta_list[0]
+        P1 = theta_list[1]
+        P2 = theta_list[2]
+        P3 = theta_list[3]
+
+
+        x_chorda = (p_rot[0]-p_rot[1])[0]
+        x_facial = (get_pca_direction(p_rot[2],p_rot[3],p_rot[4]))[0]
+    
+        if(x_facial>0):
+            theta1 = P0
+      
+        else:
+            theta1 = P1
+      
+        
+        if(x_chorda<0):
+            theta2 = P3
+
+        else:
+            theta2 = P2
+
+     
         circ = np.linspace(theta1, theta2, 100)
         circ_x = r * np.cos(circ) + Px 
         circ_y = r * np.sin(circ) + Py 
@@ -218,8 +240,8 @@ class VisualizeAngle:
         angle_ann = self.compute_angle(chorda_ann, facial_ann)
         angle_model = self.compute_angle(chorda_model, facial_model)
         matplotlib.rcParams.update({'font.size': 18})
-        def plot(chorda, facial, p_rot, title, angle): 
-            circ_x, circ_y, mid_angle_x, mid_angle_y = self.plot_angle_slice(chorda, facial)
+        def plot(chorda, facial, p_rot, title, angle, nr): 
+            circ_x, circ_y, mid_angle_x, mid_angle_y = self.plot_angle_slice(chorda, facial, p_rot)
             c = chorda 
             f = facial 
             plt.figure()
@@ -244,8 +266,8 @@ class VisualizeAngle:
             plt.show()
 
         # plot time
-        plot(chorda_plot_model, facial_plot_model, points_model,  "Model", np.round(angle_model, 2))
-        plot(chorda_plot_ann, facial_plot_ann, points_ann, "Landmarks", np.round(angle_ann, 2))
+        plot(chorda_plot_model, facial_plot_model, points_model,  "Model", np.round(angle_model, 2), nr)
+        plot(chorda_plot_ann, facial_plot_ann, points_ann, "Landmarks", np.round(angle_ann, 2), nr)
 
         
     def compute_all_angles(self): 
