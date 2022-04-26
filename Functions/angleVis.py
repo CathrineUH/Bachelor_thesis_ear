@@ -275,7 +275,7 @@ class VisualizeAngle:
 
         for nr in range(self.nr_image): 
             self.get_points_for_plane(nr)
-            chorda_ann, facial_ann, _,  chorda_model, facial_model, _ = self.project_onto_plane()
+            chorda_ann, facial_ann, _,  chorda_model, facial_model, _ = self.project_onto_plane(nr)
             angles[nr, 0], angles[nr, 1] = self.compute_angle(chorda_ann, facial_ann), self.compute_angle(chorda_model, facial_model)
         
         return angles 
