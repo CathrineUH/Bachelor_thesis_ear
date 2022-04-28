@@ -8,6 +8,7 @@ models/*
 tmp/* 
 Functions/__pycache__/* 
 results/* 
+Dijkstras.ipynb
 
 
 # other files 
