@@ -7,7 +7,7 @@
 ./Cmarl/src/data/landmarks/landmarks_100/ear2-P1051_2.txt
 ./Cmarl/src/data/landmarks/landmarks_100/ear2-P1065_3.txt
 ./Cmarl/src/data/landmarks/landmarks_100/ear2-P1094_1.txt
-./Cmarl/src/data/landmarkk/landmarks_good/011_1_R.txt
+./Cmarl/src/data/landmarks/landmarks_good/011_1_R.txt
 ./Cmarl/src/data/landmarks/landmarks_good/020_1_L.txt
 ./Cmarl/src/data/landmarks/landmarks_good/020_2_L.txt
 ./Cmarl/src/data/landmarks/landmarks_good/078_1_L.txt
