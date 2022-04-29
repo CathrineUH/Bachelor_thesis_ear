@@ -9,3 +9,4 @@ from .metrics import *
 from .plotFunctions import *
 from .color import*
 from .angleVis import*
+from .Dijkstras import*
