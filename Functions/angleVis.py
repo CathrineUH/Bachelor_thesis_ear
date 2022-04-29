@@ -19,7 +19,8 @@ class VisualizeAngle:
         self.coor_ann = None 
         self.plane_model = None
         self.plane_ann = None 
-        self.R = None 
+        self.R_ann = None
+        self.R_model = None 
     
     def get_coor(self): 
         """
@@ -80,7 +81,7 @@ class VisualizeAngle:
         return facial_plot
 
         
-    def rotate(self, points_plane, points, nr):
+    def rotate(self, points_plane, points, nr, which):
         """
         Rotates the normal vector of the plane to be the [0, 0, 1] such that 
         the plane is the xy-plane 
@@ -97,7 +98,12 @@ class VisualizeAngle:
         c = np.array([0, 0, 1]) @ n 
         skew_v = np.array([[0, -v[2], v[1]], [v[2], 0, -v[0]], [-v[1], v[0], 0]])
         R = np.identity(3) + skew_v + skew_v @ skew_v * (1 - c) / (s ** 2)
-        self.R = R 
+        
+        if which == "Landmark": 
+            self.R_ann = R
+        elif which == "Model":
+            self.R_model = R
+        
         chorda_rot = R @ chorda
         facial_rot = R @ facial_nerve
         p_rot = (R @ points[nr].T).T 
@@ -112,8 +118,8 @@ class VisualizeAngle:
         return chorda_plot, chorda_rot, facial_plot, facial_rot, p_rot 
 
     def project_onto_plane(self, nr): 
-        chorda_plot_model, chorda_model, facial_plot_model, facial_model, points_model = self.rotate(self.plane_model, self.coor_model, nr)
-        chorda_plot_ann, chorda_ann, facial_plot_ann,  facial_ann, points_ann = self.rotate(self.plane_ann, self.coor_ann, nr)
+        chorda_plot_model, chorda_model, facial_plot_model, facial_model, points_model = self.rotate(self.plane_model, self.coor_model, nr, "Model")
+        chorda_plot_ann, chorda_ann, facial_plot_ann,  facial_ann, points_ann = self.rotate(self.plane_ann, self.coor_ann, nr, "Landmark")
         
         return chorda_plot_ann, chorda_ann, facial_plot_ann, facial_ann, points_ann, chorda_plot_model, chorda_model, facial_plot_model, facial_model, points_model 
 
@@ -230,45 +236,49 @@ class VisualizeAngle:
         mid_angle_y = (r + 2.8) * np.sin(mid_angle) + Py
         return circ_x, circ_y, mid_angle_x, mid_angle_y
 
-    def plot_angle_in_plane(self, nr): 
+    def plot_angle_in_plane(self, nr, getRotation = False): 
         """
         This is the function to call. It plots the angle 
         """
-
-        self.get_points_for_plane(nr)
-        chorda_plot_ann, chorda_ann, facial_plot_ann, facial_ann, points_ann, chorda_plot_model, chorda_model, facial_plot_model, facial_model, points_model   = self.project_onto_plane(nr)
         
-        angle_ann = self.compute_angle(chorda_ann, facial_ann)
-        angle_model = self.compute_angle(chorda_model, facial_model)
-        matplotlib.rcParams.update({'font.size': 18})
-        def plot(chorda, facial, p_rot, title, angle, nr): 
-            circ_x, circ_y, mid_angle_x, mid_angle_y = self.plot_angle_slice(chorda, facial, p_rot)
-            c = chorda 
-            f = facial 
-            plt.figure()
-            plt.plot(c[:, 0], c[:, 1], linestyle = '-', color = col(8).color, label = "CTN")
-            plt.plot(f[:, 0], f[:, 1], linestyle = '-', color = col(1).color, label = "FN")
-            color = [col(6).color, col(6).color, col(2).color, col(2).color, col(2).color]
-            for i in range(5): 
-                if i == 0: 
-                    plt.scatter(p_rot[i, 0], p_rot[i, 1], marker = "o", color = color[i], label = "Landmark")
-                else: 
-                   plt.scatter(p_rot[i, 0], p_rot[i, 1], marker = "o", color = color[i]) 
-            plt.plot(circ_x, circ_y, color = col(10).color)
-            plt.text(mid_angle_x, mid_angle_y, angle, fontsize = 12)
-            plt.legend()
-            plt.axis("square")
-            plt.gca().set_aspect("equal")
-            plt.title(title)
-            plt.xlim([np.min(p_rot[:, 1]) - 5, np.max(p_rot[:, 1] + 5)])
-            plt.ylim([np.min(p_rot[:, 1]) - 5, np.max(p_rot[:, 1] + 5)])
-            plt.xticks([])
-            plt.yticks([])
-            plt.show()
+        if getRotation: 
+            self.get_points_for_plane(nr)
+            chorda_plot_ann, chorda_ann, facial_plot_ann, facial_ann, points_ann, chorda_plot_model, chorda_model, facial_plot_model, facial_model, points_model   = self.project_onto_plane(nr)
+        else: 
+            self.get_points_for_plane(nr)
+            chorda_plot_ann, chorda_ann, facial_plot_ann, facial_ann, points_ann, chorda_plot_model, chorda_model, facial_plot_model, facial_model, points_model   = self.project_onto_plane(nr)
+            
+            angle_ann = self.compute_angle(chorda_ann, facial_ann)
+            angle_model = self.compute_angle(chorda_model, facial_model)
+            matplotlib.rcParams.update({'font.size': 18})
+            def plot(chorda, facial, p_rot, title, angle): 
+                circ_x, circ_y, mid_angle_x, mid_angle_y = self.plot_angle_slice(chorda, facial, p_rot)
+                c = chorda 
+                f = facial 
+                plt.figure()
+                plt.plot(c[:, 0], c[:, 1], linestyle = '-', color = col(8).color, label = "CTN")
+                plt.plot(f[:, 0], f[:, 1], linestyle = '-', color = col(1).color, label = "FN")
+                color = [col(6).color, col(6).color, col(2).color, col(2).color, col(2).color]
+                for i in range(5): 
+                    if i == 0: 
+                        plt.scatter(p_rot[i, 0], p_rot[i, 1], marker = "o", color = color[i], label = "Landmark")
+                    else: 
+                        plt.scatter(p_rot[i, 0], p_rot[i, 1], marker = "o", color = color[i]) 
+                plt.plot(circ_x, circ_y, color = col(10).color)
+                plt.text(mid_angle_x, mid_angle_y, angle, fontsize = 12)
+                plt.legend()
+                plt.axis("square")
+                plt.gca().set_aspect("equal")
+                plt.title(title)
+                plt.xlim([np.min(p_rot[:, 1]) - 5, np.max(p_rot[:, 1] + 5)])
+                plt.ylim([np.min(p_rot[:, 1]) - 5, np.max(p_rot[:, 1] + 5)])
+                plt.xticks([])
+                plt.yticks([])
+                plt.show()
 
-        # plot time
-        plot(chorda_plot_model, facial_plot_model, points_model,  "Model", np.round(angle_model, 2), nr)
-        plot(chorda_plot_ann, facial_plot_ann, points_ann, "Landmarks", np.round(angle_ann, 2), nr)
+            # plot time
+            plot(chorda_plot_model, facial_plot_model, points_model,  "Model", np.round(angle_model, 2), nr)
+            plot(chorda_plot_ann, facial_plot_ann, points_ann, "Landmarks", np.round(angle_ann, 2), nr)
 
         
     def compute_all_angles(self): 
