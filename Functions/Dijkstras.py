@@ -22,7 +22,7 @@ def run_dijkstra(results, nr_agents, which, con_chorda, con_facial):
     idx = get_best_agents(data) if nr_agents == 12 else [0, 1, 2, 3, 4, 5]
     with open(r"Cmarl\src\data\filenames\testing.txt", 'r') as file: 
         filenames = file.read().split("\n")
-
+    file.close()
 
     for nr in range(data.shape[0]):
         if nr >= 9: 
