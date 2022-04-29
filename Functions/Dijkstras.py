@@ -50,7 +50,7 @@ def run_dijkstra(results, nr_agents, which, con_chorda, con_facial):
         label = mr_scan.copy()*0
         for (x,y,z) in path_chorda:
             label[x,y,z] = 1
-        sitk.WriteImage(sitk.GetImageFromArray(label), os.path.join('paths/paths_chorda', which, "_",  filenames[nr][id:])  , useCompression=True)
+        sitk.WriteImage(sitk.GetImageFromArray(label), 'paths/paths_chorda/'+ which+ "_"+ filenames[nr][id:]  , useCompression=True)
         np.savetxt("paths/chordatxt/" + which + "_" + filenames[nr][id:-6] + "txt", path_chorda, fmt='%s')
         
         
@@ -67,7 +67,7 @@ def run_dijkstra(results, nr_agents, which, con_chorda, con_facial):
         for (x,y,z) in path_facialMT:
             label_26[x,y,z] = 1
 
-        sitk.WriteImage(sitk.GetImageFromArray(label_26), os.path.join('paths/paths_facial', which, "_", filenames[nr][id:])  , useCompression=True)
+        sitk.WriteImage(sitk.GetImageFromArray(label_26), 'paths/paths_facial/' + which + "_" + filenames[nr][id:]  , useCompression=True)
         np.savetxt("paths/facialtxtMT/" + which + "_" + filenames[nr][id:-6] + "txt", path_facialMT,fmt='%s')
 
 
