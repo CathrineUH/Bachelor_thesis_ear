@@ -19,6 +19,7 @@ class VisualizeAngle:
         self.coor_ann = None 
         self.plane_model = None
         self.plane_ann = None 
+        self.R = None 
     
     def get_coor(self): 
         """
@@ -96,7 +97,7 @@ class VisualizeAngle:
         c = np.array([0, 0, 1]) @ n 
         skew_v = np.array([[0, -v[2], v[1]], [v[2], 0, -v[0]], [-v[1], v[0], 0]])
         R = np.identity(3) + skew_v + skew_v @ skew_v * (1 - c) / (s ** 2)
-
+        self.R = R 
         chorda_rot = R @ chorda
         facial_rot = R @ facial_nerve
         p_rot = (R @ points[nr].T).T 
@@ -111,9 +112,9 @@ class VisualizeAngle:
         return chorda_plot, chorda_rot, facial_plot, facial_rot, p_rot 
 
     def project_onto_plane(self, nr): 
-        chorda_plot_ann, chorda_ann, facial_plot_ann,  facial_ann, points_ann = self.rotate(self.plane_ann, self.coor_ann, nr)
         chorda_plot_model, chorda_model, facial_plot_model, facial_model, points_model = self.rotate(self.plane_model, self.coor_model, nr)
-
+        chorda_plot_ann, chorda_ann, facial_plot_ann,  facial_ann, points_ann = self.rotate(self.plane_ann, self.coor_ann, nr)
+        
         return chorda_plot_ann, chorda_ann, facial_plot_ann, facial_ann, points_ann, chorda_plot_model, chorda_model, facial_plot_model, facial_model, points_model 
 
     def compute_angle(self, chorda, facial): 
