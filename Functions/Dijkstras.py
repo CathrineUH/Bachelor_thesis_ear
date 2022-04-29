@@ -50,8 +50,8 @@ def run_dijkstra(results, nr_agents, which, con_chorda, con_facial):
         label = mr_scan.copy()*0
         for (x,y,z) in path_chorda:
             label[x,y,z] = 1
-        sitk.WriteImage(sitk.GetImageFromArray(label), os.path.join('paths/paths_chorda',filenames[nr][id:])  , useCompression=True)
-        np.savetxt("paths/chordatxt/" + filenames[nr][id:-6] + "txt", path_chorda, fmt='%s')
+        sitk.WriteImage(sitk.GetImageFromArray(label), os.path.join('paths/paths_chorda', which, "_",  filenames[nr][id:])  , useCompression=True)
+        np.savetxt("paths/chordatxt/" + which + "_" + filenames[nr][id:-6] + "txt", path_chorda, fmt='%s')
         
         
         #here we use 3 landmarks so there are two paths
@@ -61,14 +61,14 @@ def run_dijkstra(results, nr_agents, which, con_chorda, con_facial):
         for (x,y,z) in path_facialRM:
             label_26[x,y,z] = 1
 
-        np.savetxt("paths/facialtxtRM/" + filenames[nr][id:-6] + "txt", path_facialRM,fmt='%s')
+        np.savetxt("paths/facialtxtRM/" + which + "_" +  filenames[nr][id:-6] + "txt", path_facialRM,fmt='%s')
 
         path_facialMT = dijkstra3d.dijkstra(field, M, T, connectivity = con_facial, bidirectional=True)
         for (x,y,z) in path_facialMT:
             label_26[x,y,z] = 1
 
-        sitk.WriteImage(sitk.GetImageFromArray(label_26), os.path.join('paths/paths_facial',filenames[nr][id:])  , useCompression=True)
-        np.savetxt("paths/facialtxtMT/" + filenames[nr][id:-6] + "txt", path_facialMT,fmt='%s')
+        sitk.WriteImage(sitk.GetImageFromArray(label_26), os.path.join('paths/paths_facial', which, "_", filenames[nr][id:])  , useCompression=True)
+        np.savetxt("paths/facialtxtMT/" + which + "_" + filenames[nr][id:-6] + "txt", path_facialMT,fmt='%s')
 
 
 
