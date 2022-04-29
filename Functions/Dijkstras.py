@@ -61,14 +61,14 @@ def run_dijkstra(results, nr_agents, which, con_chorda, con_facial):
         for (x,y,z) in path_facialRM:
             label_26[x,y,z] = 1
 
-        np.savetxt("paths/facialtxtRM/" + filenames[nr][id:-6] + "txt", path_facialRM,fmt='%s', delimiter = ",")
+        np.savetxt("paths/facialtxtRM/" + filenames[nr][id:-6] + "txt", path_facialRM,fmt='%s')
 
         path_facialMT = dijkstra3d.dijkstra(field, M, T, connectivity = con_facial, bidirectional=True)
         for (x,y,z) in path_facialMT:
             label_26[x,y,z] = 1
 
         sitk.WriteImage(sitk.GetImageFromArray(label_26), os.path.join('paths/paths_facial',filenames[nr][id:])  , useCompression=True)
-        np.savetxt("paths/facialtxtMT/" + filenames[nr][id:-6] + "txt", path_facialMT,fmt='%s', delimiter = ",")
+        np.savetxt("paths/facialtxtMT/" + filenames[nr][id:-6] + "txt", path_facialMT,fmt='%s')
 
 
 
@@ -101,20 +101,17 @@ def run_dijkstra(results, nr_agents, which, con_chorda, con_facial):
     return weights 
 
 
-
 def visualize(nr,rotation):
 
     paths_chorda = "paths\\chordatxt"
     paths_facialRM = "paths\\facialtxtRM"
     paths_facialMT = "paths\\facialtxtMT"
     
-    Filenames_chorda = getFiles(paths_chorda)
-    Filenames_facialRM = getFiles(paths_facialRM)
-    Filenames_facialMT = getFiles(paths_facialMT)
+    Filenames = getFiles(paths_chorda)
 
-    chorda_path = paths_chorda+"\\"+Filenames_chorda[nr]
-    FacialRM_path = paths_facialRM+"\\"+Filenames_facialRM[nr]
-    FacialMT_path = paths_facialMT+"\\"+Filenames_facialMT[nr]
+    chorda_path = paths_chorda+"\\"+Filenames[nr]
+    FacialRM_path = paths_facialRM+"\\"+Filenames[nr]
+    FacialMT_path = paths_facialMT+"\\"+Filenames[nr]
 
     chorda = np.loadtxt(chorda_path, dtype=int)
     facialRM = np.loadtxt(FacialRM_path, dtype=int)
