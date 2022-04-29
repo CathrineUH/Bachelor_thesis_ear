@@ -277,8 +277,8 @@ class VisualizeAngle:
                 plt.show()
 
             # plot time
-            plot(chorda_plot_model, facial_plot_model, points_model,  "Model", np.round(angle_model, 2), nr)
-            plot(chorda_plot_ann, facial_plot_ann, points_ann, "Landmarks", np.round(angle_ann, 2), nr)
+            plot(chorda_plot_model, facial_plot_model, points_model,  "Model", np.round(angle_model, 2))
+            plot(chorda_plot_ann, facial_plot_ann, points_ann, "Landmarks", np.round(angle_ann, 2))
 
         
     def compute_all_angles(self): 
