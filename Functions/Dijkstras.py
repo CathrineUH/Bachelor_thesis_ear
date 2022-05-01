@@ -11,7 +11,7 @@ import matplotlib as mat
 from .color import *
 
 class Dijkstras: 
-    def __init__(self, df_path, nr_agents,nr,rotation): 
+    def __init__(self, df_path, nr_agents, nr, rotation_ann, rotation_model): 
         self.df_path = df_path
         self.df = pd.read_csv(self.df_path)
         self.nr_image = self.df.shape[0]
@@ -21,7 +21,8 @@ class Dijkstras:
         self.idx = get_best_agents(self.df) if nr_agents == 12 else [0, 1, 2, 3, 4, 5]
         self.nr_model = nr
         self.nr_ann = nr + 22
-        self.rotation = rotation
+        self.rotation_ann = rotation_ann
+        self.rotation_model = rotation_model 
         
 
 
@@ -44,7 +45,6 @@ class Dijkstras:
             else: 
                 id = 36
             
-            print(f"nr = {nr}")
             C_agent,C_ann = self.read_from_df(self.idx[0])
             A_agent,A_ann = self.read_from_df(self.idx[1])
             R_agent,R_ann = self.read_from_df(self.idx[2])
@@ -83,14 +83,13 @@ class Dijkstras:
             path_facialRM_model = dijkstra3d.dijkstra(field, R_agent, M_agent, connectivity = con_facial, bidirectional = True)
             path_facialRM_ann = dijkstra3d.dijkstra(field, R_ann, M_ann, connectivity = con_facial, bidirectional = True)
 
-
             label_26_model = mr_scan.copy()*0
             for (x,y,z) in path_facialRM_model:
-                label_26_model[x,y,z] = 1
+                label_26_model[z, x, y] = 1
 
             label_26_ann = mr_scan.copy()*0
             for (x,y,z) in path_facialRM_ann:
-                label_26_ann[x,y,z] = 1
+                label_26_ann[x, y, z] = 1
 
             np.savetxt("paths/facialtxtRM/Agent" + "_" +  filenames[nr][id:-6] + "txt", path_facialRM_model,fmt='%s')
             np.savetxt("paths/facialtxtRM/Landmark" + "_" +  filenames[nr][id:-6] + "txt", path_facialRM_ann,fmt='%s')
@@ -99,7 +98,7 @@ class Dijkstras:
             path_facialMT_ann = dijkstra3d.dijkstra(field, M_ann, T_ann, connectivity = con_facial, bidirectional = True)
 
             for (x,y,z) in path_facialMT_model:
-                label_26_model[x,y,z] = 1
+                label_26_model[z, x, y] = 1
             
             for (x,y,z) in path_facialMT_ann:
                 label_26_ann[x,y,z] = 1
@@ -156,27 +155,24 @@ class Dijkstras:
         mu_chorda = np.mean(chorda, axis = 0)
         _, _, V_chorda = np.linalg.svd(chorda - mu_chorda)
         V_chorda = V_chorda.T 
-        v2_chorda = V_chorda[:, 0]
+        v_chorda = V_chorda[:, 0]
 
         mu_facial = np.mean(facial, axis = 0)
         _, _, V_facial = np.linalg.svd(facial - mu_facial)
         V_facial = V_facial.T 
-        v2_facial = V_facial[:, 0]
+        v_facial = V_facial[:, 0]
 
-        if np.sign(v2_chorda[2]) != np.sign(v2_facial[2]):
-            v2_facial = -v2_facial
+        if np.sign(v_chorda[2]) != np.sign(v_facial[2]):
+            v_facial = -v_facial
 
-        v2_chorda =  v2_chorda 
-        v2_facial =  v2_facial
-
-        return v2_chorda, v2_facial
+        return v_chorda, v_facial
 
     def compute_angle(self, chorda, facial): 
         """
         Computes the angles between the two nerves after projection
         """
-        chorda = np.array([chorda[0], chorda[1]])
-        facial = -1 *  np.array([facial[0], facial[1]])
+        chorda = np.array([chorda[0][0], chorda[0][1]])
+        facial = np.array([facial[0][0], facial[0][1]])
 
         angle = np.arccos((chorda @ facial ) /(np.linalg.norm(chorda) * np.linalg.norm(facial))) 
         if angle >= np.pi: 
@@ -188,25 +184,22 @@ class Dijkstras:
         """
         Compute translatio of chorda 
         """
-        length = np.linalg.norm(points_rot[0][0:2] - points_rot[1][0:2])
-        l = np.reshape(np.array(np.linspace(0, length, 200)), (200, 1))
-        mu = np.mean(points_rot[2:], axis = 0)
-        chorda_plot = chorda * l +mu
-        # p1 = chorda_plot[-1]
-        # p2 = points_rot[0][0:2]
-        # translation = p2 - p1   
-        return chorda_plot,l
+        length = np.linalg.norm(points_rot[np.argmin(points_rot[:, 0])] - points_rot[np.argmax(points_rot[:, 0])])
+        l = np.reshape(np.array(np.linspace(-length/2.0, length/2.0, 200)), (200, 1))
+        mu = np.mean(points_rot, axis = 0)
+        chorda_plot = chorda * l +mu 
+        return chorda_plot
 
     def get_translation_facial(self, points_rot, facial): 
         """
-        Compute translatio of facial 
+        Compute translation of facial 
         """
 
-        length = np.linalg.norm(points_rot[2][0:2] - points_rot[4][0:2])
-        l = np.reshape(np.array(np.linspace(-length/2 - 5, length/2 + 5, 200)), (200, 1))
-        mu = np.mean(points_rot[2:], axis = 0)
+        length = np.linalg.norm(points_rot[np.argmin(points_rot[:, 1])] - points_rot[np.argmax(points_rot[:, 1])])
+        l = np.reshape(np.array(np.linspace(-length/2.0, length/2.0,  200)), (200, 1))
+        mu = np.mean(points_rot, axis = 0)
         facial_plot = facial * l + mu 
-        return facial_plot, l
+        return facial_plot
 
 
     def visualize(self):
@@ -233,56 +226,54 @@ class Dijkstras:
         facialRM_ann = np.loadtxt(FacialRM_path_ann, dtype=int)
         facialMT_ann = np.loadtxt(FacialMT_path_ann, dtype=int)
 
-
         facial_model = np.concatenate([facialRM_model,facialMT_model], axis = 0)
         facial_ann = np.concatenate([facialRM_ann,facialMT_ann], axis = 0)
-
 
         chorda_direction_model, facial_direction_model = self.pcaDijkstras(chorda_model, facial_model)
         chorda_direction_ann, facial_direction_ann = self.pcaDijkstras(chorda_ann, facial_ann)
         
-        facial_rot_model = (self.rotation @ (np.reshape(facial_direction_model,(3,1)))).T 
-        chorda_rot_model = (self.rotation @ (np.reshape(chorda_direction_model,(3,1)))).T 
+        facial_rot_model = (self.rotation_model @ (np.reshape(facial_direction_model,(3,1)))).T 
+        chorda_rot_model = (self.rotation_model @ (np.reshape(chorda_direction_model,(3,1)))).T 
 
-        facial_rot_ann = (self.rotation @ (np.reshape(facial_direction_ann,(3,1)))).T 
-        chorda_rot_ann = (self.rotation @ (np.reshape(chorda_direction_ann,(3,1)))).T 
+        facial_rot_ann = (self.rotation_ann @ (np.reshape(facial_direction_ann,(3,1)))).T 
+        chorda_rot_ann = (self.rotation_ann @ (np.reshape(chorda_direction_ann,(3,1)))).T 
 
-        chorda_point_model = (self.rotation @ chorda_model.T).T 
-        chorda_point_ann = (self.rotation @ chorda_ann.T).T 
+        chorda_point_model = (self.rotation_model @ chorda_model.T).T 
+        chorda_point_ann = (self.rotation_ann @ chorda_ann.T).T 
 
-        facial_point_model = (self.rotation @ facial_model.T).T 
-        facial_point_ann = (self.rotation @ facial_ann.T).T 
+        facial_point_model = (self.rotation_model @ facial_model.T).T 
+        facial_point_ann = (self.rotation_ann @ facial_ann.T).T 
 
-        facial_model,xn_facial_model = self.get_translation_facial(facial_point_model,facial_rot_model)
-        facial_ann,xn_facial_ann = self.get_translation_facial(facial_point_ann,facial_rot_ann)
-        chorda_model,xn_chorda_model = self.get_translation_chorda(chorda_point_model,chorda_rot_model)
-        chorda_ann,xn_chorda_ann = self.get_translation_chorda(chorda_point_ann,chorda_rot_ann)
+        facial_model = self.get_translation_facial(facial_point_model,facial_rot_model)
+        facial_ann   = self.get_translation_facial(facial_point_ann,facial_rot_ann)
+        chorda_model = self.get_translation_chorda(chorda_point_model,chorda_rot_model)
+        chorda_ann   = self.get_translation_chorda(chorda_point_ann,chorda_rot_ann)
 
-        # angle_ann = self.compute_angle(chorda_rot_ann, facial_rot_ann)
-        # angle_model = self.compute_angle(chorda_rot_model, facial_rot_model)
+        angle_ann = self.compute_angle(chorda_rot_ann, facial_rot_ann)
+        angle_model = self.compute_angle(chorda_rot_model, facial_rot_model)
+
        
-        angle_ann = 0
-        angle_model = 0
-       
-        return chorda_point_model, chorda_point_ann,facial_point_model, facial_point_ann, angle_ann, angle_model, facial_model,facial_ann, chorda_model,chorda_ann ,xn_chorda_model,xn_chorda_ann,xn_facial_model,xn_facial_ann
+        return chorda_point_model, chorda_point_ann,facial_point_model, facial_point_ann, angle_ann, angle_model, facial_model,facial_ann, chorda_model,chorda_ann
 
 
-    def plotDijkstras(self,chorda_point, facial_point, chorda, facial,  xn_chorda,xn_facial,angle,title):
+    def plotDijkstras(self,chorda_point, facial_point, chorda, facial, angle,title):
         mat.rcParams.update({'font.size': 18})
         plt.figure()
-        plt.scatter(chorda_point[:, 0], chorda_point[:, 1], color = "b", label = "CTY") # A
-        plt.scatter(facial_point[:, 0], facial_point[:, 1], color = "r", label = "FN")
+        plt.scatter(chorda_point[:, 0], chorda_point[:, 1], color = col(8).color, label = "CTY") # A
+        plt.scatter(facial_point[:, 0], facial_point[:, 1], color = col(1).color, label = "FN")
         plt.axis("square")
-        plt.plot(xn_chorda, chorda, linestyle = '-', color = col(8).color, label = "CTY")
-        plt.plot(xn_facial,facial, linestyle = '-', color = col(1).color, label = "FN")
+        plt.plot(chorda[:, 0], chorda[:, 1], linestyle = '-', color = col(10).color, label = "CTY")
+        plt.plot(facial[:, 0], facial[:, 1], linestyle = '-', color = col(9).color, label = "FN")
         plt.legend()
         plt.title(title + ": " + "Angle = " + str(angle))
         plt.xticks([])
         plt.yticks([])
+        plt.xlim([np.min(facial[:, 1]) - 2, np.max(facial[:, 1] + 2)])
+        plt.ylim([np.min(facial[:, 1]) - 2, np.max(facial[:, 1] + 2)])
         plt.show()
 
     def plot_both(self):
-        chorda_point_model, chorda_point_ann,facial_point_model, facial_point_ann, angle_ann, angle_model, facial_model,facial_ann, chorda_model,chorda_ann, xn_chorda_model,xn_chorda_ann,xn_facial_model,xn_facial_ann = self.visualize()
+        chorda_point_model, chorda_point_ann,facial_point_model, facial_point_ann, angle_ann, angle_model, facial_model,facial_ann, chorda_model,chorda_ann = self.visualize()
 
-        self.plotDijkstras(chorda_point_model, facial_point_model, chorda_model, facial_model, xn_chorda_model, xn_facial_model,angle_model,"Model")
-        self.plotDijkstras(chorda_point_ann, facial_point_ann, chorda_ann, facial_ann, xn_chorda_ann,xn_facial_ann ,angle_ann,"Landmark")
+        self.plotDijkstras(chorda_point_model, facial_point_model, chorda_model, facial_model, np.round(angle_model, 2),"Model")
+        self.plotDijkstras(chorda_point_ann, facial_point_ann, chorda_ann, facial_ann, np.round(angle_ann, 2),"Landmark")
