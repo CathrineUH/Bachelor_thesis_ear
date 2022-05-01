@@ -1,9 +1,7 @@
 import dijkstra3d
 import numpy as np
-import os
 import pandas as pd
 import SimpleITK as sitk
-from skimage import data
 from .computeAngle import *
 import matplotlib.pyplot as plt 
 from .Dataloader import *
