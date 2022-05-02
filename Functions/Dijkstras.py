@@ -268,8 +268,27 @@ class Dijkstras:
         plt.title(title + ": " + "Angle = " + str(angle))
         plt.xticks([])
         plt.yticks([])
-        plt.xlim([np.min(facial[:, 1]) - 2, np.max(facial[:, 1] + 2)])
-        plt.ylim([np.min(facial[:, 1]) - 2, np.max(facial[:, 1] + 2)])
+        min_x = np.min(np.concatenate([facial[:, 0],chorda[:, 0]], axis = 0))
+        min_y = np.min(np.concatenate([facial[:, 1],chorda[:, 1]], axis = 0))
+        max_x = np.max(np.concatenate([facial[:, 0],chorda[:, 0]], axis = 0))
+        max_y = np.max(np.concatenate([facial[:, 1],chorda[:, 1]], axis = 0))
+
+        x_lim = max_x-min_x
+        y_lim = max_y-min_y
+        if(x_lim> y_lim):
+            val = (x_lim-y_lim)/2
+            max_y = max_y +val
+            min_y = min_y -val
+        else:
+            val = (y_lim-x_lim)/2
+            max_x = max_x +val
+            min_x = min_x -val
+
+        plt.xlim([min_x - 2, max_x + 2])
+        plt.ylim([min_y - 2, max_y + 2])
+
+        # plt.xlim([np.min(facial[:, 1]) - 2, np.max(facial[:, 1] + 2)])
+        # plt.ylim([np.min(facial[:, 1]) - 2, np.max(facial[:, 1] + 2)])
         plt.show()
 
     def plot_both(self):
