@@ -1,9 +1,9 @@
 # link: https://math.stackexchange.com/questions/180418/calculate-rotation-matrix-to-align-vector-a-to-vector-b-in-3d
+from itertools import cycle
 import pandas as pd 
 import numpy as np
 import matplotlib.pyplot as plt 
 import matplotlib
-from setuptools import PEP420PackageFinder
 from .computeAngle import * 
 from .color import * 
 
@@ -234,7 +234,23 @@ class VisualizeAngle:
         mid_angle = (theta1 + theta2) / 2.0 
         mid_angle_x = (r + 2.8) * np.cos(mid_angle) + Px
         mid_angle_y = (r + 2.8) * np.sin(mid_angle) + Py
-        return circ_x, circ_y, mid_angle_x, mid_angle_y
+        return circ_x, circ_y, mid_angle_x, mid_angle_y, Px,Py
+
+    def anglerot(self,angle,c,px,py):
+        point = np.array([[1],[0]])
+        pointc = c[-1]-c[0]
+        a1 = np.arccos((pointc@ point) /(np.linalg.norm(pointc) * np.linalg.norm(point))) 
+                
+        if a1 >= np.pi: 
+            a1 = np.pi - a1
+
+        angle = angle/2
+        angle = angle*np.pi/180
+        angle1 = (a1-angle)
+        
+        P_x = px+(1/np.sin(angle))*np.cos(angle1)
+        P_y = py+(1/np.sin(angle))*np.sin(angle1)
+        return P_x,P_y
 
     def plot_angle_in_plane(self, nr, getRotation = False): 
         """
@@ -252,12 +268,18 @@ class VisualizeAngle:
             angle_model = self.compute_angle(chorda_model, facial_model)
             matplotlib.rcParams.update({'font.size': 18})
             def plot(chorda, facial, p_rot, title, angle): 
-                circ_x, circ_y, mid_angle_x, mid_angle_y = self.plot_angle_slice(chorda, facial, p_rot)
+                circ_x, circ_y, mid_angle_x, mid_angle_y, px, py = self.plot_angle_slice(chorda, facial, p_rot)
                 c = chorda 
-                f = facial 
+                f = facial
+                P_x, P_y= np.array(self.anglerot(angle,c,px,py))
+                x = [P_x,px]
+                y = [P_y,py]
+
+
                 plt.figure()
                 plt.plot(c[:, 0], c[:, 1], linestyle = '-', color = col(8).color, label = "CTN")
                 plt.plot(f[:, 0], f[:, 1], linestyle = '-', color = col(1).color, label = "FN")
+                plt.plot(x, y, linestyle = '-', color = col(0).color, label = "mid")
                 color = [col(6).color, col(6).color, col(2).color, col(2).color, col(2).color]
                 for i in range(5): 
                     if i == 0: 
@@ -270,10 +292,26 @@ class VisualizeAngle:
                 plt.axis("square")
                 plt.gca().set_aspect("equal")
                 plt.title(title)
-                plt.xlim([np.min(p_rot[:, 1]) - 5, np.max(p_rot[:, 1] + 5)])
-                plt.ylim([np.min(p_rot[:, 1]) - 5, np.max(p_rot[:, 1] + 5)])
-                plt.xticks([])
-                plt.yticks([])
+                min_x = np.min(np.concatenate([f[:, 0],c[:, 0]], axis = 0))
+                min_y = np.min(np.concatenate([f[:, 1],c[:, 1]], axis = 0))
+                max_x = np.max(np.concatenate([f[:, 0],c[:, 0]], axis = 0))
+                max_y = np.max(np.concatenate([f[:, 1],c[:, 1]], axis = 0))
+
+                x_lim = max_x-min_x
+                y_lim = max_y-min_y
+                if(x_lim> y_lim):
+                    val = (x_lim-y_lim)/2
+                    max_y = max_y +val
+                    min_y = min_y -val
+                else:
+                    val = (y_lim-x_lim)/2
+                    max_x = max_x +val
+                    min_x = min_x -val
+
+                plt.xlim([min_x - 2, max_x + 2])
+                plt.ylim([min_y - 2, max_y + 2])
+                # plt.xticks([])
+                # plt.yticks([])
                 plt.show()
 
             # plot time

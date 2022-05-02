@@ -287,8 +287,6 @@ class Dijkstras:
         plt.xlim([min_x - 2, max_x + 2])
         plt.ylim([min_y - 2, max_y + 2])
 
-        # plt.xlim([np.min(facial[:, 1]) - 2, np.max(facial[:, 1] + 2)])
-        # plt.ylim([np.min(facial[:, 1]) - 2, np.max(facial[:, 1] + 2)])
         plt.show()
 
     def plot_both(self):
