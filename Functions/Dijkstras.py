@@ -45,7 +45,7 @@ class Dijkstras:
                 id = 36
         
             idx = np.where(self.df.loc[:, 'Filename 0'] == filenames[nr][id:-7])[0][0]
-            print(idx)
+            
             C_agent,C_ann = self.read_from_df(idx, self.idx[0])
             A_agent,A_ann = self.read_from_df(idx, self.idx[1])
             R_agent,R_ann = self.read_from_df(idx, self.idx[2])
