@@ -25,9 +25,9 @@ class Dijkstras:
         
 
 
-    def read_from_df(self,idx): 
-        position_agent = np.array([self.df.loc[self.nr_model, "Agent " + str(idx) + " pos x"], self.df.loc[self.nr_model, "Agent " + str(idx) + " pos y"], self.df.loc[self.nr_model, "Agent " + str(idx) + " pos z"],])
-        position_ann = np.array([self.df.loc[self.nr_model, "Landmark " + str(idx) + " pos x"], self.df.loc[self.nr_model, "Landmark " + str(idx) + " pos y"], self.df.loc[self.nr_model, "Landmark " + str(idx) + " pos z"],])
+    def read_from_df(self,nr,idx): 
+        position_agent = np.array([self.df.loc[nr, "Agent " + str(idx) + " pos x"], self.df.loc[nr, "Agent " + str(idx) + " pos y"], self.df.loc[nr, "Agent " + str(idx) + " pos z"],])
+        position_ann = np.array([self.df.loc[nr, "Landmark " + str(idx) + " pos x"], self.df.loc[nr, "Landmark " + str(idx) + " pos y"], self.df.loc[nr, "Landmark " + str(idx) + " pos z"],])
         return position_agent, position_ann
 
 
@@ -43,13 +43,15 @@ class Dijkstras:
                 id = 41
             else: 
                 id = 36
+        
+            idx = np.where(self.df.loc[:, 'Filename 0'] == filenames[nr][id:-7])[0][0]
+            print(idx)
+            C_agent,C_ann = self.read_from_df(idx, self.idx[0])
+            A_agent,A_ann = self.read_from_df(idx, self.idx[1])
+            R_agent,R_ann = self.read_from_df(idx, self.idx[2])
+            M_agent,M_ann = self.read_from_df(idx, self.idx[3])
+            T_agent,T_ann = self.read_from_df(idx, self.idx[4])
             
-            C_agent,C_ann = self.read_from_df(self.idx[0])
-            A_agent,A_ann = self.read_from_df(self.idx[1])
-            R_agent,R_ann = self.read_from_df(self.idx[2])
-            M_agent,M_ann = self.read_from_df(self.idx[3])
-            T_agent,T_ann = self.read_from_df(self.idx[4])
-
             #load image
             mr_scan = sitk.GetArrayFromImage(sitk.ReadImage(filenames[nr]))
 
