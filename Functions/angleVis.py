@@ -274,7 +274,7 @@ class VisualizeAngle:
                 c = chorda 
                 f = facial
                 Dril_x, Dril_y= np.array(self.drilling_point(angle,c,px,py))
-
+                
                 plt.figure()
                 plt.plot(c[:, 0], c[:, 1], linestyle = '-', color = col(8).color, label = "CTN")
                 plt.plot(f[:, 0], f[:, 1], linestyle = '-', color = col(1).color, label = "FN")
