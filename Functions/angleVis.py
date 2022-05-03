@@ -309,8 +309,8 @@ class VisualizeAngle:
 
                 plt.xlim([min_x - 2, max_x + 2])
                 plt.ylim([min_y - 2, max_y + 2])
-                # plt.xticks([])
-                # plt.yticks([])
+                plt.xticks([])
+                plt.yticks([])
                 plt.show()
 
             # plot time
