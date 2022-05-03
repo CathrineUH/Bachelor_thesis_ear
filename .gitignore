@@ -9,6 +9,7 @@ tmp/*
 Functions/__pycache__/* 
 results/* 
 paths/*
+Dijkstras.ipynb
 
 # other files 
 runs/* 

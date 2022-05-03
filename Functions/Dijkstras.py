@@ -85,7 +85,7 @@ class Dijkstras:
 
             label_26_model = mr_scan.copy()*0
             for (x,y,z) in path_facialRM_model:
-                label_26_model[z, x, y] = 1
+                label_26_model[x, y, z] = 1
 
             label_26_ann = mr_scan.copy()*0
             for (x,y,z) in path_facialRM_ann:
@@ -98,7 +98,7 @@ class Dijkstras:
             path_facialMT_ann = dijkstra3d.dijkstra(field, M_ann, T_ann, connectivity = con_facial, bidirectional = True)
 
             for (x,y,z) in path_facialMT_model:
-                label_26_model[z, x, y] = 1
+                label_26_model[x, y, z] = 1
             
             for (x,y,z) in path_facialMT_ann:
                 label_26_ann[x,y,z] = 1
