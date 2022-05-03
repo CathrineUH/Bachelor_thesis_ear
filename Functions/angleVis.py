@@ -236,21 +236,23 @@ class VisualizeAngle:
         mid_angle_y = (r + 2.8) * np.sin(mid_angle) + Py
         return circ_x, circ_y, mid_angle_x, mid_angle_y, Px,Py
 
-    def anglerot(self,angle,c,px,py):
-        point = np.array([[1],[0]])
-        pointc = c[-1]-c[0]
-        a1 = np.arccos((pointc@ point) /(np.linalg.norm(pointc) * np.linalg.norm(point))) 
+    def drilling_point(self,angle,c,px,py):
+        Hoz_point = np.array([[1],[0]])
+        C_point = c[-1]-c[0]
+        angle_chorda = np.arccos((C_point@ Hoz_point) /(np.linalg.norm(C_point) * np.linalg.norm(Hoz_point))) 
                 
-        if a1 >= np.pi: 
-            a1 = np.pi - a1
+        if angle_chorda >= np.pi: 
+            angle_chorda = np.pi - angle_chorda
 
         angle = angle/2
         angle = angle*np.pi/180
-        angle1 = (a1-angle)
+        angle_mid = (angle_chorda-angle)
+
+        lenght_mid = 1 / np.sin(angle)
         
-        P_x = px+(1/np.sin(angle))*np.cos(angle1)
-        P_y = py+(1/np.sin(angle))*np.sin(angle1)
-        return P_x,P_y
+        Dril_x = px + (lenght_mid) * np.cos(angle_mid)
+        Dril_y = py + (lenght_mid) * np.sin(angle_mid)
+        return Dril_x, Dril_y
 
     def plot_angle_in_plane(self, nr, getRotation = False): 
         """
@@ -271,15 +273,12 @@ class VisualizeAngle:
                 circ_x, circ_y, mid_angle_x, mid_angle_y, px, py = self.plot_angle_slice(chorda, facial, p_rot)
                 c = chorda 
                 f = facial
-                P_x, P_y= np.array(self.anglerot(angle,c,px,py))
-                x = [P_x,px]
-                y = [P_y,py]
-
+                Dril_x, Dril_y= np.array(self.drilling_point(angle,c,px,py))
 
                 plt.figure()
                 plt.plot(c[:, 0], c[:, 1], linestyle = '-', color = col(8).color, label = "CTN")
                 plt.plot(f[:, 0], f[:, 1], linestyle = '-', color = col(1).color, label = "FN")
-                plt.plot(x, y, linestyle = '-', color = col(0).color, label = "mid")
+                plt.scatter(Dril_x, Dril_y, marker = "x", color = col(0).color, label = "Dril point")
                 color = [col(6).color, col(6).color, col(2).color, col(2).color, col(2).color]
                 for i in range(5): 
                     if i == 0: 
