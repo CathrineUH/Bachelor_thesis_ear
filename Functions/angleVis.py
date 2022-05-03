@@ -136,6 +136,7 @@ class VisualizeAngle:
 
         return angle * 180 / np.pi 
 
+
     def plot_angle_slice(self, chorda, facial,p_rot):
         # defining points of lines 
         x1, y1 = chorda[0]

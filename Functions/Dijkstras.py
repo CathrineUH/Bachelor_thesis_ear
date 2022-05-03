@@ -201,6 +201,39 @@ class Dijkstras:
         facial_plot = facial * l + mu 
         return facial_plot
 
+    def intersection(self, chorda, facial):
+        # defining points of lines 
+        x1, y1, _ = chorda[0]
+        x2, y2, _= chorda[-1]
+        x3, y3, _ = facial[0]
+        x4, y4, _ = facial[-1]
+
+        D = (x1 - x2) * (y3 - y4) - (y1 - y2) * (x3 - x4)
+        first = (x1 * y2 - y1 * x2) 
+        last = (x3 * y4 - y3 * x4)
+
+        # points of intersection 
+        Px = (first * (x3 - x4) - (x1 - x2) * last)/ D
+        Py = (first * (y3 - y4) - (y1 - y2) * last) / D
+        return Px, Py
+
+    def drilling_point(self,angle,c,px,py):
+        Hoz_point = np.array([[1],[0]])
+        C_point = c[-1][0:2]-c[0][0:2]
+        angle_chorda = np.arccos((C_point@ Hoz_point) /(np.linalg.norm(C_point) * np.linalg.norm(Hoz_point))) 
+                
+        if angle_chorda >= np.pi: 
+            angle_chorda = np.pi - angle_chorda
+
+        angle = angle/2
+        angle = angle*np.pi/180
+        angle_mid = (angle_chorda-angle)
+
+        lenght_mid = 1 / np.sin(angle)
+        
+        Dril_x = px + (lenght_mid) * np.cos(angle_mid)
+        Dril_y = py + (lenght_mid) * np.sin(angle_mid)
+        return Dril_x, Dril_y
 
     def visualize(self):
 
@@ -256,7 +289,7 @@ class Dijkstras:
         return chorda_point_model, chorda_point_ann,facial_point_model, facial_point_ann, angle_ann, angle_model, facial_model,facial_ann, chorda_model,chorda_ann
 
 
-    def plotDijkstras(self,chorda_point, facial_point, chorda, facial, angle,title):
+    def plotDijkstras(self,chorda_point, facial_point, chorda, facial,Dril_x, Dril_y, angle,title):
         mat.rcParams.update({'font.size': 18})
         plt.figure()
         plt.scatter(chorda_point[:, 0], chorda_point[:, 1], color = col(8).color, label = "CTY") # A
@@ -264,6 +297,7 @@ class Dijkstras:
         plt.axis("square")
         plt.plot(chorda[:, 0], chorda[:, 1], linestyle = '-', color = col(10).color, label = "CTY")
         plt.plot(facial[:, 0], facial[:, 1], linestyle = '-', color = col(9).color, label = "FN")
+        plt.scatter(Dril_x, Dril_y, marker = "x", color = col(0).color, label = "Dril point")
         plt.legend()
         plt.title(title + ": " + "Angle = " + str(angle))
         plt.xticks([])
@@ -288,9 +322,13 @@ class Dijkstras:
         plt.ylim([min_y - 2, max_y + 2])
 
         plt.show()
+        return chorda, facial
 
     def plot_both(self):
         chorda_point_model, chorda_point_ann,facial_point_model, facial_point_ann, angle_ann, angle_model, facial_model,facial_ann, chorda_model,chorda_ann = self.visualize()
-
-        self.plotDijkstras(chorda_point_model, facial_point_model, chorda_model, facial_model, np.round(angle_model, 2),"Model")
-        self.plotDijkstras(chorda_point_ann, facial_point_ann, chorda_ann, facial_ann, np.round(angle_ann, 2),"Landmark")
+        Px_model, Py_model = self.intersection(chorda_model, facial_model)
+        Px_ann, Py_ann = self.intersection(chorda_ann, facial_ann)
+        Dril_x_model, Dril_Y_model = self.drilling_point(angle_model,chorda_model,Px_model,Py_model)
+        Dril_x_ann, Dril_Y_ann = self.drilling_point(angle_ann,chorda_ann,Px_ann,Py_ann)
+        chorda_model, facial_model = self.plotDijkstras(chorda_point_model, facial_point_model, chorda_model, facial_model, Dril_x_model, Dril_Y_model ,np.round(angle_model, 2),"Model")
+        chorda_ann, facial_ann = self.plotDijkstras(chorda_point_ann, facial_point_ann, chorda_ann, facial_ann, Dril_x_ann, Dril_Y_ann,np.round(angle_ann, 2),"Landmark")
