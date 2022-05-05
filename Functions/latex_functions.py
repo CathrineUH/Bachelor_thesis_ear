@@ -37,6 +37,14 @@ def print_errors_latex(error):
         else: 
             print("$" + str(round(error[i][3], 2)) + " \\pm " + str(round(error[i][4], 2)) + "$" + " &", end = "")
 
+    print("\n")
+
+    tmp = np.mean(error, axis = 0)
+    for i in range(len(tmp)): 
+        if i == m - 1:
+            print("$" + str(round(tmp[i], 2)) + " \\pm " + str(round(tmp[i], 2)) + "$" + "\\\\", end = "")
+        else: 
+            print("$" + str(round(tmp[i], 2)) + " \\pm " + str(round(tmp[i], 2)) + "$" + " &", end = "")
 
 def print_angles(angles):
     m, _ = angles.shape
