@@ -293,12 +293,12 @@ class Dijkstras:
     def plotDijkstras(self,chorda_point, facial_point, chorda, facial,Dril_x, Dril_y, angle,title):
         mat.rcParams.update({'font.size': 18})
         plt.figure()
-        plt.scatter(chorda_point[:, 0], chorda_point[:, 1], color = col(8).color, label = "CTY") # A
-        plt.scatter(facial_point[:, 0], facial_point[:, 1], color = col(1).color, label = "FN")
+        plt.scatter(chorda_point[:, 0], chorda_point[:, 1], color = col(8).color) 
+        plt.scatter(facial_point[:, 0], facial_point[:, 1], color = col(1).color)
         plt.axis("square")
         plt.plot(chorda[:, 0], chorda[:, 1], linestyle = '-', color = col(10).color, label = "CTY")
         plt.plot(facial[:, 0], facial[:, 1], linestyle = '-', color = col(9).color, label = "FN")
-        plt.scatter(Dril_x, Dril_y, marker = "x", color = col(0).color, label = "Dril point")
+        plt.scatter(Dril_x, Dril_y, marker = "x", color = col(0).color, label = "DP") # Dril point
         plt.legend()
         plt.title(title + ": " + "Angle = " + str(angle))
         plt.xticks([])
