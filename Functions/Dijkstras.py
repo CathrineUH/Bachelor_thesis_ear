@@ -68,10 +68,10 @@ class Dijkstras:
             label_ann = mr_scan.copy()*0
 
             for (x,y,z) in path_chorda_model:
-                label_model[x,y,z] = 1
+                label_model[z, y, x] = 1
             
             for (x,y,z) in path_chorda_ann:
-                label_ann[x,y,z] = 1
+                label_ann[z, y, x] = 1
 
             sitk.WriteImage(sitk.GetImageFromArray(label_model), 'paths/paths_chorda/Agent'+ "_"+ filenames[nr][id:]  , useCompression = True)
             sitk.WriteImage(sitk.GetImageFromArray(label_ann), 'paths/paths_chorda/Landmark'+ "_"+ filenames[nr][id:]  , useCompression = True)
@@ -86,11 +86,11 @@ class Dijkstras:
 
             label_26_model = mr_scan.copy()*0
             for (x,y,z) in path_facialRM_model:
-                label_26_model[x, y, z] = 1
+                label_26_model[z, y, x] = 1
 
             label_26_ann = mr_scan.copy()*0
             for (x,y,z) in path_facialRM_ann:
-                label_26_ann[x, y, z] = 1
+                label_26_ann[z, y, x] = 1
 
             np.savetxt("paths/facialtxtRM/Agent" + "_" +  filenames[nr][id:-6] + "txt", path_facialRM_model,fmt='%s')
             np.savetxt("paths/facialtxtRM/Landmark" + "_" +  filenames[nr][id:-6] + "txt", path_facialRM_ann,fmt='%s')
@@ -99,10 +99,10 @@ class Dijkstras:
             path_facialMT_ann = dijkstra3d.dijkstra(field, M_ann, T_ann, connectivity = con_facial, bidirectional = True)
 
             for (x,y,z) in path_facialMT_model:
-                label_26_model[x, y, z] = 1
+                label_26_model[z, y, x] = 1
             
             for (x,y,z) in path_facialMT_ann:
-                label_26_ann[x,y,z] = 1
+                label_26_ann[z, y, x] = 1
 
             sitk.WriteImage(sitk.GetImageFromArray(label_26_model), 'paths/paths_facial/Agent' + "_" + filenames[nr][id:]  , useCompression = True)
             sitk.WriteImage(sitk.GetImageFromArray(label_26_ann), 'paths/paths_facial/Landmark' + "_" + filenames[nr][id:]  , useCompression = True)
