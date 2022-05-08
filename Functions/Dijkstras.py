@@ -188,7 +188,7 @@ class Dijkstras:
         length = np.linalg.norm(points_rot[np.argmin(points_rot[:, 0])] - points_rot[np.argmax(points_rot[:, 0])])
         l = np.reshape(np.array(np.linspace(-length/2.0, length/2.0, 200)), (200, 1))
         mu = np.mean(points_rot, axis = 0)
-        chorda_plot = chorda * l +mu 
+        chorda_plot = chorda * l + mu 
         return chorda_plot
 
     def get_translation_facial(self, points_rot, facial): 
@@ -218,7 +218,7 @@ class Dijkstras:
         Py = (first * (y3 - y4) - (y1 - y2) * last) / D
         return Px, Py
 
-    def drilling_point(self,angle,c,px,py):
+    def drilling_point(self, angle, c, px, py):
         Hoz_point = np.array([[1],[0]])
         C_point = c[-1][0:2]-c[0][0:2]
         angle_chorda = np.arccos((C_point@ Hoz_point) /(np.linalg.norm(C_point) * np.linalg.norm(Hoz_point))) 
@@ -290,7 +290,7 @@ class Dijkstras:
         return chorda_point_model, chorda_point_ann,facial_point_model, facial_point_ann, angle_ann, angle_model, facial_model,facial_ann, chorda_model,chorda_ann
 
 
-    def plotDijkstras(self,chorda_point, facial_point, chorda, facial,Dril_x, Dril_y, angle,title):
+    def plotDijkstras(self,chorda_point, facial_point, chorda, facial, Dril_x, Dril_y, angle,title):
         mat.rcParams.update({'font.size': 18})
         plt.figure()
         plt.scatter(chorda_point[:, 0], chorda_point[:, 1], color = col(8).color) 
@@ -316,8 +316,8 @@ class Dijkstras:
             min_y = min_y -val
         else:
             val = (y_lim-x_lim)/2
-            max_x = max_x +val
-            min_x = min_x -val
+            max_x = max_x + val
+            min_x = min_x - val
 
         plt.xlim([min_x - 2, max_x + 2])
         plt.ylim([min_y - 2, max_y + 2])
@@ -334,11 +334,20 @@ class Dijkstras:
         chorda_model, facial_model = self.plotDijkstras(chorda_point_model, facial_point_model, chorda_model, facial_model, Dril_x_model, Dril_Y_model ,np.round(angle_model, 2),"Model")
         chorda_ann, facial_ann = self.plotDijkstras(chorda_point_ann, facial_point_ann, chorda_ann, facial_ann, Dril_x_model, Dril_Y_model,np.round(angle_ann, 2),"Landmark")
 
+         # -------- debug starts -------- #
+        print("-------- model --------")
+        print(f"px_model: {Px_model}")
+        print(f"py_model: {Py_model}")
+        print(f"px_ann: {Px_ann}")
+        print(f"py_ann: {Py_ann}")
+         # -------- debug ends -------- #
        
+
         # mat.rcParams.update({'font.size': 18})
         # plt.figure()
         # plt.scatter(chorda_point_model[:, 0], chorda_point_model[:, 1], color = col(9).color, label = "Model") 
         # plt.scatter(facial_point_model[:, 0], facial_point_model[:, 1], color = col(9).color)
+      
 
         # plt.scatter(chorda_point_ann[:, 0], chorda_point_ann[:, 1], color = col(10).color,label = "Ann") 
         # plt.scatter(facial_point_ann[:, 0], facial_point_ann[:, 1], color = col(10).color)

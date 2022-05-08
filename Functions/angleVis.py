@@ -19,8 +19,7 @@ class VisualizeAngle:
         self.coor_ann = None 
         self.plane_model = None
         self.plane_ann = None 
-        self.R_ann = None
-        self.R_model = None 
+        self.R = None
     
     def get_coor(self): 
         """
@@ -71,7 +70,7 @@ class VisualizeAngle:
 
     def get_translation_facial(self, points_rot, facial): 
         """
-        Compute translatio of facial 
+        Compute translation of facial 
         """
 
         length = np.linalg.norm(points_rot[2][0:2] - points_rot[4][0:2])
@@ -80,16 +79,17 @@ class VisualizeAngle:
         facial_plot = facial * l + mu 
         return facial_plot
 
-        
-    def rotate(self, points_plane, points, nr, which):
+    def rotate(self, points_plane_ann, points_plane_model, points_ann, points_model, nr):
         """
         Rotates the normal vector of the plane to be the [0, 0, 1] such that 
         the plane is the xy-plane 
         """
         # Helper function # 
-        chorda = points_plane[0]
-        facial_nerve = points_plane[1]
-        n = points_plane[2]
+        chorda_ann = points_plane_ann[0]
+        facial_nerve_ann = points_plane_ann[1]
+        chorda_model = points_plane_model[0]
+        facial_nerve_model = points_plane_model[1]
+        n = points_plane_ann[2]
         n /= np.linalg.norm(n)
 
         # rotate normal vector to z 
@@ -97,29 +97,32 @@ class VisualizeAngle:
         s = np.linalg.norm(v)
         c = np.array([0, 0, 1]) @ n 
         skew_v = np.array([[0, -v[2], v[1]], [v[2], 0, -v[0]], [-v[1], v[0], 0]])
-        R = np.identity(3) + skew_v + skew_v @ skew_v * (1 - c) / (s ** 2)
-        
-        if which == "Landmark": 
-            self.R_ann = R
-        elif which == "Model":
-            self.R_model = R
-        
-        chorda_rot = R @ chorda
-        facial_rot = R @ facial_nerve
-        p_rot = (R @ points[nr].T).T 
+        self.R = np.identity(3) + skew_v + skew_v @ skew_v * (1 - c) / (s ** 2)
 
-        chorda_rot = chorda_rot / np.linalg.norm(chorda_rot) 
-        facial_rot = facial_rot / np.linalg.norm(facial_rot) 
+        chorda_rot_ann = self.R @ chorda_ann
+        facial_rot_ann = self.R @ facial_nerve_ann
+        p_rot_ann = (self.R @ points_ann[nr].T).T 
 
-        chorda_plot, translation = self.get_translation_chorda(p_rot, np.array([chorda_rot[0], chorda_rot[1]]))
-        p_rot[:, 0:2] -= translation 
-        facial_plot = self.get_translation_facial(p_rot, facial_rot)
+        chorda_rot_model = self.R @ chorda_model
+        facial_rot_model = self.R @ facial_nerve_model
+        p_rot_model = (self.R @ points_model[nr].T).T 
 
-        return chorda_plot, chorda_rot, facial_plot, facial_rot, p_rot 
+        chorda_rot_ann = chorda_rot_ann / np.linalg.norm(chorda_rot_ann) 
+        facial_rot_ann = facial_rot_ann / np.linalg.norm(facial_rot_ann) 
+        chorda_rot_model = chorda_rot_model / np.linalg.norm(chorda_rot_model) 
+        facial_rot_model = facial_rot_model / np.linalg.norm(facial_rot_model) 
+
+        chorda_plot_ann, translation_ann = self.get_translation_chorda(p_rot_ann, np.array([chorda_rot_ann[0], chorda_rot_ann[1]]))
+        chorda_plot_model, translation_model = self.get_translation_chorda(p_rot_model, np.array([chorda_rot_model[0], chorda_rot_model[1]]))
+        p_rot_ann[:, 0:2] -= translation_ann 
+        p_rot_model[:, 0:2] -= translation_model 
+        facial_plot_ann = self.get_translation_facial(p_rot_ann, facial_rot_ann)
+        facial_plot_model = self.get_translation_facial(p_rot_model, facial_rot_model)
+
+        return chorda_plot_ann, chorda_plot_model, chorda_rot_ann, chorda_rot_model, facial_plot_ann,facial_plot_model, facial_rot_ann, facial_rot_model,p_rot_ann, p_rot_model
 
     def project_onto_plane(self, nr): 
-        chorda_plot_model, chorda_model, facial_plot_model, facial_model, points_model = self.rotate(self.plane_model, self.coor_model, nr, "Model")
-        chorda_plot_ann, chorda_ann, facial_plot_ann,  facial_ann, points_ann = self.rotate(self.plane_ann, self.coor_ann, nr, "Landmark")
+        chorda_plot_ann, chorda_plot_model,chorda_ann, chorda_model,facial_plot_ann, facial_plot_model,facial_ann ,facial_model,points_ann, points_model = self.rotate(self.plane_ann, self.plane_model, self.coor_ann, self.coor_model, nr)
         
         return chorda_plot_ann, chorda_ann, facial_plot_ann, facial_ann, points_ann, chorda_plot_model, chorda_model, facial_plot_model, facial_model, points_model 
 
@@ -249,10 +252,10 @@ class VisualizeAngle:
         angle = angle*np.pi/180
         angle_mid = (angle_chorda-angle)
 
-        lenght_mid = 1 / np.sin(angle)
-        
-        Dril_x = px + (lenght_mid) * np.cos(angle_mid)
-        Dril_y = py + (lenght_mid) * np.sin(angle_mid)
+        lenght_mid = 1.5 / np.sin(angle)
+
+        Dril_x = px + (lenght_mid) * np.cos(angle_mid) 
+        Dril_y = py + (lenght_mid) * np.sin(angle_mid) 
         return Dril_x, Dril_y
 
     def plot_angle_in_plane(self, nr, getRotation = False): 
@@ -270,54 +273,64 @@ class VisualizeAngle:
             angle_ann = self.compute_angle(chorda_ann, facial_ann)
             angle_model = self.compute_angle(chorda_model, facial_model)
             matplotlib.rcParams.update({'font.size': 18})
-            def plot(chorda, facial, p_rot, title, angle): 
-                circ_x, circ_y, mid_angle_x, mid_angle_y, px, py = self.plot_angle_slice(chorda, facial, p_rot)
-                c = chorda 
-                f = facial
-                Dril_x, Dril_y= np.array(self.drilling_point(angle,c,px,py))
-                
-                plt.figure()
-                plt.plot(c[:, 0], c[:, 1], linestyle = '-', color = col(8).color, label = "CTN")
-                plt.plot(f[:, 0], f[:, 1], linestyle = '-', color = col(1).color, label = "FN")
-                plt.scatter(Dril_x, Dril_y, marker = "x", color = col(0).color, label = "Dril point")
-                color = [col(6).color, col(6).color, col(2).color, col(2).color, col(2).color]
-                for i in range(5): 
-                    if i == 0: 
-                        plt.scatter(p_rot[i, 0], p_rot[i, 1], marker = "o", color = color[i], label = "Landmark")
-                    else: 
-                        plt.scatter(p_rot[i, 0], p_rot[i, 1], marker = "o", color = color[i]) 
-                plt.plot(circ_x, circ_y, color = col(10).color)
-                plt.text(mid_angle_x, mid_angle_y, angle, fontsize = 12)
-                plt.legend()
-                plt.axis("square")
-                plt.gca().set_aspect("equal")
-                plt.title(title)
-                min_x = np.min(np.concatenate([f[:, 0],c[:, 0]], axis = 0))
-                min_y = np.min(np.concatenate([f[:, 1],c[:, 1]], axis = 0))
-                max_x = np.max(np.concatenate([f[:, 0],c[:, 0]], axis = 0))
-                max_y = np.max(np.concatenate([f[:, 1],c[:, 1]], axis = 0))
 
-                x_lim = max_x-min_x
-                y_lim = max_y-min_y
-                if(x_lim> y_lim):
-                    val = (x_lim-y_lim)/2
-                    max_y = max_y +val
-                    min_y = min_y -val
-                else:
-                    val = (y_lim-x_lim)/2
-                    max_x = max_x +val
-                    min_x = min_x -val
+            circ_x_model, circ_y_model, mid_angle_x_model, mid_angle_y_model, px_model, py_model = self.plot_angle_slice(chorda_plot_model, facial_plot_model, points_model)
+            circ_x_ann, circ_y_ann, mid_angle_x_ann, mid_angle_y_ann, px_ann, py_ann = self.plot_angle_slice(chorda_plot_ann, facial_plot_ann, points_ann)
+            Dril_x_model, Dril_y_model= np.array(self.drilling_point(angle_model,chorda_plot_model,px_model,py_model))
+            Dril_x_ann, Dril_y_ann= np.array(self.drilling_point(angle_ann,chorda_plot_ann,px_ann,py_ann))
+           
+            c_model = chorda_plot_model
+            f_model = facial_plot_model
+            c_ann = chorda_plot_ann
+            f_ann = facial_plot_ann
+            
+            plt.figure()
+            plt.plot(c_model[:, 0], c_model[:, 1], linestyle = '-', color = col(9).color, label = "Model", alpha = 0.7)
+            plt.plot(f_model[:, 0], f_model[:, 1], linestyle = '-', color = col(9).color, alpha = 0.7)
 
-                plt.xlim([min_x - 2, max_x + 2])
-                plt.ylim([min_y - 2, max_y + 2])
-                plt.xticks([])
-                plt.yticks([])
-                plt.show()
+            plt.plot(c_ann[:, 0], c_ann[:, 1], linestyle = '-', color = col(10).color, label = "Ann", alpha = 0.7)
+            plt.plot(f_ann[:, 0], f_ann[:, 1], linestyle = '-', color = col(10).color, alpha = 0.7)
+            plt.scatter(Dril_x_model, Dril_y_model, marker = "x", color = col(0).color, label = "Model")
+            plt.scatter(Dril_x_ann, Dril_y_ann, marker = "x", color = col(3).color, label = "Ann")
 
-            # plot time
-            plot(chorda_plot_model, facial_plot_model, points_model,  "Model", np.round(angle_model, 2))
-            plot(chorda_plot_ann, facial_plot_ann, points_ann, "Landmarks", np.round(angle_ann, 2))
+            plt.scatter(points_model[:, 0], points_model[:, 1], marker = "o", color = col(9).color, s=50)
+            plt.scatter(points_ann[:, 0], points_ann[:, 1], marker = "*", color = col(10).color, s=50 )
 
+            plt.plot(circ_x_model, circ_y_model, color = col(9).color)
+            plt.text(mid_angle_x_model, mid_angle_y_model, np.round(angle_model,2), fontsize = 12)
+            plt.plot(circ_x_ann, circ_y_ann, color = col(10).color)
+            plt.text(mid_angle_x_ann, mid_angle_y_ann, np.round(angle_ann,2), fontsize = 12)
+            plt.legend()
+            plt.axis("square")
+            plt.gca().set_aspect("equal")
+            # plt.title(title)
+            min_x = np.min(np.concatenate([f_model[:, 0],c_model[:, 0],f_ann[:, 0],c_ann[:, 0]], axis = 0))
+            min_x = np.min([min_x,Dril_x_model,Dril_x_ann])
+            min_y = np.min(np.concatenate([f_model[:, 1],c_model[:, 1],f_ann[:, 1],c_ann[:, 1]], axis = 0))
+            min_y = np.min([min_y,Dril_y_model,Dril_y_ann])
+            max_x = np.max(np.concatenate([f_model[:, 0],c_model[:, 0],f_ann[:, 0],c_ann[:, 0]], axis = 0))
+            max_x = np.max([max_x,Dril_x_model,Dril_x_ann])
+            max_y = np.max(np.concatenate([f_model[:, 1],c_model[:, 1],f_ann[:, 1],c_ann[:, 1]], axis = 0))
+            max_y = np.max([max_y,Dril_y_model,Dril_y_ann])
+
+            x_lim = max_x-min_x
+            y_lim = max_y-min_y
+            if(x_lim> y_lim):
+                val = (x_lim-y_lim)/2
+                max_y = max_y +val
+                min_y = min_y -val
+            else:
+                val = (y_lim-x_lim)/2
+                max_x = max_x +val
+                min_x = min_x -val
+
+            plt.xlim([min_x - 2, max_x + 2])
+            plt.ylim([min_y - 2, max_y + 2])
+            plt.xticks([])
+            plt.yticks([])
+            plt.show()
+
+        
         
     def compute_all_angles(self): 
         angles = np.zeros((self.nr_image, 2))
