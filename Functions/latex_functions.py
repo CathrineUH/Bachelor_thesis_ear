@@ -44,7 +44,7 @@ def print_errors_latex(error):
         if i == m - 1:
             print("$" + str(round(tmp[i], 2)) + "$" + "\\\\", end = "")
         else: 
-            print("$" + str(round(tmp[i], 2)) + "$" + " &", end = "")
+            print("$" + str(round(tmp[i], 2)) + "$" + " &", end = "") 
 
 def print_angles(angles):
     m, _ = angles.shape
