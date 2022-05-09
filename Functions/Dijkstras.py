@@ -336,6 +336,17 @@ class Dijkstras:
         Viz.plot_angle_ann(self.nr_model,Dril_x_ann = Dril_x_model, Dril_y_ann = Dril_Y_model)
         chorda_model, facial_model = self.plotDijkstras(chorda_point_model, facial_point_model, chorda_model, facial_model, Dril_x_ann, Dril_Y_ann ,np.round(angle_model, 2),"Model")
         chorda_ann, facial_ann = self.plotDijkstras(chorda_point_ann, facial_point_ann, chorda_ann, facial_ann, Dril_x_ann, Dril_Y_ann,np.round(angle_ann, 2),"Landmark")
-       
-       
+    
+    def compute_all_angles(self): 
+        angles = np.zeros((self.nr_image, 2))
+
+        for nr in range(self.nr_image): 
+            self.nr_model = nr
+            self.nr_ann = nr + 22 
+            _, _,_, _, angle_ann, angle_model, _,_, _,_ = self.visualize()
+            angles[nr, 0], angles[nr, 1] = angle_ann, angle_model 
         
+        return angles 
+
+    
+    
