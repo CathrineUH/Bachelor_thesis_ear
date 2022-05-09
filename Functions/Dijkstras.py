@@ -2,12 +2,12 @@ import dijkstra3d
 import numpy as np
 import pandas as pd
 import SimpleITK as sitk
-from sympy import nroots
 from .computeAngle import *
 import matplotlib.pyplot as plt 
 from .Dataloader import *
 import matplotlib as mat
 from .color import *
+from .angleVis import *
 
 class Dijkstras: 
     def __init__(self, df_path, nr_agents, nr, rotation): 
@@ -326,54 +326,16 @@ class Dijkstras:
         return chorda, facial
 
     def plot_both(self):
+        Viz = VisualizeAngle(self.df_path, self.nr_agents)
+        Viz.get_coor()
         chorda_point_model, chorda_point_ann,facial_point_model, facial_point_ann, angle_ann, angle_model, facial_model,facial_ann, chorda_model,chorda_ann = self.visualize()
         Px_model, Py_model = self.intersection(chorda_model, facial_model)
         Px_ann, Py_ann = self.intersection(chorda_ann, facial_ann)
         Dril_x_model, Dril_Y_model = self.drilling_point(angle_model,chorda_model,Px_model,Py_model)
         Dril_x_ann, Dril_Y_ann = self.drilling_point(angle_ann,chorda_ann,Px_ann,Py_ann)
-        chorda_model, facial_model = self.plotDijkstras(chorda_point_model, facial_point_model, chorda_model, facial_model, Dril_x_model, Dril_Y_model ,np.round(angle_model, 2),"Model")
-        chorda_ann, facial_ann = self.plotDijkstras(chorda_point_ann, facial_point_ann, chorda_ann, facial_ann, Dril_x_model, Dril_Y_model,np.round(angle_ann, 2),"Landmark")
-
+        Viz.plot_angle_ann(self.nr_model,Dril_x_ann = Dril_x_model, Dril_y_ann = Dril_Y_model)
+        chorda_model, facial_model = self.plotDijkstras(chorda_point_model, facial_point_model, chorda_model, facial_model, Dril_x_ann, Dril_Y_ann ,np.round(angle_model, 2),"Model")
+        chorda_ann, facial_ann = self.plotDijkstras(chorda_point_ann, facial_point_ann, chorda_ann, facial_ann, Dril_x_ann, Dril_Y_ann,np.round(angle_ann, 2),"Landmark")
        
-        # mat.rcParams.update({'font.size': 18})
-        # plt.figure()
-        # plt.scatter(chorda_point_model[:, 0], chorda_point_model[:, 1], color = col(9).color, label = "Model") 
-        # plt.scatter(facial_point_model[:, 0], facial_point_model[:, 1], color = col(9).color)
-
-        # plt.scatter(chorda_point_ann[:, 0], chorda_point_ann[:, 1], color = col(10).color,label = "Ann") 
-        # plt.scatter(facial_point_ann[:, 0], facial_point_ann[:, 1], color = col(10).color)
-        # plt.axis("square")
-        # plt.plot(chorda_model[:, 0], chorda_model[:, 1], linestyle = '-', color = col(9).color)
-        # plt.plot(facial_model[:, 0], facial_model[:, 1], linestyle = '-', color = col(9).color)
-        # plt.plot(chorda_ann[:, 0], chorda_ann[:, 1], linestyle = '-', color = col(10).color)
-        # plt.plot(facial_ann[:, 0], facial_ann[:, 1], linestyle = '-', color = col(10).color)
-        # plt.scatter(Dril_x_model, Dril_Y_model, marker = "x", color = col(0).color, label = "DP model")
-        # plt.scatter(Dril_x_ann, Dril_Y_ann, marker = "x", color = col(3).color, label = "DP ann")
-        # plt.legend()
-        # # plt.title(title + ": " + "Angle = " + str(angle))
-        # plt.xticks([])
-        # plt.yticks([])
-        # min_x = np.min(np.concatenate([facial_model[:, 0],chorda_model[:, 0],facial_ann[:, 0],chorda_ann[:, 0]], axis = 0))
-        # min_x = np.min([min_x,Dril_x_model, Dril_x_ann])
-        # min_y = np.min(np.concatenate([facial_model[:, 1],chorda_model[:, 1],facial_ann[:, 1],chorda_ann[:, 1]], axis = 0))
-        # min_y = np.min([min_y,Dril_Y_model,Dril_Y_ann])
-        # max_x = np.max(np.concatenate([facial_model[:, 0],chorda_model[:, 0],facial_ann[:, 0],chorda_ann[:, 0]], axis = 0))
-        # max_x = np.max([max_x,Dril_x_model,Dril_x_ann])
-        # max_y = np.max(np.concatenate([facial_model[:, 1],chorda_model[:, 1],facial_ann[:, 1],chorda_ann[:, 1]], axis = 0))
-        # max_y = np.max([max_y,Dril_Y_model,Dril_Y_ann])
+       
         
-        # x_lim = max_x-min_x
-        # y_lim = max_y-min_y
-        # if(x_lim> y_lim):
-        #     val = (x_lim-y_lim)/2
-        #     max_y = max_y +val
-        #     min_y = min_y -val
-        # else:
-        #     val = (y_lim-x_lim)/2
-        #     max_x = max_x +val
-        #     min_x = min_x -val
-
-        # plt.xlim([min_x - 2, max_x + 2])
-        # plt.ylim([min_y - 2, max_y + 2])
-
-        # plt.show()

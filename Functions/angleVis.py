@@ -4,6 +4,7 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt 
 import matplotlib
+from sqlalchemy import true
 from .computeAngle import * 
 from .color import * 
 
@@ -131,8 +132,9 @@ class VisualizeAngle:
         Computes the angles between the two nerves after projection
         """
         chorda = np.array([chorda[0], chorda[1]])
-        facial = -1 *  np.array([facial[0], facial[1]])
-
+        facial = np.array([facial[0], facial[1]])
+        if (facial[1]<=0.2):
+            facial = -1 * facial
         angle = np.arccos((chorda @ facial ) /(np.linalg.norm(chorda) * np.linalg.norm(facial))) 
         if angle >= np.pi: 
             angle = np.pi - angle 
@@ -140,7 +142,7 @@ class VisualizeAngle:
         return angle * 180 / np.pi 
 
 
-    def plot_angle_slice(self, chorda, facial,p_rot):
+    def plot_angle_slice(self, chorda, facial,angle, nr):
         # defining points of lines 
         x1, y1 = chorda[0]
         x2, y2 = chorda[-1]
@@ -212,25 +214,30 @@ class VisualizeAngle:
         P1 = theta_list[1]
         P2 = theta_list[2]
         P3 = theta_list[3]
-
-
-        x_chorda = (p_rot[0]-p_rot[1])[0]
-        x_facial = (get_pca_direction(p_rot[2],p_rot[3],p_rot[4]))[0]
-    
-        if(x_facial>0):
-            theta1 = P0
-      
-        else:
-            theta1 = P1
-      
-        
-        if(x_chorda<0):
+       
+        if(abs(P1-P3)*180/np.pi > angle-0.1 and abs(P1-P3)*180/np.pi<angle+0.1):
+            theta1 = P1 
             theta2 = P3
 
-        else:
+        elif((abs(P0-P2)*180/np.pi > angle-0.1 and abs(P0-P2)*180/np.pi<angle+0.1)):
+            theta1 = P0
             theta2 = P2
 
-     
+        elif((abs(P0-P3)*180/np.pi > angle-0.1 and abs(P0-P3)*180/np.pi < angle+0.1)):
+            theta1 = P0
+            theta2 = P3
+        elif((abs(P2-P3)*180/np.pi > angle-0.1 and abs(P2-P3)*180/np.pi<angle+0.1)):
+            theta1 = P2
+            theta2 = P3
+        elif((abs(P0-P1)*180/np.pi > angle-0.1 and abs(P0-P1)*180/np.pi<angle+0.1)):
+            theta1 = P0
+            theta2 = P1
+        else:
+            theta1 = P1
+            theta2 = P2
+
+            
+        print("theta = " + str(theta1) + " " + str(theta2))
         circ = np.linspace(theta1, theta2, 100)
         circ_x = r * np.cos(circ) + Px 
         circ_y = r * np.sin(circ) + Py 
@@ -274,8 +281,8 @@ class VisualizeAngle:
             angle_model = self.compute_angle(chorda_model, facial_model)
             matplotlib.rcParams.update({'font.size': 18})
 
-            circ_x_model, circ_y_model, mid_angle_x_model, mid_angle_y_model, px_model, py_model = self.plot_angle_slice(chorda_plot_model, facial_plot_model, points_model)
-            circ_x_ann, circ_y_ann, mid_angle_x_ann, mid_angle_y_ann, px_ann, py_ann = self.plot_angle_slice(chorda_plot_ann, facial_plot_ann, points_ann)
+            circ_x_model, circ_y_model, mid_angle_x_model, mid_angle_y_model, px_model, py_model = self.plot_angle_slice(chorda_plot_model, facial_plot_model, angle_model, nr)
+            circ_x_ann, circ_y_ann, mid_angle_x_ann, mid_angle_y_ann, px_ann, py_ann = self.plot_angle_slice(chorda_plot_ann, facial_plot_ann, angle_ann,nr)
             Dril_x_model, Dril_y_model= np.array(self.drilling_point(angle_model,chorda_plot_model,px_model,py_model))
             Dril_x_ann, Dril_y_ann= np.array(self.drilling_point(angle_ann,chorda_plot_ann,px_ann,py_ann))
            
@@ -284,6 +291,7 @@ class VisualizeAngle:
             c_ann = chorda_plot_ann
             f_ann = facial_plot_ann
             
+
             plt.figure()
             plt.plot(c_model[:, 0], c_model[:, 1], linestyle = '-', color = col(9).color, label = "Model", alpha = 0.7)
             plt.plot(f_model[:, 0], f_model[:, 1], linestyle = '-', color = col(9).color, alpha = 0.7)
@@ -330,7 +338,74 @@ class VisualizeAngle:
             plt.yticks([])
             plt.show()
 
+    
+    def plot_angle_ann(self, nr, getRotation = False, Dril_x_ann = 0, Dril_y_ann = 0): 
+        """
+        This is the function to call. It plots the angle 
+        """
         
+        if getRotation: 
+            self.get_points_for_plane(nr)
+            chorda_plot_ann, chorda_ann, facial_plot_ann, facial_ann, points_ann, _, _,_, _, _ = self.project_onto_plane(nr)
+        else: 
+            self.get_points_for_plane(nr)
+            chorda_plot_ann, chorda_ann, facial_plot_ann, facial_ann, points_ann, _, _, _, _, _  = self.project_onto_plane(nr)
+            
+            angle_ann = self.compute_angle(chorda_ann, facial_ann)
+        
+            matplotlib.rcParams.update({'font.size': 18})
+
+            
+            circ_x_ann, circ_y_ann, mid_angle_x_ann, mid_angle_y_ann, px_ann, py_ann = self.plot_angle_slice(chorda_plot_ann, facial_plot_ann, angle_ann,nr)
+            
+            if(Dril_x_ann == 0 and Dril_y_ann == 0):
+                Dril_x_ann, Dril_y_ann = np.array(self.drilling_point(angle_ann,chorda_plot_ann,px_ann,py_ann))
+           
+            
+            c_ann = chorda_plot_ann
+            f_ann = facial_plot_ann
+            
+
+            plt.figure()
+
+            plt.plot(c_ann[:, 0], c_ann[:, 1], linestyle = '-', color = col(10).color, label = "Ann", alpha = 0.7)
+            plt.plot(f_ann[:, 0], f_ann[:, 1], linestyle = '-', color = col(10).color, alpha = 0.7)
+            plt.scatter(Dril_x_ann, Dril_y_ann, marker = "x", color = col(3).color, label = "Ann")
+
+            plt.scatter(points_ann[:, 0], points_ann[:, 1], marker = "*", color = col(10).color, s=50 )
+
+            plt.plot(circ_x_ann, circ_y_ann, color = col(10).color)
+            plt.text(mid_angle_x_ann, mid_angle_y_ann, np.round(angle_ann,2), fontsize = 12)
+            plt.legend()
+            plt.axis("square")
+            plt.gca().set_aspect("equal")
+            # plt.title(title)
+            min_x = np.min(np.concatenate([f_ann[:, 0],c_ann[:, 0]], axis = 0))
+            min_x = np.min([min_x,Dril_x_ann])
+            min_y = np.min(np.concatenate([f_ann[:, 1],c_ann[:, 1]], axis = 0))
+            min_y = np.min([min_y,Dril_y_ann])
+            max_x = np.max(np.concatenate([f_ann[:, 0],c_ann[:, 0]], axis = 0))
+            max_x = np.max([max_x,Dril_x_ann])
+            max_y = np.max(np.concatenate([f_ann[:, 1],c_ann[:, 1]], axis = 0))
+            max_y = np.max([max_y,Dril_y_ann])
+
+            x_lim = max_x-min_x
+            y_lim = max_y-min_y
+            if(x_lim> y_lim):
+                val = (x_lim-y_lim)/2
+                max_y = max_y +val
+                min_y = min_y -val
+            else:
+                val = (y_lim-x_lim)/2
+                max_x = max_x +val
+                min_x = min_x -val
+
+            plt.xlim([min_x - 2, max_x + 2])
+            plt.ylim([min_y - 2, max_y + 2])
+            plt.xticks([])
+            plt.yticks([])
+            plt.show()
+
         
     def compute_all_angles(self): 
         angles = np.zeros((self.nr_image, 2))
