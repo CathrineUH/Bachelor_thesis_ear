@@ -343,6 +343,10 @@ class Dijkstras:
         for nr in range(self.nr_image): 
             self.nr_model = nr
             self.nr_ann = nr + 22 
+            Viz = VisualizeAngle(self.df_path, self.nr_agents)
+            Viz.get_coor()
+            Viz.plot_angle_in_plane(self.nr_model, True)
+            self.rotation = Viz.R
             _, _,_, _, angle_ann, angle_model, _,_, _,_ = self.visualize()
             angles[nr, 0], angles[nr, 1] = angle_ann, angle_model 
         
