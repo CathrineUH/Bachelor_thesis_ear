@@ -561,42 +561,6 @@
                     "locked": false,
                     "visibility": true,
                     "positionStatus": "defined"
-                },
-                {
-                    "id": "47",
-                    "label": "",
-                    "description": "",
-                    "associatedNodeID": "vtkMRMLScalarVolumeNode22",
-                    "position": [110.9088060164774, 128.15506164550784, -61.154441833496097],
-                    "orientation": [-1.0, -0.0, -0.0, -0.0, -1.0, -0.0, 0.0, 0.0, 1.0],
-                    "selected": true,
-                    "locked": false,
-                    "visibility": true,
-                    "positionStatus": "defined"
-                },
-                {
-                    "id": "48",
-                    "label": "",
-                    "description": "",
-                    "associatedNodeID": "vtkMRMLScalarVolumeNode22",
-                    "position": [110.9088060164774, 128.15506164550784, -61.154441833496097],
-                    "orientation": [-1.0, -0.0, -0.0, -0.0, -1.0, -0.0, 0.0, 0.0, 1.0],
-                    "selected": true,
-                    "locked": false,
-                    "visibility": true,
-                    "positionStatus": "defined"
-                },
-                {
-                    "id": "48",
-                    "label": "",
-                    "description": "",
-                    "associatedNodeID": "vtkMRMLScalarVolumeNode22",
-                    "position": [110.9088060164774, 128.15506164550784, -61.154441833496097],
-                    "orientation": [-1.0, -0.0, -0.0, -0.0, -1.0, -0.0, 0.0, 0.0, 1.0],
-                    "selected": true,
-                    "locked": false,
-                    "visibility": true,
-                    "positionStatus": "defined"
                 }
             ],
             "measurements": [],
