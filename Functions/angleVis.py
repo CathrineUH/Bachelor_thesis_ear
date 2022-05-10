@@ -142,7 +142,7 @@ class VisualizeAngle:
         return angle * 180 / np.pi 
 
 
-    def plot_angle_slice(self, chorda, facial,angle, nr):
+    def plot_angle_slice(self, chorda, facial,angle, nr,number):
         # defining points of lines 
         x1, y1 = chorda[0]
         x2, y2 = chorda[-1]
@@ -237,14 +237,13 @@ class VisualizeAngle:
             theta2 = P2
 
             
-        print("theta = " + str(theta1) + " " + str(theta2))
         circ = np.linspace(theta1, theta2, 100)
         circ_x = r * np.cos(circ) + Px 
         circ_y = r * np.sin(circ) + Py 
 
         mid_angle = (theta1 + theta2) / 2.0 
-        mid_angle_x = (r + 2.8) * np.cos(mid_angle) + Px
-        mid_angle_y = (r + 2.8) * np.sin(mid_angle) + Py
+        mid_angle_x = (r + number) * np.cos(mid_angle) + Px -1
+        mid_angle_y = (r + number) * np.sin(mid_angle) + Py
         return circ_x, circ_y, mid_angle_x, mid_angle_y, Px,Py
 
     def drilling_point(self,angle,c,px,py):
@@ -281,8 +280,8 @@ class VisualizeAngle:
             angle_model = self.compute_angle(chorda_model, facial_model)
             matplotlib.rcParams.update({'font.size': 18})
 
-            circ_x_model, circ_y_model, mid_angle_x_model, mid_angle_y_model, px_model, py_model = self.plot_angle_slice(chorda_plot_model, facial_plot_model, angle_model, nr)
-            circ_x_ann, circ_y_ann, mid_angle_x_ann, mid_angle_y_ann, px_ann, py_ann = self.plot_angle_slice(chorda_plot_ann, facial_plot_ann, angle_ann,nr)
+            circ_x_model, circ_y_model, mid_angle_x_model, mid_angle_y_model, px_model, py_model = self.plot_angle_slice(chorda_plot_model, facial_plot_model, angle_model, nr,number = 5)
+            circ_x_ann, circ_y_ann, mid_angle_x_ann, mid_angle_y_ann, px_ann, py_ann = self.plot_angle_slice(chorda_plot_ann, facial_plot_ann, angle_ann,nr,number = 2.8)
             Dril_x_model, Dril_y_model= np.array(self.drilling_point(angle_model,chorda_plot_model,px_model,py_model))
             Dril_x_ann, Dril_y_ann= np.array(self.drilling_point(angle_ann,chorda_plot_ann,px_ann,py_ann))
            
@@ -291,24 +290,24 @@ class VisualizeAngle:
             c_ann = chorda_plot_ann
             f_ann = facial_plot_ann
             
+            
+            plt.figure(figsize=(8,6))
+            plt.plot(c_model[:, 0], c_model[:, 1], linestyle = '-', color = [0.3 , 0.67333333, 0.4454902], label = "Model", alpha = 0.7, linewidth = 5*0.4, zorder=0)
+            plt.plot(f_model[:, 0], f_model[:, 1], linestyle = '-', color = [0.3 , 0.67333333, 0.4454902], alpha = 0.7,linewidth = 5*1.2,zorder=0)
 
-            plt.figure()
-            plt.plot(c_model[:, 0], c_model[:, 1], linestyle = '-', color = col(9).color, label = "Model", alpha = 0.7)
-            plt.plot(f_model[:, 0], f_model[:, 1], linestyle = '-', color = col(9).color, alpha = 0.7)
+            plt.plot(c_ann[:, 0], c_ann[:, 1], linestyle = '-', color = [0.63215686, 0.39607843, 0.68980392], label = "Ann", alpha = 0.7,linewidth = 5*0.4,zorder=0)
+            plt.plot(f_ann[:, 0], f_ann[:, 1], linestyle = '-', color = [0.63215686, 0.39607843, 0.68980392], alpha = 0.7,linewidth = 5*1.2,zorder=0)
 
-            plt.plot(c_ann[:, 0], c_ann[:, 1], linestyle = '-', color = col(10).color, label = "Ann", alpha = 0.7)
-            plt.plot(f_ann[:, 0], f_ann[:, 1], linestyle = '-', color = col(10).color, alpha = 0.7)
-            plt.scatter(Dril_x_model, Dril_y_model, marker = "x", color = col(0).color, label = "Model")
-            plt.scatter(Dril_x_ann, Dril_y_ann, marker = "x", color = col(3).color, label = "Ann")
+            plt.scatter(points_model[:, 0], points_model[:, 1], marker = "o", color =[0.3 , 0.67333333, 0.4454902], s=50,zorder=5)
+            plt.scatter(points_ann[:, 0], points_ann[:, 1], marker = "*", color = [0.63215686, 0.39607843, 0.68980392], s=50,zorder=5 )
 
-            plt.scatter(points_model[:, 0], points_model[:, 1], marker = "o", color = col(9).color, s=50)
-            plt.scatter(points_ann[:, 0], points_ann[:, 1], marker = "*", color = col(10).color, s=50 )
-
-            plt.plot(circ_x_model, circ_y_model, color = col(9).color)
-            plt.text(mid_angle_x_model, mid_angle_y_model, np.round(angle_model,2), fontsize = 12)
-            plt.plot(circ_x_ann, circ_y_ann, color = col(10).color)
-            plt.text(mid_angle_x_ann, mid_angle_y_ann, np.round(angle_ann,2), fontsize = 12)
-            plt.legend()
+            plt.plot(circ_x_model, circ_y_model, color = [0.3 , 0.67333333, 0.4454902])
+            plt.text(-5,3, np.round(angle_model,2), fontsize = 16)
+            plt.plot(circ_x_ann, circ_y_ann, color = [0.63215686, 0.39607843, 0.68980392])
+            plt.text(3,0, np.round(angle_ann,2), fontsize = 16)
+            plt.scatter(Dril_x_model, Dril_y_model, marker = "x", color = col(0).color, label = "Model", s = 50, zorder=10)
+            plt.scatter(Dril_x_ann, Dril_y_ann, marker = "x", color = col(3).color, label = "Ann",s = 50, zorder=10)
+            plt.legend(loc = 'lower left')
             plt.axis("square")
             plt.gca().set_aspect("equal")
             # plt.title(title)
@@ -331,7 +330,7 @@ class VisualizeAngle:
                 val = (y_lim-x_lim)/2
                 max_x = max_x +val
                 min_x = min_x -val
-
+            plt.title("Inside ROI")
             plt.xlim([min_x - 2, max_x + 2])
             plt.ylim([min_y - 2, max_y + 2])
             plt.xticks([])
@@ -353,10 +352,10 @@ class VisualizeAngle:
             
             angle_ann = self.compute_angle(chorda_ann, facial_ann)
         
-            matplotlib.rcParams.update({'font.size': 18})
+            # matplotlib.rcParams.update({'font.size': 18})
 
             
-            circ_x_ann, circ_y_ann, mid_angle_x_ann, mid_angle_y_ann, px_ann, py_ann = self.plot_angle_slice(chorda_plot_ann, facial_plot_ann, angle_ann,nr)
+            circ_x_ann, circ_y_ann, mid_angle_x_ann, mid_angle_y_ann, px_ann, py_ann = self.plot_angle_slice(chorda_plot_ann, facial_plot_ann, angle_ann,nr,number =2.8)
             
             if(Dril_x_ann == 0 and Dril_y_ann == 0):
                 Dril_x_ann, Dril_y_ann = np.array(self.drilling_point(angle_ann,chorda_plot_ann,px_ann,py_ann))
@@ -364,22 +363,20 @@ class VisualizeAngle:
             
             c_ann = chorda_plot_ann
             f_ann = facial_plot_ann
-            
 
-            plt.figure()
+            plt.plot(c_ann[:, 0], c_ann[:, 1], linestyle = '-', color = [0.63215686, 0.39607843, 0.68980392], label = "Ann", alpha = 0.7,linewidth = 5*0.4)
+            plt.plot(f_ann[:, 0], f_ann[:, 1], linestyle = '-', color = [0.63215686, 0.39607843, 0.68980392], alpha = 0.7,linewidth = 5*1.2)
+            plt.scatter(Dril_x_ann, Dril_y_ann, marker = "x", color = col(3).color,label = "Ann")
 
-            plt.plot(c_ann[:, 0], c_ann[:, 1], linestyle = '-', color = col(10).color, label = "Ann", alpha = 0.7)
-            plt.plot(f_ann[:, 0], f_ann[:, 1], linestyle = '-', color = col(10).color, alpha = 0.7)
-            plt.scatter(Dril_x_ann, Dril_y_ann, marker = "x", color = col(3).color, label = "Ann")
+            # plt.scatter(points_ann[0:2, 0], points_ann[0:2, 1], marker = "*", color = [0.63215686, 0.39607843, 0.68980392], s=50 )
+            # plt.scatter(points_ann[2:6, 0], points_ann[2:6, 1], marker = "*", color = [0.63215686, 0.39607843, 0.68980392], s=50 )
 
-            plt.scatter(points_ann[:, 0], points_ann[:, 1], marker = "*", color = col(10).color, s=50 )
-
-            plt.plot(circ_x_ann, circ_y_ann, color = col(10).color)
-            plt.text(mid_angle_x_ann, mid_angle_y_ann, np.round(angle_ann,2), fontsize = 12)
+            plt.plot(circ_x_ann, circ_y_ann, color = [0.63215686, 0.39607843, 0.68980392])
+            plt.text(mid_angle_x_ann,mid_angle_y_ann, np.round(angle_ann,2), fontsize = 16)
             plt.legend()
             plt.axis("square")
             plt.gca().set_aspect("equal")
-            # plt.title(title)
+            plt.title("Landmark")
             min_x = np.min(np.concatenate([f_ann[:, 0],c_ann[:, 0]], axis = 0))
             min_x = np.min([min_x,Dril_x_ann])
             min_y = np.min(np.concatenate([f_ann[:, 1],c_ann[:, 1]], axis = 0))
