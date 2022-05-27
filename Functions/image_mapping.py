@@ -2,9 +2,6 @@ import numpy as np
 from .Dataloader import getFiles
 import SimpleITK as sitk 
 
-import numpy as np 
-from .Dataloader import getFiles
-import SimpleITK as sitk 
 
 def compute_global_max(image_path,files, quantile):
     all_images = np.array([])

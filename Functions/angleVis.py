@@ -1,11 +1,7 @@
-# link: https://math.stackexchange.com/questions/180418/calculate-rotation-matrix-to-align-vector-a-to-vector-b-in-3d
-from itertools import cycle
 import pandas as pd 
 import numpy as np
 import matplotlib.pyplot as plt 
 import matplotlib
-from sqlalchemy import true
-from .computeAngle import * 
 from .color import * 
 
 
@@ -15,7 +11,7 @@ class VisualizeAngle:
         self.df = pd.read_csv(self.df_path)
         self.nr_image = self.df.shape[0]
         self.nr_agents = nr_agents 
-        self.idx = get_best_agents(self.df) if nr_agents == 12 else [0, 1, 2, 3, 4, 5]
+        self.idx = [0, 1, 2, 3, 4, 5]
         self.coor_model = None
         self.coor_ann = None 
         self.plane_model = None

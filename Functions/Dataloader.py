@@ -41,12 +41,3 @@ def loadImagenpFromFile(path,file_name):
     im = sitk.GetArrayFromImage(im)
     return im
 
-def changetxtfile(path,filename,txtfile,nr):
-    f = open(path +"\\"+filename, "r+")
-    l = f.readlines()
-    with open(txtfile,'a') as file:
-        for i in l:
-            first = i[0:27]
-            last = i[27:]
-            temp = first +"landmarks_"+ nr +"/"+last
-            file.write(temp)

@@ -2,7 +2,6 @@ import dijkstra3d
 import numpy as np
 import pandas as pd
 import SimpleITK as sitk
-from .computeAngle import *
 import matplotlib.pyplot as plt 
 from .Dataloader import *
 import matplotlib as mat
@@ -17,7 +16,7 @@ class Dijkstras:
         self.weights_model = np.zeros((self.nr_image, 2))
         self.weights_ann = np.zeros((self.nr_image, 2))
         self.nr_agents = nr_agents 
-        self.idx = get_best_agents(self.df) if nr_agents == 12 else [0, 1, 2, 3, 4, 5]
+        self.idx = [0, 1, 2, 3, 4, 5]
         self.nr_model = nr
         self.nr_ann = nr + 22
         self.rotation = rotation

@@ -281,19 +281,6 @@ def cmap(cmap_name, alpha, bg="w", set_under=None, set_over=None,
 
 if __name__ == "__main__":
     print(colorAlpha_to_rgb(col(10).color, 0.2))
-    # print(">>> [array([ 1. ,  0.5,  0.5])]")
-    # print(colorAlpha_to_rgb(['r', 'g'], 0.5)) 
-    # print(">>> [array([ 1. ,  0.5,  0.5]), array([ 0.5 ,  0.75,  0.5 ])]")
-    # print(colorAlpha_to_rgb(['r', 'g'], [0.5, 0.3])) 
-    # print(">>> [array([ 1. ,  0.5,  0.5]), array([ 0.7 ,  0.85,  0.7 ])]")
-    # print(colorAlpha_to_rgb(['r', [1,0,0]], 0.5)) 
-    # print(">>> [array([ 1. ,  0.5,  0.5]), array([ 1. ,  0.5,  0.5])]")
-    # print(colorAlpha_to_rgb([[0,1,1], [1,0,0]], 0.5) ) 
-    # print(">>> [array([ 0.5,  1. ,  1. ]), array([ 1. ,  0.5,  0.5])]")
-    # print(colorAlpha_to_rgb(np.array([[0,1,1], [1,0,0]]), 0.5)) 
-    # print(">>> [array([ 0.5,  1. ,  1. ]), array([ 1. ,  0.5,  0.5])]")
-    # print(colorAlpha_to_rgb(np.array([[0,1,1], [1,0,0]]), 0.5, bg='0.5')) 
-    # print(">>> [array([ 0.25,  0.75,  0.75]), array([ 0.75,  0.25,  0.25])]")
-    
+        
     exit()
 
