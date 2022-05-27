@@ -3,7 +3,16 @@ import numpy as np
 import matplotlib.pyplot as plt 
 import matplotlib
 from .color import * 
-
+def get_pca_direction(R, M, T):
+    """
+    Computes the first principal component from the three landmarks 
+    """
+    data = np.array([R, M, T])
+    mu = np.mean(data, axis = 0)
+    _, _, V = np.linalg.svd(data - mu)
+    V = V.T 
+    direction = V[:, 0]
+    return direction
 
 class VisualizeAngle: 
     def __init__(self, df_path, nr_agents): 
