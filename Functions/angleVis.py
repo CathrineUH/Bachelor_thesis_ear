@@ -269,7 +269,7 @@ class VisualizeAngle:
         Dril_y = py + (lenght_mid) * np.sin(angle_mid) 
         return Dril_x, Dril_y
 
-    def plot_angle_in_plane(self, nr, getRotation = False,title): 
+    def plot_angle_in_plane(self, nr, title, getRotation = False): 
         """
         This is the function to call. It plots the angle 
         """
