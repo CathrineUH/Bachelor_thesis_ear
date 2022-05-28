@@ -1,5 +1,6 @@
 # Cathrine's files
 Partions/*
+/pycache/*
 
 # Theresa's files 
 __pycache__/*
