@@ -423,8 +423,8 @@ class Dijkstras:
         Viz = VisualizeAngle(self.df_path, self.nr_agents)
         Viz.get_coor()
         chorda_point_model, chorda_point_ann,facial_point_model, facial_point_ann, angle_ann, angle_model, facial_model,facial_ann, chorda_model,chorda_ann = self.visualize()
-        Px_model, Py_model = self.intersection(chorda_model, facial_model)
-        Px_ann, Py_ann = self.intersection(chorda_ann, facial_ann)
+        _, _, _, _, Px_model, Py_model = self.intersection(chorda_model, facial_model,angle_model,self.nr_model)
+        _, _, _, _, Px_ann, Py_ann = self.intersection(chorda_ann, facial_ann,angle_ann,self.nr_ann)
         Dril_x_model, Dril_Y_model = self.drilling_point(angle_model,chorda_model,Px_model,Py_model)
         Dril_x_ann, Dril_Y_ann = self.drilling_point(angle_ann,chorda_ann,Px_ann,Py_ann)
         # Viz.plot_angle_ann(self.nr_model,Dril_x_ann = Dril_x_model, Dril_y_ann = Dril_Y_model)
@@ -445,7 +445,7 @@ class Dijkstras:
             angles[nr, 0], angles[nr, 1] = angle_ann, angle_model 
         
         return angles 
-    def plot_together(self):
+    def plot_together(self,title):
         chorda_point_model, chorda_point_ann,facial_point_model, facial_point_ann, angle_ann, angle_model, facial_model,facial_ann, chorda_model,chorda_ann = self.visualize()
         circ_x_model, circ_y_model, mid_angle_x_model, mid_angle_y_model,Px_model, Py_model = self.intersection(chorda_model, facial_model,angle_model,2.8)
         circ_x_ann, circ_y_ann, mid_angle_x_ann, mid_angle_y_ann,Px_ann, Py_ann = self.intersection(chorda_ann, facial_ann,angle_ann, 2.8)
@@ -456,13 +456,13 @@ class Dijkstras:
         plt.figure(figsize=(8,6))
         Viz = VisualizeAngle(self.df_path, self.nr_agents)
         Viz.get_coor()
-        Viz.plot_angle_ann(self.nr_model)
+        Viz.plot_angle_ann(self.nr_model,True)
         # Viz.plot_angle_ann(nr)
         plt.plot(chorda_model[:, 0], chorda_model[:, 1], linestyle = '-', color = [0.3 , 0.67333333, 0.4454902], label = "Model", alpha = 0.7, linewidth = 5*0.4, zorder=0)
         plt.plot(facial_model[:, 0], facial_model[:, 1], linestyle = '-', color = [0.3 , 0.67333333, 0.4454902], alpha = 0.7,linewidth = 5*1.2,zorder=0)
 
-        # plt.plot(chorda_ann[:, 0], chorda_ann[:, 1], linestyle = '-', color = [0.63215686, 0.39607843, 0.68980392], label = "Ann", alpha = 0.7,linewidth = 5*0.4,zorder=0)
-        # plt.plot(facial_ann[:, 0], facial_ann[:, 1], linestyle = '-', color = [0.63215686, 0.39607843, 0.68980392], alpha = 0.7,linewidth = 5*1.2,zorder=0)
+        plt.plot(chorda_ann[:, 0], chorda_ann[:, 1], linestyle = '-', color = [0.63215686, 0.39607843, 0.68980392], label = "Ann", alpha = 0.7,linewidth = 5*0.4,zorder=0)
+        plt.plot(facial_ann[:, 0], facial_ann[:, 1], linestyle = '-', color = [0.63215686, 0.39607843, 0.68980392], alpha = 0.7,linewidth = 5*1.2,zorder=0)
 
         
         # plt.scatter(chorda_point_model[:, 0],  chorda_point_model[:, 1], marker = "o", color =[0.3 , 0.67333333, 0.4454902], s=50,zorder=5)
@@ -470,12 +470,12 @@ class Dijkstras:
         # plt.scatter(chorda_point_ann[:, 0], chorda_point_ann[:, 1], marker = "*", color = [0.63215686, 0.39607843, 0.68980392], s=50,zorder=5 )
         # plt.scatter(facial_point_ann[:, 0], facial_point_ann[:, 1], marker = "*", color = [0.63215686, 0.39607843, 0.68980392], s=50,zorder=5 )
         plt.plot(circ_x_model, circ_y_model, color = [0.3 , 0.67333333, 0.4454902])
-        # plt.plot(mid_angle_x_model,mid_angle_y_model, color = [0.3 , 0.67333333, 0.4454902])
+        plt.plot(mid_angle_x_model,mid_angle_y_model, color = [0.3 , 0.67333333, 0.4454902])
         plt.text(mid_angle_x_model,mid_angle_y_model, np.round(angle_model,2), fontsize = 16)
-        # plt.plot(circ_x_ann, circ_y_ann, color = [0.63215686, 0.39607843, 0.68980392])
-        # plt.text(mid_angle_x_ann,mid_angle_y_ann, np.round(angle_ann,2), fontsize = 16)
+        plt.plot(circ_x_ann, circ_y_ann, color = [0.63215686, 0.39607843, 0.68980392])
+        plt.text(mid_angle_x_ann,mid_angle_y_ann, np.round(angle_ann,2), fontsize = 16)
         plt.scatter(Dril_x_model, Dril_Y_model, marker = "x", color = col(0).color, label = "Model", s = 50, zorder=10)
-        # plt.scatter(Dril_x_ann, Dril_Y_ann, marker = "x", color = col(3).color, label = "Ann",s = 50, zorder=10)
+        plt.scatter(Dril_x_ann, Dril_Y_ann, marker = "x", color = col(3).color, label = "Ann",s = 50, zorder=10)
 
         plt.legend(loc = 'lower left')
         plt.axis("square")
@@ -500,7 +500,7 @@ class Dijkstras:
             val = (y_lim-x_lim)/2
             max_x = max_x +val
             min_x = min_x -val
-        plt.title("Outside ROI")
+        plt.title(title)
         plt.xlim([min_x - 2, max_x + 2])
         plt.ylim([min_y - 2, max_y + 2])
         plt.xticks([])
