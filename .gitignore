@@ -1,5 +1,7 @@
 # Cathrine's files
 Partions/*
+/pycache/*
+Data/openNeuro/*
 
 # Theresa's files 
 __pycache__/*
@@ -21,4 +23,3 @@ Cmarl/src/data/images/*
 Functions/__pycache__/*
 Data_good/*
 Data_crop/*
-Data_good_Scaled/*
