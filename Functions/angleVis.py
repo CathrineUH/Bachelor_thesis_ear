@@ -269,7 +269,7 @@ class VisualizeAngle:
         Dril_y = py + (lenght_mid) * np.sin(angle_mid) 
         return Dril_x, Dril_y
 
-    def plot_angle_in_plane(self, nr, getRotation = False): 
+    def plot_angle_in_plane(self, nr, getRotation = False,title): 
         """
         This is the function to call. It plots the angle 
         """
@@ -335,7 +335,7 @@ class VisualizeAngle:
                 val = (y_lim-x_lim)/2
                 max_x = max_x +val
                 min_x = min_x -val
-            plt.title("Inside ROI")
+            plt.title(title)
             plt.xlim([min_x - 2, max_x + 2])
             plt.ylim([min_y - 2, max_y + 2])
             plt.xticks([])
