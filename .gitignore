@@ -1,7 +1,7 @@
 # Cathrine's files
 Partions/*
 /pycache/*
-Data/openNeuro/*
+Data/*
 
 # Theresa's files 
 __pycache__/*
