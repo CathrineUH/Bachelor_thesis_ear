@@ -9,7 +9,6 @@ gifs/*
 models/*
 tmp/* 
 Functions/__pycache__/* 
-paths/*
 Dijkstras.ipynb
 
 # other files 
