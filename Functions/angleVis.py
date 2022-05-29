@@ -269,7 +269,7 @@ class VisualizeAngle:
         Dril_y = py + (lenght_mid) * np.sin(angle_mid) 
         return Dril_x, Dril_y
 
-    def plot_angle_in_plane(self, nr, getRotation = False): 
+    def plot_angle_in_plane(self, nr, title, position, getRotation = False): 
         """
         This is the function to call. It plots the angle 
         """
@@ -307,9 +307,9 @@ class VisualizeAngle:
             plt.scatter(points_ann[:, 0], points_ann[:, 1], marker = "*", color = [0.63215686, 0.39607843, 0.68980392], s=50,zorder=5 )
 
             plt.plot(circ_x_model, circ_y_model, color = [0.3 , 0.67333333, 0.4454902])
-            plt.text(-5,3, np.round(angle_model,2), fontsize = 16)
+            plt.text(position[0],position[1], np.round(angle_model,2), fontsize = 16)
             plt.plot(circ_x_ann, circ_y_ann, color = [0.63215686, 0.39607843, 0.68980392])
-            plt.text(3,0, np.round(angle_ann,2), fontsize = 16)
+            plt.text(position[2],position[3], np.round(angle_ann,2), fontsize = 16)
             plt.scatter(Dril_x_model, Dril_y_model, marker = "x", color = col(0).color, label = "Model", s = 50, zorder=10)
             plt.scatter(Dril_x_ann, Dril_y_ann, marker = "x", color = col(3).color, label = "Ann",s = 50, zorder=10)
             plt.legend(loc = 'lower left')
@@ -335,7 +335,7 @@ class VisualizeAngle:
                 val = (y_lim-x_lim)/2
                 max_x = max_x +val
                 min_x = min_x -val
-            plt.title("Inside ROI")
+            plt.title(title)
             plt.xlim([min_x - 2, max_x + 2])
             plt.ylim([min_y - 2, max_y + 2])
             plt.xticks([])
@@ -343,7 +343,7 @@ class VisualizeAngle:
             plt.show()
 
     
-    def plot_angle_ann(self, nr, getRotation = False, Dril_x_ann = 0, Dril_y_ann = 0): 
+    def plot_angle_ann(self, nr, position, getRotation = False, Dril_x_ann = 0, Dril_y_ann = 0): 
         """
         This is the function to call. It plots the angle 
         """
@@ -352,61 +352,61 @@ class VisualizeAngle:
             self.get_points_for_plane(nr)
             chorda_plot_ann, chorda_ann, facial_plot_ann, facial_ann, points_ann, _, _,_, _, _ = self.project_onto_plane(nr)
         else: 
-            self.get_points_for_plane(nr)
-            chorda_plot_ann, chorda_ann, facial_plot_ann, facial_ann, points_ann, _, _, _, _, _  = self.project_onto_plane(nr)
+                self.get_points_for_plane(nr)
+                chorda_plot_ann, chorda_ann, facial_plot_ann, facial_ann, points_ann, _, _, _, _, _  = self.project_onto_plane(nr)
+                
+                angle_ann = self.compute_angle(chorda_ann, facial_ann)
             
-            angle_ann = self.compute_angle(chorda_ann, facial_ann)
-        
-            # matplotlib.rcParams.update({'font.size': 18})
+                # matplotlib.rcParams.update({'font.size': 18})
 
+                
+                circ_x_ann, circ_y_ann, mid_angle_x_ann, mid_angle_y_ann, px_ann, py_ann = self.plot_angle_slice(chorda_plot_ann, facial_plot_ann, angle_ann,nr,number =2.8)
+                
+                if(Dril_x_ann == 0 and Dril_y_ann == 0):
+                    Dril_x_ann, Dril_y_ann = np.array(self.drilling_point(angle_ann,chorda_plot_ann,px_ann,py_ann))
             
-            circ_x_ann, circ_y_ann, mid_angle_x_ann, mid_angle_y_ann, px_ann, py_ann = self.plot_angle_slice(chorda_plot_ann, facial_plot_ann, angle_ann,nr,number =2.8)
-            
-            if(Dril_x_ann == 0 and Dril_y_ann == 0):
-                Dril_x_ann, Dril_y_ann = np.array(self.drilling_point(angle_ann,chorda_plot_ann,px_ann,py_ann))
-           
-            
-            c_ann = chorda_plot_ann
-            f_ann = facial_plot_ann
+                
+                c_ann = chorda_plot_ann
+                f_ann = facial_plot_ann
+                plt.figure(figsize=(8,6))
+                plt.plot(c_ann[:, 0], c_ann[:, 1], linestyle = '-', color = [0.63215686, 0.39607843, 0.68980392], label = "Ann", alpha = 0.7,linewidth = 5*0.4)
+                plt.plot(f_ann[:, 0], f_ann[:, 1], linestyle = '-', color = [0.63215686, 0.39607843, 0.68980392], alpha = 0.7,linewidth = 5*1.2)
+                plt.scatter(Dril_x_ann, Dril_y_ann, marker = "x", color = col(3).color,label = "Ann")
 
-            plt.plot(c_ann[:, 0], c_ann[:, 1], linestyle = '-', color = [0.63215686, 0.39607843, 0.68980392], label = "Ann", alpha = 0.7,linewidth = 5*0.4)
-            plt.plot(f_ann[:, 0], f_ann[:, 1], linestyle = '-', color = [0.63215686, 0.39607843, 0.68980392], alpha = 0.7,linewidth = 5*1.2)
-            plt.scatter(Dril_x_ann, Dril_y_ann, marker = "x", color = col(3).color,label = "Ann")
+                # plt.scatter(points_ann[0:2, 0], points_ann[0:2, 1], marker = "*", color = [0.63215686, 0.39607843, 0.68980392], s=50 )
+                # plt.scatter(points_ann[2:6, 0], points_ann[2:6, 1], marker = "*", color = [0.63215686, 0.39607843, 0.68980392], s=50 )
 
-            # plt.scatter(points_ann[0:2, 0], points_ann[0:2, 1], marker = "*", color = [0.63215686, 0.39607843, 0.68980392], s=50 )
-            # plt.scatter(points_ann[2:6, 0], points_ann[2:6, 1], marker = "*", color = [0.63215686, 0.39607843, 0.68980392], s=50 )
+                plt.plot(circ_x_ann, circ_y_ann, color = [0.63215686, 0.39607843, 0.68980392])
+                plt.text(position[0],position[1], np.round(angle_ann,2), fontsize = 16)
+                plt.legend()
+                plt.axis("square")
+                plt.gca().set_aspect("equal")
+                plt.title("Landmark")
+                min_x = np.min(np.concatenate([f_ann[:, 0],c_ann[:, 0]], axis = 0))
+                min_x = np.min([min_x,Dril_x_ann])
+                min_y = np.min(np.concatenate([f_ann[:, 1],c_ann[:, 1]], axis = 0))
+                min_y = np.min([min_y,Dril_y_ann])
+                max_x = np.max(np.concatenate([f_ann[:, 0],c_ann[:, 0]], axis = 0))
+                max_x = np.max([max_x,Dril_x_ann])
+                max_y = np.max(np.concatenate([f_ann[:, 1],c_ann[:, 1]], axis = 0))
+                max_y = np.max([max_y,Dril_y_ann])
 
-            plt.plot(circ_x_ann, circ_y_ann, color = [0.63215686, 0.39607843, 0.68980392])
-            plt.text(mid_angle_x_ann,mid_angle_y_ann, np.round(angle_ann,2), fontsize = 16)
-            plt.legend()
-            plt.axis("square")
-            plt.gca().set_aspect("equal")
-            plt.title("Landmark")
-            min_x = np.min(np.concatenate([f_ann[:, 0],c_ann[:, 0]], axis = 0))
-            min_x = np.min([min_x,Dril_x_ann])
-            min_y = np.min(np.concatenate([f_ann[:, 1],c_ann[:, 1]], axis = 0))
-            min_y = np.min([min_y,Dril_y_ann])
-            max_x = np.max(np.concatenate([f_ann[:, 0],c_ann[:, 0]], axis = 0))
-            max_x = np.max([max_x,Dril_x_ann])
-            max_y = np.max(np.concatenate([f_ann[:, 1],c_ann[:, 1]], axis = 0))
-            max_y = np.max([max_y,Dril_y_ann])
+                x_lim = max_x-min_x
+                y_lim = max_y-min_y
+                if(x_lim> y_lim):
+                    val = (x_lim-y_lim)/2
+                    max_y = max_y +val
+                    min_y = min_y -val
+                else:
+                    val = (y_lim-x_lim)/2
+                    max_x = max_x +val
+                    min_x = min_x -val
 
-            x_lim = max_x-min_x
-            y_lim = max_y-min_y
-            if(x_lim> y_lim):
-                val = (x_lim-y_lim)/2
-                max_y = max_y +val
-                min_y = min_y -val
-            else:
-                val = (y_lim-x_lim)/2
-                max_x = max_x +val
-                min_x = min_x -val
-
-            plt.xlim([min_x - 2, max_x + 2])
-            plt.ylim([min_y - 2, max_y + 2])
-            plt.xticks([])
-            plt.yticks([])
-            plt.show()
+                plt.xlim([min_x - 2, max_x + 2])
+                plt.ylim([min_y - 2, max_y + 2])
+                plt.xticks([])
+                plt.yticks([])
+                # plt.show()
 
         
     def compute_all_angles(self): 
@@ -418,3 +418,49 @@ class VisualizeAngle:
             angles[nr, 0], angles[nr, 1] = self.compute_angle(chorda_ann, facial_ann), self.compute_angle(chorda_model, facial_model)
         
         return angles 
+
+    def plot_method_ann(self,nr):
+        self.get_points_for_plane(nr)
+        chorda_plot_ann, chorda_ann, facial_plot_ann, facial_ann, points_ann, _, _, _, _, _  = self.project_onto_plane(nr)
+        
+        angle_ann = self.compute_angle(chorda_ann, facial_ann)
+    
+        matplotlib.rcParams.update({'font.size': 18})
+
+
+        c_ann = chorda_plot_ann
+        f_ann = facial_plot_ann
+        plt.figure(figsize=(8,6))
+        plt.plot(c_ann[:, 0], c_ann[:, 1], linestyle = '-', color = [0.63215686, 0.39607843, 0.68980392], label = "CTY",linewidth = 5*0.4)
+        plt.plot(f_ann[:, 0], f_ann[:, 1], linestyle = '-', color = [0.3 , 0.67333333, 0.4454902], label = "FN",linewidth = 5*1.2)
+        
+        plt.scatter(points_ann[0:2, 0], points_ann[0:2, 1], marker = "*", color = [0.63215686, 0.39607843, 0.68980392], s=50 )
+        plt.scatter(points_ann[2:6, 0], points_ann[2:6, 1], color = [0.3 , 0.67333333, 0.4454902], s=50 )
+
+        plt.legend()
+        plt.axis("square")
+        plt.gca().set_aspect("equal")
+        plt.title("Landmark")
+
+        min_x = np.min(np.concatenate([f_ann[:, 0],c_ann[:, 0]], axis = 0))
+        min_y = np.min(np.concatenate([f_ann[:, 1],c_ann[:, 1]], axis = 0))
+        max_x = np.max(np.concatenate([f_ann[:, 0],c_ann[:, 0]], axis = 0))
+        max_y = np.max(np.concatenate([f_ann[:, 1],c_ann[:, 1]], axis = 0))
+    
+
+        x_lim = max_x-min_x
+        y_lim = max_y-min_y
+        if(x_lim> y_lim):
+            val = (x_lim-y_lim)/2
+            max_y = max_y +val
+            min_y = min_y -val
+        else:
+            val = (y_lim-x_lim)/2
+            max_x = max_x +val
+            min_x = min_x -val
+
+        plt.xlim([min_x - 2, max_x + 2])
+        plt.ylim([min_y - 2, max_y + 2])
+        plt.xticks([])
+        plt.yticks([])
+        plt.show()

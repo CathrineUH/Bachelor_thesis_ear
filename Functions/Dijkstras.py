@@ -423,13 +423,13 @@ class Dijkstras:
         Viz = VisualizeAngle(self.df_path, self.nr_agents)
         Viz.get_coor()
         chorda_point_model, chorda_point_ann,facial_point_model, facial_point_ann, angle_ann, angle_model, facial_model,facial_ann, chorda_model,chorda_ann = self.visualize()
-        Px_model, Py_model = self.intersection(chorda_model, facial_model)
-        Px_ann, Py_ann = self.intersection(chorda_ann, facial_ann)
+        _, _, _, _, Px_model, Py_model = self.intersection(chorda_model, facial_model,angle_model,self.nr_model)
+        _, _, _, _, Px_ann, Py_ann = self.intersection(chorda_ann, facial_ann,angle_ann,self.nr_ann)
         Dril_x_model, Dril_Y_model = self.drilling_point(angle_model,chorda_model,Px_model,Py_model)
         Dril_x_ann, Dril_Y_ann = self.drilling_point(angle_ann,chorda_ann,Px_ann,Py_ann)
-        # Viz.plot_angle_ann(self.nr_model,Dril_x_ann = Dril_x_model, Dril_y_ann = Dril_Y_model)
-        # chorda_model, facial_model = self.plotDijkstras(chorda_point_model, facial_point_model, chorda_model, facial_model, Dril_x_ann, Dril_Y_ann ,np.round(angle_model, 2),"Model")
-        chorda_ann, facial_ann = self.plotDijkstras(chorda_point_ann, facial_point_ann, chorda_ann, facial_ann, Dril_x_ann, Dril_Y_ann,np.round(angle_ann, 2),"Landmark")
+        Viz.plot_angle_ann(self.nr_model, Dril_x_ann = Dril_x_model, Dril_y_ann = Dril_Y_model)
+        chorda_model, facial_model = self.plotDijkstras(chorda_point_model, facial_point_model, chorda_model, facial_model, Dril_x_ann, Dril_Y_ann ,np.round(angle_model, 2),"Model")
+        # chorda_ann, facial_ann = self.plotDijkstras(chorda_point_ann, facial_point_ann, chorda_ann, facial_ann, Dril_x_ann, Dril_Y_ann,np.round(angle_ann, 2),"Landmark")
     
     def compute_all_angles(self): 
         angles = np.zeros((self.nr_image, 2))
@@ -439,43 +439,86 @@ class Dijkstras:
             self.nr_ann = nr + 22 
             Viz = VisualizeAngle(self.df_path, self.nr_agents)
             Viz.get_coor()
-            Viz.plot_angle_in_plane(self.nr_model, True)
+            Viz.plot_angle_in_plane(self.nr_model," ",[0,0,0,0],True)
             self.rotation = Viz.R
             _, _,_, _, angle_ann, angle_model, _,_, _,_ = self.visualize()
             angles[nr, 0], angles[nr, 1] = angle_ann, angle_model 
         
         return angles 
-    def plot_together(self):
-        chorda_point_model, chorda_point_ann,facial_point_model, facial_point_ann, angle_ann, angle_model, facial_model,facial_ann, chorda_model,chorda_ann = self.visualize()
+    def plot_together(self,title,position):
+        _,_,_,_, angle_ann, angle_model, facial_model,facial_ann, chorda_model,chorda_ann = self.visualize()
         circ_x_model, circ_y_model, mid_angle_x_model, mid_angle_y_model,Px_model, Py_model = self.intersection(chorda_model, facial_model,angle_model,2.8)
-        circ_x_ann, circ_y_ann, mid_angle_x_ann, mid_angle_y_ann,Px_ann, Py_ann = self.intersection(chorda_ann, facial_ann,angle_ann, 2.8)
+        circ_x_ann, circ_y_ann, _,_,Px_ann, Py_ann = self.intersection(chorda_ann, facial_ann,angle_ann, 2.8)
         Dril_x_model, Dril_Y_model = self.drilling_point(angle_model,chorda_model,Px_model,Py_model)
         Dril_x_ann, Dril_Y_ann = self.drilling_point(angle_ann,chorda_ann,Px_ann,Py_ann)
         
         mat.rcParams.update({'font.size': 18})
         plt.figure(figsize=(8,6))
-        Viz = VisualizeAngle(self.df_path, self.nr_agents)
-        Viz.get_coor()
-        Viz.plot_angle_ann(self.nr_model)
-        # Viz.plot_angle_ann(nr)
         plt.plot(chorda_model[:, 0], chorda_model[:, 1], linestyle = '-', color = [0.3 , 0.67333333, 0.4454902], label = "Model", alpha = 0.7, linewidth = 5*0.4, zorder=0)
         plt.plot(facial_model[:, 0], facial_model[:, 1], linestyle = '-', color = [0.3 , 0.67333333, 0.4454902], alpha = 0.7,linewidth = 5*1.2,zorder=0)
 
-        # plt.plot(chorda_ann[:, 0], chorda_ann[:, 1], linestyle = '-', color = [0.63215686, 0.39607843, 0.68980392], label = "Ann", alpha = 0.7,linewidth = 5*0.4,zorder=0)
-        # plt.plot(facial_ann[:, 0], facial_ann[:, 1], linestyle = '-', color = [0.63215686, 0.39607843, 0.68980392], alpha = 0.7,linewidth = 5*1.2,zorder=0)
+        plt.plot(chorda_ann[:, 0], chorda_ann[:, 1], linestyle = '-', color = [0.63215686, 0.39607843, 0.68980392], label = "Ann", alpha = 0.7,linewidth = 5*0.4,zorder=0)
+        plt.plot(facial_ann[:, 0], facial_ann[:, 1], linestyle = '-', color = [0.63215686, 0.39607843, 0.68980392], alpha = 0.7,linewidth = 5*1.2,zorder=0)
 
         
-        # plt.scatter(chorda_point_model[:, 0],  chorda_point_model[:, 1], marker = "o", color =[0.3 , 0.67333333, 0.4454902], s=50,zorder=5)
-        # plt.scatter(facial_point_model[:, 0],  facial_point_model[:, 1], marker = "o", color =[0.3 , 0.67333333, 0.4454902], s=50,zorder=5)
-        # plt.scatter(chorda_point_ann[:, 0], chorda_point_ann[:, 1], marker = "*", color = [0.63215686, 0.39607843, 0.68980392], s=50,zorder=5 )
-        # plt.scatter(facial_point_ann[:, 0], facial_point_ann[:, 1], marker = "*", color = [0.63215686, 0.39607843, 0.68980392], s=50,zorder=5 )
         plt.plot(circ_x_model, circ_y_model, color = [0.3 , 0.67333333, 0.4454902])
-        # plt.plot(mid_angle_x_model,mid_angle_y_model, color = [0.3 , 0.67333333, 0.4454902])
-        plt.text(mid_angle_x_model,mid_angle_y_model, np.round(angle_model,2), fontsize = 16)
-        # plt.plot(circ_x_ann, circ_y_ann, color = [0.63215686, 0.39607843, 0.68980392])
-        # plt.text(mid_angle_x_ann,mid_angle_y_ann, np.round(angle_ann,2), fontsize = 16)
+        plt.plot(mid_angle_x_model,mid_angle_y_model, color = [0.3 , 0.67333333, 0.4454902])
+        plt.text(position[0],position[1], np.round(angle_model,2), fontsize = 16)
+        plt.plot(circ_x_ann, circ_y_ann, color = [0.63215686, 0.39607843, 0.68980392])
+        plt.text(position[2],position[3], np.round(angle_ann,2), fontsize = 16)
         plt.scatter(Dril_x_model, Dril_Y_model, marker = "x", color = col(0).color, label = "Model", s = 50, zorder=10)
-        # plt.scatter(Dril_x_ann, Dril_Y_ann, marker = "x", color = col(3).color, label = "Ann",s = 50, zorder=10)
+        plt.scatter(Dril_x_ann, Dril_Y_ann, marker = "x", color = col(3).color, label = "Ann",s = 50, zorder=10)
+
+        plt.legend(loc = 'lower left')
+        plt.axis("square")
+        plt.gca().set_aspect("equal")
+
+        min_x = np.min(np.concatenate([chorda_model[:, 0],facial_model[:, 0],facial_ann[:, 0],chorda_ann[:, 0]], axis = 0))
+        min_x = np.min([min_x,Dril_x_model,Dril_x_ann])
+        min_y = np.min(np.concatenate([chorda_model[:, 1],facial_model[:, 1],facial_ann[:, 1],chorda_ann[:, 1]], axis = 0))
+        min_y = np.min([min_y,Dril_Y_model,Dril_Y_ann])
+        max_x = np.max(np.concatenate([chorda_model[:, 0],facial_model[:, 0],facial_ann[:, 0],chorda_ann[:, 0]], axis = 0))
+        max_x = np.max([max_x,Dril_x_model,Dril_x_ann])
+        max_y = np.max(np.concatenate([chorda_model[:, 1],facial_model[:, 1],facial_ann[:, 1],chorda_ann[:, 1]], axis = 0))
+        max_y = np.max([max_y,Dril_Y_model,Dril_Y_ann])
+
+        x_lim = max_x-min_x
+        y_lim = max_y-min_y
+        if(x_lim> y_lim):
+            val = (x_lim-y_lim)/2
+            max_y = max_y +val
+            min_y = min_y -val
+        else:
+            val = (y_lim-x_lim)/2
+            max_x = max_x +val
+            min_x = min_x -val
+        plt.title(title)
+        plt.xlim([min_x - 2, max_x + 2])
+        plt.ylim([min_y - 2, max_y + 2])
+        plt.xticks([])
+        plt.yticks([])
+        plt.show()
+    
+    def plot_dijland(self,position,title):
+        _,_,_, _, angle_ann, angle_model, facial_model,facial_ann, chorda_model,chorda_ann = self.visualize()
+        circ_x_model, circ_y_model, mid_angle_x_model, mid_angle_y_model,Px_model, Py_model = self.intersection(chorda_model, facial_model,angle_model,2.8)
+        _, _, _, _,Px_ann, Py_ann = self.intersection(chorda_ann, facial_ann,angle_ann, 2.8)
+        Dril_x_model, Dril_Y_model = self.drilling_point(angle_model,chorda_model,Px_model,Py_model)
+        Dril_x_ann, Dril_Y_ann = self.drilling_point(angle_ann,chorda_ann,Px_ann,Py_ann)
+        
+        mat.rcParams.update({'font.size': 18})
+        Viz = VisualizeAngle("results/results05.csv", 6)
+        Viz.get_coor()
+        Viz.plot_angle_in_plane(self.nr_model,"Inside ROI",[0,0,0,0],"True")
+        Viz.plot_angle_ann(self.nr_model, [position[2],position[3]], getRotation = False, Dril_x_ann = 0, Dril_y_ann = 0)
+        plt.plot(chorda_model[:, 0], chorda_model[:, 1], linestyle = '-', color = [0.3 , 0.67333333, 0.4454902], label = "Model", alpha = 0.7, linewidth = 5*0.4, zorder=0)
+        plt.plot(facial_model[:, 0], facial_model[:, 1], linestyle = '-', color = [0.3 , 0.67333333, 0.4454902], alpha = 0.7,linewidth = 5*1.2,zorder=0)
+
+        plt.plot(circ_x_model, circ_y_model, color = [0.3 , 0.67333333, 0.4454902])
+        plt.plot(mid_angle_x_model,mid_angle_y_model, color = [0.3 , 0.67333333, 0.4454902])
+        plt.text(position[0],position[1], np.round(angle_model,2), fontsize = 16)
+
+        plt.scatter(Dril_x_model, Dril_Y_model, marker = "x", color = col(0).color, label = "Model", s = 50, zorder=10)
 
         plt.legend(loc = 'lower left')
         plt.axis("square")
@@ -500,11 +543,52 @@ class Dijkstras:
             val = (y_lim-x_lim)/2
             max_x = max_x +val
             min_x = min_x -val
-        plt.title("Outside ROI")
+        plt.title(title)
         plt.xlim([min_x - 2, max_x + 2])
         plt.ylim([min_y - 2, max_y + 2])
         plt.xticks([])
         plt.yticks([])
         plt.show()
     
-      
+        
+    def plot_method(self):
+        _, chorda_point_ann,_,facial_point_ann,_,_, facial_model,facial_ann, chorda_model,chorda_ann = self.visualize()
+    
+        mat.rcParams.update({'font.size': 18})
+        plt.figure(figsize=(8,6))
+    
+        plt.plot(chorda_ann[:, 0], chorda_ann[:, 1], linestyle = '-', color = [0.63215686, 0.39607843, 0.68980392], label = "CTY",linewidth = 5*0.4,zorder=0)
+        plt.plot(facial_ann[:, 0], facial_ann[:, 1], linestyle = '-', color = [0.3 , 0.67333333, 0.4454902], label = "FN",linewidth = 5*1.2,zorder=0)
+
+        plt.scatter(chorda_point_ann[:, 0], chorda_point_ann[:, 1], marker = "*", color = [0.63215686, 0.39607843, 0.68980392], s=50,zorder=5 )
+        plt.scatter(facial_point_ann[:, 0], facial_point_ann[:, 1], color = [0.3 , 0.67333333, 0.4454902], s=50,zorder=5 )
+
+        plt.axis("square")
+        plt.gca().set_aspect("equal")
+        
+        min_x = np.min(np.concatenate([chorda_model[:, 0],facial_model[:, 0],facial_ann[:, 0],chorda_ann[:, 0]], axis = 0))
+        
+        min_y = np.min(np.concatenate([chorda_model[:, 1],facial_model[:, 1],facial_ann[:, 1],chorda_ann[:, 1]], axis = 0))
+        
+        max_x = np.max(np.concatenate([chorda_model[:, 0],facial_model[:, 0],facial_ann[:, 0],chorda_ann[:, 0]], axis = 0))
+        
+        max_y = np.max(np.concatenate([chorda_model[:, 1],facial_model[:, 1],facial_ann[:, 1],chorda_ann[:, 1]], axis = 0))
+    
+
+        x_lim = max_x-min_x
+        y_lim = max_y-min_y
+        if(x_lim> y_lim):
+            val = (x_lim-y_lim)/2
+            max_y = max_y +val
+            min_y = min_y -val
+        else:
+            val = (y_lim-x_lim)/2
+            max_x = max_x +val
+            min_x = min_x -val
+        plt.title("Shortest Path")
+        plt.xlim([min_x - 2, max_x + 2])
+        plt.ylim([min_y - 2, max_y + 2])
+        plt.legend()
+        plt.xticks([])
+        plt.yticks([])
+        plt.show()
