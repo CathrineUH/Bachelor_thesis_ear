@@ -6,10 +6,8 @@ Data/openNeuro/*
 
 # Theresa's files 
 __pycache__/*
-gifs/* 
 models/*
 tmp/* 
-Dijkstras.ipynb
 
 # other files 
 runs/* 
