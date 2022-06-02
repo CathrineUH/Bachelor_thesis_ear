@@ -19,7 +19,7 @@ mess.ipynb
 Cmarl/src/__pycache__/*
 Cmarl/.github/*
 Tensorboard/*
-Cmarl/src/data/images/*
+Cmarl/src/data/images/openNeuro_normalized/*
 Functions/__pycache__/*
 Data_good/*
 Data_crop/*
