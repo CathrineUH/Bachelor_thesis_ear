@@ -1,14 +1,4 @@
-# Cathrine's files
-Partions/*
-/pycache/*
-Data/openNeuro/*
 
-
-# Theresa's files 
-__pycache__/*
-
-
-# other files 
 runs/* 
 sh-files/*
 mess.ipynb
@@ -16,4 +6,6 @@ Cmarl/src/__pycache__/*
 Cmarl/.github/*
 Tensorboard/*
 Functions/__pycache__/*
+/pycache/*
 
+Data/openNeuro/*
