@@ -6,8 +6,7 @@ Data/openNeuro/*
 
 # Theresa's files 
 __pycache__/*
-models/*
-tmp/* 
+
 
 # other files 
 runs/* 
